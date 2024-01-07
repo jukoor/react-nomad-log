@@ -1,10 +1,11 @@
-import "./App.css";
+import "./styles/App.scss";
 import { addDoc, collection, getFirestore } from "firebase/firestore";
 import { db } from "./components/firebaseConfig";
 
-import Map from "./components/Map";
+import BackgroundMap from "./components/Map";
 import Sidebar from "./components/Sidebar";
 import AppBar from "./components/AppBar";
+import CountryInfo from "./components/CountryInfo";
 
 function App() {
   const handleOnClick = (e: any) => {};
@@ -12,9 +13,10 @@ function App() {
   return (
     <div className="app">
       <AppBar />
-      <Map />
+      <BackgroundMap />
 
-      {/*<Sidebar />*/}
+      {/* <Sidebar /> */}
+      <CountryInfo />
     </div>
   );
 }

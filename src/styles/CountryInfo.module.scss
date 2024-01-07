@@ -1,0 +1,10 @@
+.countryInfoComp {
+  :global(.MuiPaper-root) {
+    height: 86%;
+    top: 10%;
+    right: 30px;
+    border: 2px solid grey;
+    padding: 20px;
+    border-radius: 10px;
+  }
+}
