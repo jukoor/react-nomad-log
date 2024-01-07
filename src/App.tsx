@@ -4,7 +4,7 @@ import { db } from "./components/firebaseConfig";
 
 import BackgroundMap from "./components/Map";
 import Sidebar from "./components/Sidebar";
-import AppBar from "./components/AppBar";
+import AppBar from "./components/NavBar";
 import CountryInfo from "./components/CountryInfo";
 
 function App() {

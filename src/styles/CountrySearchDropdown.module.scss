@@ -1,0 +1,13 @@
+.countrySearch {
+  :global {
+    .MuiFormLabel-root {
+      color: #434343;
+    }
+    .MuiOutlinedInput-notchedOutline {
+      border: 0;
+    }
+    .MuiInputBase-root {
+      background: rgba(255, 255, 255, 0.8);
+    }
+  }
+}

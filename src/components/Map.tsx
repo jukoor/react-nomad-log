@@ -12,7 +12,6 @@ const Map = () => {
   const handleLoad = (event: any) => {
     const map = event.target;
     setMap(map);
-    console.log(map);
   };
 
   const handleClick = () => {
