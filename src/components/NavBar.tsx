@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
-import countryList from "../../public/assets/countries/countries.json";
+import countryList from "../../assets/json/countries.json";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import styles from "../styles/NavBar.module.scss";
@@ -17,13 +17,34 @@ import {
 } from "../store/countrySlice";
 import { CountrySliceType } from "../types/CountrySliceType";
 import CountrySearchDropdown from "./CountrySearchDropdown";
+import { collection, getCountFromServer } from "firebase/firestore";
+import { db } from ".././components/firebaseConfig";
+import { useEffect, useState } from "react";
 
-export default function NavBar() {
+function NavBar() {
   const dispatch = useDispatch();
+  const [visitedCountriesCount, setVisitedCountriesCount] = useState(0);
 
   const countriesVisited = useSelector(
     (state: CountrySliceType) => state.Country.countriesVisited
   );
+
+  useEffect(() => {
+    console.log(countriesVisited);
+  }, [countriesVisited]);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const coll = collection(db, "countriesVisited");
+        const snapshot = await getCountFromServer(coll);
+        setVisitedCountriesCount(snapshot.data().count);
+        console.log("count: ", snapshot.data().count);
+      } catch (error) {}
+    }
+    console.log("ok");
+    fetchData();
+  }, [countriesVisited]);
 
   return (
     <Box className={styles.appBarComp} sx={{ flexGrow: 1 }}>
@@ -39,7 +60,7 @@ export default function NavBar() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Travel Map: {countriesVisited.length}
+            Travel Map: {visitedCountriesCount}
           </Typography>
           <CountrySearchDropdown />
         </Toolbar>
@@ -47,3 +68,5 @@ export default function NavBar() {
     </Box>
   );
 }
+
+export default NavBar;

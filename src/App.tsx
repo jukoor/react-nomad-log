@@ -5,9 +5,13 @@ import { db } from "./components/firebaseConfig";
 import BackgroundMap from "./components/Map";
 import Sidebar from "./components/Sidebar";
 import AppBar from "./components/NavBar";
-import CountryInfo from "./components/CountryInfo";
+import CountryInfo from "./components/CountryInfoOverlay";
+import VisitedCountriesOverlay from "./components/VisitedCountriesOverlay";
+import { loadCountryMetaDataFromAPI } from "./components/StaticDataLoader";
 
 function App() {
+  loadCountryMetaDataFromAPI();
+
   const handleOnClick = (e: any) => {};
 
   return (
@@ -16,6 +20,7 @@ function App() {
       <BackgroundMap />
 
       {/* <Sidebar /> */}
+      <VisitedCountriesOverlay />
       <CountryInfo />
     </div>
   );

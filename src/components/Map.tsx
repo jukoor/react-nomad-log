@@ -2,7 +2,7 @@ import { Layer, Marker, Source } from "react-map-gl/maplibre";
 import { Map as MapLibre } from "react-map-gl/maplibre";
 import "maplibre-gl/dist/maplibre-gl.css";
 
-import { visitedCountriesData } from "../../public/assets/germany";
+import { visitedCountriesData } from "../../assets/germany";
 import { useState } from "react";
 import maplibregl, { NavigationControl } from "maplibre-gl";
 import Button from "@mui/material/Button";

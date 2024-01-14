@@ -19,13 +19,18 @@ import FormatListNumberedOutlinedIcon from "@mui/icons-material/FormatListNumber
 
 import styles from "../styles/CountryInfo.module.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { CountryState, addCountryVisited } from "../store/countrySlice";
+import {
+  Country,
+  CountryState,
+  addCountryVisited,
+} from "../store/countrySlice";
 import { CountrySliceType } from "../types/CountrySliceType";
+import { addDocToFirebase } from "./firebaseHelper";
 
 const CountryInfo = () => {
   const dispatch = useDispatch();
 
-  const selectedCountry = useSelector(
+  const selectedCountry: Country = useSelector(
     (state: CountrySliceType) => state.Country.selectedCountry
   );
 
@@ -34,6 +39,8 @@ const CountryInfo = () => {
   const handleOnClickAddVisited = () => {
     if (selectedCountry) {
       dispatch(addCountryVisited(selectedCountry));
+
+      addDocToFirebase(selectedCountry);
     }
   };
 

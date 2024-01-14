@@ -3,8 +3,9 @@ import styles from "../styles/CountrySearchDropdown.module.scss";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { CountrySliceType } from "../types/CountrySliceType";
-import countryList from "../../public/assets/countries/countries.json";
+import countryList from "../../assets/json/countries.json";
 import { setSelectedCountry } from "../store/countrySlice";
+import { addDocToFirebase } from "./firebaseHelper";
 
 type SelectedCountryAT = {
   icon: string;
