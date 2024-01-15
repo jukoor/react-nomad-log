@@ -8,20 +8,35 @@ import AppBar from "./components/NavBar";
 import CountryInfo from "./components/CountryInfoOverlay";
 import VisitedCountriesOverlay from "./components/VisitedCountriesOverlay";
 import { loadCountryMetaDataFromAPI } from "./components/StaticDataLoader";
+import { Layout } from "maplibre-gl";
+import { Router, Routes, Route, BrowserRouter } from "react-router-dom";
+import { Profile } from "./pages/Profile";
+import Menu from "./Menu";
+import { Home } from "./pages/Home";
+import { PageLayout } from "./PageLayout";
+import { CssBaseline } from "@mui/material";
 
 function App() {
-  loadCountryMetaDataFromAPI();
+  // loadCountryMetaDataFromAPI();
 
   const handleOnClick = (e: any) => {};
 
   return (
     <div className="app">
-      <AppBar />
-      <BackgroundMap />
+      {/* <BackgroundMap /> */}
 
       {/* <Sidebar /> */}
-      <VisitedCountriesOverlay />
-      <CountryInfo />
+      {/* <VisitedCountriesOverlay />
+      <CountryInfo /> */}
+      <CssBaseline />
+      <BrowserRouter>
+        <PageLayout>
+          <Routes>
+            <Route path="/" element={<Home />}></Route>
+            <Route path="profile/:userId" element={<Profile />} />
+          </Routes>
+        </PageLayout>
+      </BrowserRouter>
     </div>
   );
 }

@@ -1,0 +1,23 @@
+.menu {
+  .list {
+    display: flex;
+  }
+
+  .item {
+    list-style: none;
+  }
+
+  .link {
+    padding: 8px 15px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.7);
+    margin-left: 16px;
+    color: #1f2937;
+    text-decoration: none;
+    font-weight: 500;
+
+    &.active {
+      text-decoration: underline;
+    }
+  }
+}

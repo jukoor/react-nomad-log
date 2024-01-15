@@ -1,0 +1,19 @@
+.moduleProfile {
+  margin-bottom: 92px;
+  background-color: #f8f8f8;
+
+  .gradientHeader {
+    background-image: linear-gradient(to top, #fad0c4 0%, #ffd1ff 100%);
+    padding: 100px 0;
+    margin-bottom: 48px;
+  }
+}
+
+/* country list */
+.countryList {
+  font-size: 30px;
+  gap: 20px;
+  display: flex;
+  letter-spacing: 15px;
+}
+/* /country list */
