@@ -15,6 +15,8 @@ import { useParams } from "react-router-dom";
 import { Bio } from "../components/profile/Bio";
 import { CountriesVisited } from "../components/profile/CountriesVisited";
 import { ContinentsVisited } from "../components/profile/ContinentsVisited";
+import { BucketList } from "../components/profile/BucketList";
+import { Trips } from "../components/profile/Trips";
 
 export const Profile = () => {
   let { userId } = useParams();
@@ -29,6 +31,8 @@ export const Profile = () => {
               <Bio />
               <CountriesVisited />
               <ContinentsVisited />
+              <BucketList />
+              <Trips />
             </Stack>
           </Container>
         </div>

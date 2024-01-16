@@ -1,4 +1,4 @@
-import { Card, CardContent, Avatar, Typography } from "@mui/material";
+import { Card, CardContent, Avatar, Typography, Chip } from "@mui/material";
 
 import styles from "../../styles/Bio.module.scss";
 
@@ -25,8 +25,13 @@ export const Bio = () => {
           color="text.secondary"
           className={styles.nationality}
         >
-          🇩🇪 German
+          Nationality: 🇩🇪 German<br></br>
+          Living in: 🇳🇿 Barcelona, Spain<br></br>
+          Languages: 🇮🇹🇬🇧🇯🇵
         </Typography>
+        <Chip label="Backpacker" variant="outlined" />
+        <Chip label="Hostel" variant="outlined" />
+        <Chip label="South East Asia" variant="outlined" />
         <Typography variant="button" display="block" gutterBottom>
           BIO
         </Typography>
