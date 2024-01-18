@@ -15,8 +15,6 @@ function App() {
   const handleOnClick = (e: any) => {};
   return (
     <div className="app">
-      {/* <BackgroundMap /> */}
-
       {/* <Sidebar /> */}
       {/* <VisitedCountriesOverlay />
       <CountryInfo /> */}

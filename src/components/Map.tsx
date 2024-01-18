@@ -4,10 +4,21 @@ import "maplibre-gl/dist/maplibre-gl.css";
 
 import { visitedCountriesData } from "../../assets/germany";
 import { useState } from "react";
-import maplibregl, { NavigationControl } from "maplibre-gl";
+// import maplibregl, { FullscreenControl, GeolocateControl, ScaleControl } from "maplibre-gl";
 import Button from "@mui/material/Button";
+import "../styles/Map.scss";
+// import Map, { NavigationControl } from "react-map-gl/maplibre";
 
-const Map = () => {
+import Map, {
+  Popup,
+  NavigationControl,
+  FullscreenControl,
+  ScaleControl,
+  GeolocateControl,
+} from "react-map-gl";
+import maplibregl from "maplibre-gl";
+
+const MapComponent = () => {
   const [map, setMap] = useState<maplibregl.Map>();
   const handleLoad = (event: any) => {
     const map = event.target;
@@ -42,7 +53,7 @@ const Map = () => {
         initialViewState={{
           latitude: 52.5057713,
           longitude: 13.4457403,
-          zoom: 6,
+          zoom: 1,
         }}
         style={{ width: "100vw", height: "100vh" }}
         mapStyle="https://basemaps.cartocdn.com/gl/positron-gl-style/style.json"
@@ -60,9 +71,13 @@ const Map = () => {
             beforeId="landcover"
           />
         </Source>
+        <GeolocateControl position="bottom-right" />
+        <FullscreenControl position="bottom-right" />
+        <NavigationControl position="bottom-right" />
+        <ScaleControl />
       </MapLibre>
     </>
   );
 };
 
-export default Map;
+export default MapComponent;
