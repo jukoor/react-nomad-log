@@ -1,6 +1,6 @@
 import "./styles/App.scss";
 import { addDoc, collection, getFirestore } from "firebase/firestore";
-import { db } from "./components/firebaseConfig";
+import { app, db } from "./components/firebaseConfig";
 
 import { Router, Routes, Route, BrowserRouter } from "react-router-dom";
 import { Profile } from "./pages/Profile";
@@ -13,7 +13,6 @@ function App() {
   // loadCountryMetaDataFromAPI();
 
   const handleOnClick = (e: any) => {};
-
   return (
     <div className="app">
       {/* <BackgroundMap /> */}

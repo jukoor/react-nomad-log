@@ -16,8 +16,13 @@ const Menu = () => {
     },
     {
       id: 1,
-      target: "profile",
-      text: "Profile",
+      target: "profile/SEkyqNajL0Yvp9AATRZI",
+      text: "Profile 1",
+    },
+    {
+      id: 2,
+      target: "profile/8pVS1cDjBszgEUE0aug8",
+      text: "Profile 2",
     },
   ];
 

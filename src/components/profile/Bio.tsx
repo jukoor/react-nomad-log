@@ -1,8 +1,13 @@
 import { Card, CardContent, Avatar, Typography, Chip } from "@mui/material";
 
 import styles from "../../styles/Bio.module.scss";
+import { useContext } from "react";
+import { UserDataContext } from "../../pages/Profile";
+import { User } from "../../types/User";
 
 export const Bio = () => {
+  const userData = useContext(UserDataContext);
+
   return (
     <Card sx={{ minWidth: 275 }}>
       <CardContent>
@@ -18,33 +23,28 @@ export const Bio = () => {
           gutterBottom
           className={styles.name}
         >
-          Julian Orth
+          {userData?.nameFirst} {userData?.nameLast}
         </Typography>
         <Typography
           sx={{ mb: 1.5 }}
           color="text.secondary"
           className={styles.nationality}
         >
-          Nationality: 🇩🇪 German<br></br>
-          Living in: 🇳🇿 Barcelona, Spain<br></br>
+          Nationality: 🇩🇪 {userData?.nationality}
+          <br></br>
+          Living in: 🇳🇿 {userData?.homeTown}
+          <br></br>
           Languages: 🇮🇹🇬🇧🇯🇵
         </Typography>
-        <Chip label="Backpacker" variant="outlined" />
-        <Chip label="Hostel" variant="outlined" />
-        <Chip label="South East Asia" variant="outlined" />
+        {userData?.bioTags.map((item: any, index: any) => {
+          return <Chip key={index} label={item} variant="outlined" />;
+        })}
+
         <Typography variant="button" display="block" gutterBottom>
           BIO
         </Typography>
         <Typography variant="body2" className={styles.bio}>
-          Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-          nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-          sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
-          rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
-          ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
-          sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
-          dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
-          et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
-          takimata sanctus est Lorem ipsum dolor sit amet.
+          {userData?.bio}
         </Typography>
       </CardContent>
     </Card>

@@ -18,36 +18,36 @@ import {
 import { CountrySliceType } from "../types/CountrySliceType";
 import CountrySearchDropdown from "./CountrySearchDropdown";
 import { collection, getCountFromServer } from "firebase/firestore";
-import { db } from ".././components/firebaseConfig";
 import { useEffect, useState } from "react";
 import Menu from "../Menu";
 import { NavLink } from "react-router-dom";
 import { Avatar } from "@mui/material";
+import { db } from "./firebaseConfig";
 
 function NavBar() {
   const dispatch = useDispatch();
   const [visitedCountriesCount, setVisitedCountriesCount] = useState(0);
 
-  // const countriesVisited = useSelector(
-  //   (state: CountrySliceType) => state.Country.countriesVisited
-  // );
+  const countriesVisited = useSelector(
+    (state: CountrySliceType) => state.Country.countriesVisited
+  );
 
-  // useEffect(() => {
-  //   console.log(countriesVisited);
-  // }, [countriesVisited]);
+  useEffect(() => {
+    console.log(visitedCountriesCount);
+  }, [visitedCountriesCount]);
 
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     try {
-  //       const coll = collection(db, "countriesVisited");
-  //       const snapshot = await getCountFromServer(coll);
-  //       setVisitedCountriesCount(snapshot.data().count);
-  //       console.log("count: ", snapshot.data().count);
-  //     } catch (error) {}
-  //   }
-  //   console.log("ok");
-  //   fetchData();
-  // }, [countriesVisited]);
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const coll = collection(db, "countriesVisited");
+        const snapshot = await getCountFromServer(coll);
+        setVisitedCountriesCount(snapshot.data().count);
+        console.log("count: ", snapshot.data().count);
+      } catch (error) {}
+    }
+    console.log("ok");
+    fetchData();
+  }, [countriesVisited]);
 
   return (
     <Box className={styles.appBarComp} sx={{ flexGrow: 1 }}>
