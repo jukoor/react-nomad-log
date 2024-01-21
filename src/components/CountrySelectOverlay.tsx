@@ -46,7 +46,6 @@ export const CountrySelectOverlay = () => {
     <div className={styles.countrySelectOverlay}>
       {isDialogOpen && (
         <Dialog
-          sx={{ height: "90vh" }}
           fullWidth={true}
           maxWidth={"lg"}
           open={true}
@@ -90,7 +89,7 @@ export const CountrySelectOverlay = () => {
                   display: "flex",
                   flexDirection: "column",
                   m: "auto",
-                  width: "fit-content",
+                  width: "100%",
                 }}
               >
                 <CountryList />
