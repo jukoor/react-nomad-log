@@ -23,6 +23,7 @@ import Menu from "../Menu";
 import { NavLink } from "react-router-dom";
 import { Avatar } from "@mui/material";
 import { db } from "./firebaseConfig";
+import { setCountrySelectDialogOpen } from "../store/appSlice";
 
 function NavBar() {
   const dispatch = useDispatch();
@@ -70,7 +71,12 @@ function NavBar() {
             <Menu />
           </Box> */}
 
-          <Button className={styles.addBtnSpecial}>Add Location</Button>
+          <Button
+            className={styles.addBtnSpecial}
+            onClick={() => dispatch(setCountrySelectDialogOpen(true))}
+          >
+            Add Location
+          </Button>
 
           <Avatar
             sx={{ ml: "20px" }}

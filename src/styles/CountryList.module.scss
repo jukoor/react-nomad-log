@@ -1,0 +1,28 @@
+@import "variables.scss";
+
+.countryList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 25px;
+  margin: 50px;
+
+  .listItem {
+    list-style: none;
+    flex: 0 0 20%;
+    height: 100px;
+
+    border: 1px solid;
+    border-radius: 10px;
+    text-align: center;
+  }
+
+  .icon {
+    font-size: 28px;
+    line-height: 1;
+  }
+
+  .country {
+    font-size: 16px;
+    line-height: 1;
+  }
+}
