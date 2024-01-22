@@ -1,4 +1,3 @@
-import "./styles/App.scss";
 import { addDoc, collection, getFirestore } from "firebase/firestore";
 import { app, db } from "./components/firebaseConfig";
 
@@ -18,6 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { CountryData, fetchCountriesData } from "./store/countrySlice";
 import { AppDispatch } from "./store/store";
 import { Country } from "./types/Country";
+import "./styles/App.scss";
 
 function App() {
   const dispatch: AppDispatch = useDispatch();

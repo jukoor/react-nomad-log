@@ -1,23 +1,35 @@
 import { AnimatePresence, motion } from "framer-motion";
 import styles from "../styles/CountryList.module.scss";
-import countryList from "../../assets/json/countries.json";
-import { ChangeEventHandler, KeyboardEvent, useState } from "react";
-import Button from "@mui/material/Button";
+import { KeyboardEvent, useEffect, useMemo, useState } from "react";
 import TextField from "@mui/material/TextField";
+import { useSelector } from "react-redux";
+import { CountryData } from "../store/countrySlice";
+import { Country } from "../types/Country";
+import React from "react";
+import { Typography } from "@mui/material";
+
+interface CountryState {
+  Country: CountryData;
+}
 
 export const CountryList = () => {
-  const countryData = countryList;
-  const [filteredData, setFilteredData] = useState(countryList);
+  const [initialCountryData, setInitialCountryData] = useState<Country[]>([]);
+  const [filteredData, setFilteredData] = useState<Country[]>([]);
   const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
+  const countries = useSelector(
+    (state: CountryState) => state.Country.countries
+  );
+
+  useEffect(() => {
+    setInitialCountryData(countries);
+    setFilteredData(countries);
+  }, [countries]);
 
   const handleChangeFilterList = (event: any) => {
-    console.log("changed " + event.target.value);
-
     const searchTerm = event.target.value;
-    const filteredDataLocal = countryData.filter((item) =>
-      item.name.toLowerCase().includes(searchTerm.toLowerCase())
+    const filteredDataLocal = initialCountryData.filter((item) =>
+      item.name.common.toLowerCase().includes(searchTerm.toLowerCase())
     );
-    console.log(filteredDataLocal.length);
     setFilteredData(filteredDataLocal);
   };
 
@@ -34,6 +46,19 @@ export const CountryList = () => {
     });
   };
 
+  const groupedCountries = useMemo(() => {
+    const dict: Record<string, Country[]> = {};
+    filteredData.forEach((country) => {
+      country.continents.forEach((continent) => {
+        if (!dict[continent]) {
+          dict[continent] = [];
+        }
+        dict[continent].push(country);
+      });
+    });
+    return dict;
+  }, [filteredData]);
+
   return (
     <>
       <TextField
@@ -49,26 +74,29 @@ export const CountryList = () => {
       />
       Selected countries: {JSON.stringify(selectedCountries)}
       <ul className={styles.countryList}>
-        <AnimatePresence>
-          {filteredData.map((country, index) => {
-            return (
-              <motion.li
-                onClick={() => handleCountryClick(country.name)}
-                key={index}
-                layout
-                className={`${styles.listItem} ${
-                  selectedCountries.includes(country.name) ? styles.active : ""
-                }`}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-              >
-                <div className={styles.icon}>{country.icon}</div>
-                <div className={styles.country}>{country.name}</div>
-              </motion.li>
-            );
-          })}
-        </AnimatePresence>
+        {Object.entries(groupedCountries).map(
+          ([continent, countries], index) => (
+            <React.Fragment key={index}>
+              <Typography variant="h3" sx={{ width: "100%" }}>
+                {continent}
+              </Typography>
+              {countries.map((country, index) => (
+                <li
+                  onClick={() => handleCountryClick(country.cca2)}
+                  key={index}
+                  className={`${styles.listItem} ${
+                    selectedCountries.includes(country.cca2)
+                      ? styles.active
+                      : ""
+                  }`}
+                >
+                  <div className={styles.icon}>{country.flag}</div>
+                  <div className={styles.country}>{country.name.common}</div>
+                </li>
+              ))}
+            </React.Fragment>
+          )
+        )}
       </ul>
     </>
   );

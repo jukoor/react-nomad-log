@@ -11,7 +11,6 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 
 import styles from "../styles/CountrySelectOverlay.module.scss";
-import { useEffect } from "react";
 import { CountryList } from "./CountryList";
 import { useDispatch, useSelector } from "react-redux";
 import { setCountrySelectDialogOpen } from "../store/appSlice";
@@ -52,8 +51,8 @@ export const CountrySelectOverlay = () => {
           onClose={handleClose}
           PaperProps={{
             sx: {
-              width: "95vw",
-              maxWidth: "80%",
+              width: "100%",
+              maxWidth: "95vw",
               height: "95vh",
             },
           }}
@@ -96,8 +95,11 @@ export const CountrySelectOverlay = () => {
               </Box>
             </div>
           </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose}>Close</Button>
+          <DialogActions sx={{ justifyContent: "space-between" }}>
+            <Button>Close</Button>
+            <Button variant="contained" color="success" onClick={handleClose}>
+              Add 7 Countries
+            </Button>
           </DialogActions>
         </Dialog>
       )}
