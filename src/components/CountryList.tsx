@@ -8,6 +8,7 @@ import TextField from "@mui/material/TextField";
 export const CountryList = () => {
   const countryData = countryList;
   const [filteredData, setFilteredData] = useState(countryList);
+  const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
 
   const handleChangeFilterList = (event: any) => {
     console.log("changed " + event.target.value);
@@ -18,6 +19,19 @@ export const CountryList = () => {
     );
     console.log(filteredDataLocal.length);
     setFilteredData(filteredDataLocal);
+  };
+
+  const handleCountryClick = (countryName: string) => {
+    setSelectedCountries((prevCountries) => {
+      // Check if the country is already selected
+      if (prevCountries.includes(countryName)) {
+        // If it is, remove it from the array
+        return prevCountries.filter((name) => name !== countryName);
+      } else {
+        // If it isn't, add it to the array
+        return [...prevCountries, countryName];
+      }
+    });
   };
 
   return (
@@ -33,15 +47,18 @@ export const CountryList = () => {
           },
         }}
       />
-
+      Selected countries: {JSON.stringify(selectedCountries)}
       <ul className={styles.countryList}>
         <AnimatePresence>
           {filteredData.map((country, index) => {
             return (
               <motion.li
+                onClick={() => handleCountryClick(country.name)}
                 key={index}
                 layout
-                className={styles.listItem}
+                className={`${styles.listItem} ${
+                  selectedCountries.includes(country.name) ? styles.active : ""
+                }`}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}

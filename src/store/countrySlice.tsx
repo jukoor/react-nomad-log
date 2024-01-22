@@ -1,43 +1,53 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { Countries } from "../types/Countries";
+import { Country } from "../types/Country";
+import axios from "axios";
 
-export type Country = {
-  countryNameShort: string;
-  countryNameFull: string;
-  countryIcon: string;
+export type CountryData = {
+  countries: Country[];
+  selectedCountries: Country[];
+  loading: boolean;
 };
 
-export type CountryState = {
-  selectedCountry: Country;
-  countriesVisited: Country[];
-};
+export const fetchCountriesData = createAsyncThunk(
+  "countries/fetchCountries",
+  async () => {
+    const response = await axios.get("https://restcountries.com/v3.1/all");
+    return response.data;
+  }
+);
 
 export const countrySlice = createSlice({
   name: "countries",
   initialState: {
-    selectedCountry: {
-      countryNameShort: "",
-      countryNameFull: "",
-      countryIcon: "",
-    },
-    countriesVisited: [],
-  } as CountryState,
+    countries: [],
+    selectedCountries: [],
+    loading: false,
+  } as CountryData,
   reducers: {
-    addCountryVisited: (
-      state: CountryState,
+    addSelectedCountry: (
+      state: CountryData,
       action: PayloadAction<Country>
     ) => {
-      state.countriesVisited = [...state.countriesVisited, action.payload];
+      state.selectedCountries = [...state.selectedCountries, action.payload];
     },
-    setSelectedCountry: (
-      state: CountryState,
-      action: PayloadAction<Country>
-    ) => {
-      state.selectedCountry = action.payload;
-    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchCountriesData.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchCountriesData.fulfilled, (state, action) => {
+        state.countries = action.payload;
+        state.loading = false;
+      })
+      .addCase(fetchCountriesData.rejected, (state) => {
+        state.loading = false;
+      });
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { addCountryVisited, setSelectedCountry } = countrySlice.actions;
+export const { addSelectedCountry } = countrySlice.actions;
 
 export default countrySlice.reducer;

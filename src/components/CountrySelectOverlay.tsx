@@ -28,9 +28,9 @@ export const CountrySelectOverlay = () => {
     (state: DialogState) => state.App.countrySelectDialogIsOpen
   );
 
-  useEffect(() => {
-    console.log(isDialogOpen);
-  }, [isDialogOpen]);
+  // useEffect(() => {
+  //   console.log(isDialogOpen);
+  // }, [isDialogOpen]);
 
   const toggleDrawer = (open: boolean) => {};
 

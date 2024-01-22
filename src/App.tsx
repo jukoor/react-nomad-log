@@ -7,17 +7,31 @@ import { Profile } from "./pages/Profile";
 import Menu from "./Menu";
 import { Home } from "./pages/Home";
 import { PageLayout } from "./PageLayout";
-import { CssBaseline } from "@mui/material";
+import {
+  Box,
+  CircularProgress,
+  CssBaseline,
+  LinearProgress,
+} from "@mui/material";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { CountryData, fetchCountriesData } from "./store/countrySlice";
+import { AppDispatch } from "./store/store";
+import { Country } from "./types/Country";
 
 function App() {
-  // loadCountryMetaDataFromAPI();
+  const dispatch: AppDispatch = useDispatch();
 
-  const handleOnClick = (e: any) => {};
+  useEffect(() => {
+    dispatch(fetchCountriesData());
+  }, []);
+
   return (
     <div className="app">
       {/* <Sidebar /> */}
       {/* <VisitedCountriesOverlay />
       <CountryInfo /> */}
+
       <CssBaseline />
       <BrowserRouter>
         <PageLayout>
