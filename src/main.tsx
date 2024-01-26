@@ -4,7 +4,7 @@ import App from "./App.tsx";
 import { store } from "./store/store.tsx";
 import { Provider } from "react-redux";
 import { ThemeProvider } from "@mui/material/styles";
-import { theme } from "./Theme.tsx";
+import { theme } from "./layout/Theme.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>

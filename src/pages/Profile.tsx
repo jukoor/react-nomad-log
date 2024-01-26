@@ -8,7 +8,7 @@ import { ContinentsVisited } from "../components/profile/ContinentsVisited";
 import { BucketList } from "../components/profile/BucketList";
 import { Trips } from "../components/profile/Trips";
 import { useEffect, useState } from "react";
-import { db } from "../components/firebaseConfig";
+import { db } from "../services/firebaseConfig";
 import {
   collection,
   addDoc,

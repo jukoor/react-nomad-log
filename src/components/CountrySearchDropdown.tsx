@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { CountrySliceType } from "../types/CountrySliceType";
 import countryList from "../../assets/json/countries.json";
 import { setSelectedCountry } from "../store/countrySlice";
-import { addDocToFirebase } from "./firebaseHelper";
+import { addDocToFirebase } from "../services/firebaseHelper";
 
 type SelectedCountryAT = {
   icon: string;

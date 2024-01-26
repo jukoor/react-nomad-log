@@ -7,4 +7,5 @@ export type User = {
   bucketList: string[];
   homeTown: string;
   nationality: string;
+  countriesVisited: string[];
 };

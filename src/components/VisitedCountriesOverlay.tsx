@@ -7,7 +7,7 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import { getDatabase, onValue, ref } from "firebase/database";
-import { db } from ".././components/firebaseConfig";
+import { db } from "../services/firebaseConfig";
 import { useState } from "react";
 import { Country } from "../store/countrySlice";
 

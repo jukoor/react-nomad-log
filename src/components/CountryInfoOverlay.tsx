@@ -25,7 +25,7 @@ import {
   addCountryVisited,
 } from "../store/countrySlice";
 import { CountrySliceType } from "../types/CountrySliceType";
-import { addDocToFirebase } from "./firebaseHelper";
+import { addDocToFirebase } from "../services/firebaseHelper";
 
 const CountryInfo = () => {
   const dispatch = useDispatch();
