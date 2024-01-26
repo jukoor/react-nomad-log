@@ -2,7 +2,7 @@ import { Autocomplete, Box, TextField } from "@mui/material";
 import styles from "../styles/CountrySearchDropdown.module.scss";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import { CountrySliceType } from "../types/CountrySliceType";
+import { CountrySliceType } from "../types/slices/CountrySliceType";
 import countryList from "../../assets/json/countries.json";
 import { setSelectedCountry } from "../store/countrySlice";
 import { addDocToFirebase } from "../services/firebaseHelper";

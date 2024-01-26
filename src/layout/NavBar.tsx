@@ -6,19 +6,13 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import styles from "../styles/NavBar.module.scss";
-import CountrySearchDropdown from "../components/CountrySearchDropdown";
-import Menu from "../Menu";
 import { Avatar, LinearProgress } from "@mui/material";
 import {
   setCountrySelectDialogOpen,
   toggleMenuVisibility,
 } from "../store/appSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { CountryData } from "../store/countrySlice";
-
-interface CountryState {
-  Country: CountryData;
-}
+import { CountrySliceType } from "../types/slices/CountrySliceType";
 
 export const NavBar = () => {
   const dispatch = useDispatch();
@@ -27,11 +21,9 @@ export const NavBar = () => {
     dispatch(toggleMenuVisibility());
   };
 
-  interface CountryState {
-    Country: CountryData;
-  }
-
-  const loading = useSelector((state: CountryState) => state.Country.loading);
+  const loading = useSelector(
+    (state: CountrySliceType) => state.Country.loading
+  );
 
   return (
     <Box className={styles.appBarComp} sx={{ flexGrow: 1 }}>
@@ -51,10 +43,6 @@ export const NavBar = () => {
             Passport Pooper
           </Typography>
 
-          {/* <Box sx={{ display: { xs: "none", sm: "block" } }}>
-            <Menu />
-          </Box> */}
-
           <Button
             className={styles.addBtnSpecial}
             onClick={() => dispatch(setCountrySelectDialogOpen(true))}
@@ -67,8 +55,6 @@ export const NavBar = () => {
             alt="Profile"
             src="https://mui.com/static/images/avatar/2.jpg"
           />
-
-          {/* <CountrySearchDropdown /> */}
         </Toolbar>
       </AppBar>
       {loading && (

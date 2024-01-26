@@ -1,4 +1,4 @@
-import { Country } from "./Country";
+import { Country } from "./CountryType";
 
 export type Countries = {
   countries: Country[];

@@ -4,7 +4,7 @@ import { KeyboardEvent, useEffect, useMemo, useState } from "react";
 import TextField from "@mui/material/TextField";
 import { useSelector } from "react-redux";
 import { CountryData } from "../store/countrySlice";
-import { Country } from "../types/Country";
+import { Country } from "../types/CountryType";
 import React from "react";
 import { Typography } from "@mui/material";
 

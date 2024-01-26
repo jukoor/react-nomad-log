@@ -1,24 +1,36 @@
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
-import CssBaseline from "@mui/material/CssBaseline";
-import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
-import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
-
-const drawerWidth = 240;
+import { menuStrucutre } from "./MenuStructure";
+import { NavLink } from "react-router-dom";
+import styles from "../styles/SidebarMenu.module.scss";
+import { Button } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { toggleMenuVisibility } from "../store/appSlice";
+import { AppSliceType } from "../types/slices/AppSliceType";
+import { useSelector } from "react-redux";
 
 export const SidebarMenu = () => {
+  const dispatch = useDispatch();
+  const menuVisibility = useSelector(
+    (state: AppSliceType) => state.App.menuOpen
+  );
+  console.log(menuVisibility);
+  const drawerWidth = 240;
+
+  const handleOnClick = () => {
+    dispatch(toggleMenuVisibility());
+  };
+
   return (
     <Box sx={{ display: "flex" }}>
-      <CssBaseline />
       <Drawer
+        open={menuVisibility}
         sx={{
           width: drawerWidth,
           flexShrink: 0,
@@ -27,37 +39,33 @@ export const SidebarMenu = () => {
             boxSizing: "border-box",
           },
         }}
-        variant="permanent"
+        variant="temporary"
         anchor="left"
       >
-        <Toolbar />
+        <Button onClick={handleOnClick}>Close</Button>
         <Divider />
+
         <List>
-          {["Profil", "Dashboard", "Übersicht", "Random"].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          {["All mail", "Trash", "Spam"].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
+          {menuStrucutre.map((item) => (
+            <ListItem key={item.id} disablePadding>
+              <NavLink
+                to={item.target}
+                className={({ isActive }) =>
+                  isActive
+                    ? `${styles.active} ${styles.link}`
+                    : `${styles.link}`
+                }
+              >
+                <ListItemButton>
+                  <ListItemIcon>{item.icon}</ListItemIcon>
+                  <ListItemText primary={item.text} />
+                </ListItemButton>
+              </NavLink>
             </ListItem>
           ))}
         </List>
       </Drawer>
+      {/* <Outlet /> */}
     </Box>
   );
 };
