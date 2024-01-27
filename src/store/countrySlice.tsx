@@ -38,8 +38,7 @@ export const countrySlice = createSlice({
       .addCase(fetchCountriesData.fulfilled, (state, action) => {
         state.countries = action.payload;
         state.loading = false;
-        console.log(action.payload);
-        console.log("Country API fully fetched");
+        // console.log("Country API fully fetched");
       })
       .addCase(fetchCountriesData.rejected, (state) => {
         state.loading = false;

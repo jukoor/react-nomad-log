@@ -20,7 +20,7 @@ export const SidebarMenu = () => {
   const menuVisibility = useSelector(
     (state: AppSliceType) => state.App.menuOpen
   );
-  console.log(menuVisibility);
+
   const drawerWidth = 240;
 
   const handleOnClick = () => {

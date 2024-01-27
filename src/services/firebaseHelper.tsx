@@ -31,3 +31,18 @@ import { db } from "./firebaseConfig";
 //   console.log("ok");
 //   fetchData();
 // }, [countriesVisited]);
+
+// const getUser = async () => {
+//   await getDocs(collectionRef)
+//     .then((userDataDoc) => {
+//       // let todoData = userData.docs.map((user) => ({ ...user.data(), id: did }))
+//       console.log(userDataDoc.docs);
+//       setUserData(userDataDoc);
+//       userDataDoc.forEach((doc) => {
+//         console.log(doc.data());
+//       });
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//     });
+// };

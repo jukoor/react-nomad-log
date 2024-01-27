@@ -29,16 +29,14 @@ export const UserDataContext = React.createContext<DocumentData | undefined>(
 );
 
 export const Profile = () => {
-  // console.log(app);
   let { userId } = useParams();
 
   let [userData, setUserData] = useState<DocumentData>();
 
   const dispatch = useDispatch();
-  // const collectionRef = collection(db, "users");
 
   useEffect(() => {
-    const getUser2 = async () => {
+    const getUserDataFromFirestore = async () => {
       if (userId) {
         try {
           const docRef = doc(db, "users", userId);
@@ -46,7 +44,6 @@ export const Profile = () => {
           if (docSnap.exists()) {
             dispatch(setSelectedUser(docSnap.data() as User));
             setUserData(docSnap.data() as User);
-            console.log(docSnap.data());
           } else {
             console.log("Document does not exist");
           }
@@ -56,21 +53,7 @@ export const Profile = () => {
       }
     };
 
-    // const getUser = async () => {
-    //   await getDocs(collectionRef)
-    //     .then((userDataDoc) => {
-    //       // let todoData = userData.docs.map((user) => ({ ...user.data(), id: did }))
-    //       console.log(userDataDoc.docs);
-    //       setUserData(userDataDoc);
-    //       userDataDoc.forEach((doc) => {
-    //         console.log(doc.data());
-    //       });
-    //     })
-    //     .catch((err) => {
-    //       console.log(err);
-    //     });
-    // };
-    getUser2();
+    getUserDataFromFirestore();
   }, []);
 
   return (
