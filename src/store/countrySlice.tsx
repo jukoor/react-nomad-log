@@ -3,11 +3,11 @@ import { CountrySliceInnerType } from "../types/slices/CountrySliceType";
 import axios from "axios";
 import { CountryShortType } from "../types/CountryShortType";
 
-export const fetchCountriesData = createAsyncThunk(
+export const fetchAllCountriesData = createAsyncThunk(
   "countries/fetchCountries",
   async () => {
-    // const response = await axios.get("https://restcountries.com/v3.1/all");
     const response = await axios.get(
+      // "https://restcountries.com/v3.1/all"
       "https://restcountries.com/v3.1/name/germany"
     );
 
@@ -15,11 +15,23 @@ export const fetchCountriesData = createAsyncThunk(
   }
 );
 
+// export const fetchCountryData = createAsyncThunk(
+//   "countries/fetchCountries",
+//   async () => {
+//     const response = await axios.get(
+//       "https://restcountries.com/v3.1/name/germany"
+//     );
+
+//     return response.data;
+//   }
+// );
+
 export const countrySlice = createSlice({
   name: "countries",
   initialState: {
     countries: [],
     selectedCountries: [],
+    selectedCountry: null,
     loading: false,
   } as CountrySliceInnerType,
   reducers: {
@@ -32,15 +44,15 @@ export const countrySlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchCountriesData.pending, (state) => {
+      .addCase(fetchAllCountriesData.pending, (state) => {
         state.loading = true;
       })
-      .addCase(fetchCountriesData.fulfilled, (state, action) => {
+      .addCase(fetchAllCountriesData.fulfilled, (state, action) => {
         state.countries = action.payload;
         state.loading = false;
         // console.log("Country API fully fetched");
       })
-      .addCase(fetchCountriesData.rejected, (state) => {
+      .addCase(fetchAllCountriesData.rejected, (state) => {
         state.loading = false;
       });
   },
