@@ -1,14 +1,10 @@
 import {
   Card,
   CardContent,
-  Avatar,
   Typography,
-  Chip,
   List,
   ListItem,
-  ListItemButton,
   Grid,
-  Divider,
 } from "@mui/material";
 
 import styles from "../../styles/BucketList.module.scss";

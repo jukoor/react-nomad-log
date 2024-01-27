@@ -1,23 +1,20 @@
-import { AnimatePresence, motion } from "framer-motion";
 import styles from "../styles/CountryList.module.scss";
 import { KeyboardEvent, useEffect, useMemo, useState } from "react";
 import TextField from "@mui/material/TextField";
 import { useSelector } from "react-redux";
-import { CountryData } from "../store/countrySlice";
-import { Country } from "../types/CountryType";
 import React from "react";
 import { Typography } from "@mui/material";
-
-interface CountryState {
-  Country: CountryData;
-}
+import { CountrySliceType } from "../types/slices/CountrySliceType";
+import { CountryType } from "../types/CountryType";
 
 export const CountryList = () => {
-  const [initialCountryData, setInitialCountryData] = useState<Country[]>([]);
-  const [filteredData, setFilteredData] = useState<Country[]>([]);
+  const [initialCountryData, setInitialCountryData] = useState<CountryType[]>(
+    []
+  );
+  const [filteredData, setFilteredData] = useState<CountryType[]>([]);
   const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
   const countries = useSelector(
-    (state: CountryState) => state.Country.countries
+    (state: CountrySliceType) => state.Country.countries
   );
 
   useEffect(() => {
@@ -47,7 +44,7 @@ export const CountryList = () => {
   };
 
   const groupedCountries = useMemo(() => {
-    const dict: Record<string, Country[]> = {};
+    const dict: Record<string, CountryType[]> = {};
     filteredData.forEach((country) => {
       country.continents.forEach((continent) => {
         if (!dict[continent]) {

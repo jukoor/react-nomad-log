@@ -1,34 +1,26 @@
 import { Autocomplete, Box, TextField } from "@mui/material";
 import styles from "../styles/CountrySearchDropdown.module.scss";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
-import { CountrySliceType } from "../types/slices/CountrySliceType";
+// import { useDispatch } from "react-redux";
 import countryList from "../../assets/json/countries.json";
-import { setSelectedCountry } from "../store/countrySlice";
-import { addDocToFirebase } from "../services/firebaseHelper";
 
-type SelectedCountryAT = {
-  icon: string;
-  code: string;
-  name: string;
-};
+// type SelectedCountryAT = {
+//   icon: string;
+//   code: string;
+//   name: string;
+// };
 
 export default function CountrySearchDropdown() {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-  const countriesVisited = useSelector(
-    (state: CountrySliceType) => state.Country.countriesVisited
-  );
-
-  function handleOnChange(event: any, newValue: SelectedCountryAT) {
-    dispatch(
-      setSelectedCountry({
-        countryIcon: newValue.icon,
-        countryNameShort: newValue.code,
-        countryNameFull: newValue.name,
-      })
-    );
-  }
+  // function handleOnChange(event: any, newValue: SelectedCountryAT) {
+  //   dispatch(
+  //     setSelectedCountry({
+  //       countryIcon: newValue.icon,
+  //       countryNameShort: newValue.code,
+  //       countryNameFull: newValue.name,
+  //     })
+  //   );
+  // }
 
   return (
     <Autocomplete
@@ -58,13 +50,13 @@ export default function CountrySearchDropdown() {
           }}
         />
       )}
-      onChange={(event, newValue) => {
-        if (newValue) {
-          handleOnChange(event, newValue);
-        } else {
-          // reset
-        }
-      }}
+      // onChange={(event, newValue) => {
+      //   if (newValue) {
+      //     handleOnChange(event, newValue);
+      //   } else {
+      //     // reset
+      //   }
+      // }}
     />
   );
 }

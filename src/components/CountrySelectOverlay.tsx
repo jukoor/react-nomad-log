@@ -14,6 +14,7 @@ import styles from "../styles/CountrySelectOverlay.module.scss";
 import { CountryList } from "./CountryList";
 import { useDispatch, useSelector } from "react-redux";
 import { setCountrySelectDialogOpen } from "../store/appSlice";
+import { useEffect } from "react";
 
 interface DialogState {
   App: {
@@ -27,10 +28,6 @@ export const CountrySelectOverlay = () => {
     (state: DialogState) => state.App.countrySelectDialogIsOpen
   );
 
-  // useEffect(() => {
-  //   console.log(isDialogOpen);
-  // }, [isDialogOpen]);
-
   const toggleDrawer = (open: boolean) => {};
 
   const handleClickOpen = () => {
@@ -43,66 +40,62 @@ export const CountrySelectOverlay = () => {
 
   return (
     <div className={styles.countrySelectOverlay}>
-      {isDialogOpen && (
-        <Dialog
-          fullWidth={true}
-          maxWidth={"lg"}
-          open={true}
-          onClose={handleClose}
-          PaperProps={{
-            sx: {
-              width: "100%",
-              maxWidth: "95vw",
-              height: "95vh",
-            },
-          }}
-        >
-          <DialogTitle>
-            Country Finder
-            <IconButton
-              color="inherit"
-              onClick={handleClose}
-              aria-label="close"
+      <Dialog
+        fullWidth={true}
+        maxWidth={"lg"}
+        open={isDialogOpen}
+        onClose={handleClose}
+        PaperProps={{
+          sx: {
+            width: "100%",
+            maxWidth: "95vw",
+            height: "95vh",
+          },
+        }}
+      >
+        <DialogTitle>
+          Country Finder
+          <IconButton
+            color="inherit"
+            onClick={handleClose}
+            aria-label="close"
+            sx={{
+              position: "absolute",
+              right: 8,
+              top: 8,
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent>
+          <Typography>
+            Search and select all the countries you have already visited or want
+            to visit.
+          </Typography>
+
+          <div style={{ overflowY: "scroll", maxHeight: "calc(90vh - 64px)" }}>
+            <Box
+              noValidate
+              component="form"
               sx={{
-                position: "absolute",
-                right: 8,
-                top: 8,
+                display: "flex",
+                flexDirection: "column",
+                m: "auto",
+                width: "100%",
               }}
             >
-              <CloseIcon />
-            </IconButton>
-          </DialogTitle>
-          <DialogContent>
-            <Typography>
-              Search and select all the countries you have already visited or
-              want to visit.
-            </Typography>
-
-            <div
-              style={{ overflowY: "scroll", maxHeight: "calc(90vh - 64px)" }}
-            >
-              <Box
-                noValidate
-                component="form"
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  m: "auto",
-                  width: "100%",
-                }}
-              >
-                <CountryList />
-              </Box>
-            </div>
-          </DialogContent>
-          <DialogActions sx={{ justifyContent: "space-between" }}>
-            <Button>Close</Button>
-            <Button variant="contained" color="success" onClick={handleClose}>
-              Add 7 Countries
-            </Button>
-          </DialogActions>
-        </Dialog>
-      )}
+              <CountryList />
+            </Box>
+          </div>
+        </DialogContent>
+        <DialogActions sx={{ justifyContent: "space-between" }}>
+          <Button>Close</Button>
+          <Button variant="contained" color="success" onClick={handleClose}>
+            Add 7 Countries
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };

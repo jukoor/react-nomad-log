@@ -1,5 +1,5 @@
-import { Country } from "./CountryType";
+import { CountryType } from "./CountryType";
 
 export type Countries = {
-  countries: Country[];
+  countries: CountryType[];
 };

@@ -8,9 +8,6 @@ import { User } from "../../types/User";
 export const Bio = () => {
   const userData = useContext(UserDataContext);
 
-  useEffect(() => {
-    console.log("bio");
-  }, []);
   return (
     <Card sx={{ minWidth: 275 }}>
       <CardContent>
