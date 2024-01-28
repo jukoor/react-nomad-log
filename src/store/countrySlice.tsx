@@ -1,35 +1,15 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { CountrySliceInnerType } from "../types/slices/CountrySliceType";
-import axios from "axios";
 import { CountryShortType } from "../types/CountryShortType";
+import countryDataStatic from "../../assets/json/restcountries.all.json";
+import { fetchAllCountriesData } from "../services/apiCall";
+import { CountryType } from "../types/CountryType";
 
-export const fetchAllCountriesData = createAsyncThunk(
-  "countries/fetchCountries",
-  async () => {
-    const response = await axios.get(
-      // "https://restcountries.com/v3.1/all"
-      "https://restcountries.com/v3.1/name/germany"
-    );
-
-    return response.data;
-  }
-);
-
-// export const fetchCountryData = createAsyncThunk(
-//   "countries/fetchCountries",
-//   async () => {
-//     const response = await axios.get(
-//       "https://restcountries.com/v3.1/name/germany"
-//     );
-
-//     return response.data;
-//   }
-// );
-
+console.log(countryDataStatic);
 export const countrySlice = createSlice({
   name: "countries",
   initialState: {
-    countries: [],
+    countries: countryDataStatic as any,
     selectedCountries: [],
     selectedCountry: null,
     loading: false,
@@ -46,6 +26,7 @@ export const countrySlice = createSlice({
     builder
       .addCase(fetchAllCountriesData.pending, (state) => {
         state.loading = true;
+        // console.log("loading");
       })
       .addCase(fetchAllCountriesData.fulfilled, (state, action) => {
         state.countries = action.payload;

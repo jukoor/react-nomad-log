@@ -1,0 +1,10 @@
+.moduleCountryDetailsOverlay {
+  .listItem {
+    border-bottom: 1px solid #ebebeb;
+    :global(.MuiListItemText-root) {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+}

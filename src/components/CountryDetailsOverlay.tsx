@@ -1,13 +1,13 @@
 import {
-  Grid,
+  Button,
+  Divider,
+  Drawer,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
-  Typography,
 } from "@mui/material";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
 import { CountryType } from "../types/CountryType";
 import { CountrySliceType } from "../types/slices/CountrySliceType";
 import { ReactElement, useEffect, useState } from "react";
@@ -24,125 +24,147 @@ import GoogleIcon from "@mui/icons-material/Google";
 import SnoozeIcon from "@mui/icons-material/Snooze";
 import SecurityIcon from "@mui/icons-material/Security";
 
+import styles from "../styles/CountryDetailsOverlay.module.scss";
+
 interface CountryInfo {
   label: string;
-  text: string | string[] | number | boolean;
+  content: string | string[] | number | boolean | ReactElement;
   icon: ReactElement;
 }
 
 type CountryInfoList = CountryInfo[];
 
-export const Country = () => {
-  // const countryCodeFromUrl = useParams<{ countryCode: string }>();
-  // console.log(countryCodeFromUrl);
+export const CountryDetailsOverlay = () => {
+  const drawerWidth = 400;
+  const menuVisibility = true;
 
   const [country, setCountry] = useState<CountryInfoList>([]);
-
   const countryData = useSelector<CountrySliceType, CountryType[]>(
     (state) => state.Country.countries
   );
 
+  const concatArrayVals = (arr: string[]) => {
+    return Array.isArray(arr) ? arr.join(", ") : arr;
+  };
+
+  const numberWithCommas = (num: number) => {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+
   useEffect(() => {
     if (countryData && countryData.length > 0) {
-      const c = countryData[0];
+      const c = countryData[3];
       setCountry([
         {
           label: "Country",
-          text: c.name.common,
+          content: c.name.common,
           icon: <PublicIcon />,
         },
         {
           label: "Continent",
-          text: c.region,
+          content: c.region,
           icon: <PublicIcon />,
         },
         {
           label: "Subregion",
-          text: c.subregion,
+          content: c.subregion,
           icon: <MyLocationIcon />,
         },
         {
           label: "Capital",
-          text: Array.isArray(c.capital) ? c.capital.join(", ") : c.capital,
+          content: concatArrayVals(c.capital),
           icon: <TourOutlinedIcon />,
         },
         {
           label: "Population",
-          text: c.population,
+          content: numberWithCommas(c.population),
           icon: <Diversity1Icon />,
         },
         {
           label: "Size",
-          text: c.area,
+          content: `${numberWithCommas(c.area)} km²`,
           icon: <CropFreeIcon />,
         },
         {
           label: "Flag",
-          text: c.flag,
+          content: c.flag,
           icon: <PublicIcon />,
         },
         {
           label: "Currency",
-          text: Array.isArray(c.currencies)
+          content: Array.isArray(c.currencies)
             ? c.currencies.join(", ")
             : Object.entries(c.currencies)
-                .map(([key, value]) => `${value.name} (${value.symbol})`)
+                .map(([, value]) => `${value.name} (${value.symbol})`)
                 .join(", "),
           icon: <EmojiFlagsIcon />,
         },
         {
           label: "Land locked",
-          text: c.landlocked ? "Yes" : "No",
+          content: c.landlocked ? "Yes" : "No",
           icon: <WaterIcon />,
         },
         {
           label: "Borders",
-          text: Array.isArray(c.borders) ? c.borders.join(", ") : c.borders,
+          content: concatArrayVals(c.borders),
           icon: <HandshakeIcon />,
         },
         {
-          label: "Google Maps",
-          text: c.maps.googleMaps,
+          label: "Maps",
+          content: (
+            <>
+              <a href={c.maps.googleMaps} target="_blank">
+                Open in Google Maps
+              </a>
+            </>
+          ),
           icon: <GoogleIcon />,
         },
         {
           label: "Timezones",
-          text: Array.isArray(c.timezones)
-            ? c.timezones.join(", ")
-            : c.timezones,
+          content: concatArrayVals(c.timezones),
           icon: <SnoozeIcon />,
         },
         {
           label: "Coat Of Arms",
-          text: c.coatOfArms.svg,
+          content: (
+            <>
+              <img src={c.coatOfArms.svg} width="40px" height="70px" />
+            </>
+          ),
           icon: <SecurityIcon />,
         },
       ]);
     }
   }, [countryData]);
 
-  return (
-    <Grid container columnSpacing={"30px"}>
-      <Grid item xs={6}>
-        <Typography
-          variant="body1"
-          component="h3"
-          color="text.secondary"
-          gutterBottom
-          textTransform="uppercase"
-        >
-          Countries
-        </Typography>
+  const handleOnClick = () => {};
 
-        <List>
-          {country.map((c, index) => (
-            <ListItem key={index}>
-              <ListItemIcon>{c.icon}</ListItemIcon>
-              <ListItemText primary={c.label} secondary={c.text} />
-            </ListItem>
-          ))}
-        </List>
-      </Grid>
-    </Grid>
+  return (
+    <Drawer
+      className={styles.moduleCountryDetailsOverlay}
+      open={menuVisibility}
+      sx={{
+        width: drawerWidth,
+        flexShrink: 0,
+        "& .MuiDrawer-paper": {
+          width: drawerWidth,
+          boxSizing: "border-box",
+        },
+      }}
+      variant="temporary"
+      anchor="right"
+    >
+      <Button onClick={handleOnClick}>Close</Button>
+      <Divider />
+      <List>
+        {country.map((c, index) => (
+          <ListItem key={index} className={styles.listItem}>
+            <ListItemIcon>{c.icon}</ListItemIcon>
+            <ListItemText primary={c.label} secondary={c.content} />
+          </ListItem>
+        ))}
+      </List>
+    </Drawer>
   );
 };
