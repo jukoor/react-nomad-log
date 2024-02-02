@@ -21,8 +21,8 @@ import {
 } from "firebase/firestore";
 import { User } from "../types/User";
 import { setSelectedUser } from "../store/userSlice";
-import { useDispatch } from "react-redux";
 import React from "react";
+import { useAppDispatch } from "../hooks/hooks";
 
 export const UserDataContext = React.createContext<DocumentData | undefined>(
   undefined
@@ -33,7 +33,7 @@ export const Profile = () => {
 
   let [userData, setUserData] = useState<DocumentData>();
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const getUserDataFromFirestore = async () => {

@@ -12,9 +12,9 @@ import CloseIcon from "@mui/icons-material/Close";
 
 import styles from "../styles/CountrySelectOverlay.module.scss";
 import { CountryList } from "./CountryList";
-import { useDispatch, useSelector } from "react-redux";
 import { setCountrySelectDialogOpen } from "../store/appSlice";
 import { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 
 interface DialogState {
   App: {
@@ -23,9 +23,9 @@ interface DialogState {
 }
 
 export const CountrySelectOverlay = () => {
-  const dispatch = useDispatch();
-  const isDialogOpen = useSelector(
-    (state: DialogState) => state.App.countrySelectDialogIsOpen
+  const dispatch = useAppDispatch();
+  const isDialogOpen = useAppSelector(
+    (state) => state.App.countrySelectDialogIsOpen
   );
 
   const toggleDrawer = (open: boolean) => {};

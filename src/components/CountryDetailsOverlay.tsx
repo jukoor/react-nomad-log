@@ -1,13 +1,14 @@
 import {
   Button,
+  Collapse,
   Divider,
   Drawer,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
+  Typography,
 } from "@mui/material";
-import { useSelector } from "react-redux";
 import { CountryType } from "../types/CountryType";
 import { CountrySliceType } from "../types/slices/CountrySliceType";
 import { ReactElement, useEffect, useState } from "react";
@@ -25,6 +26,8 @@ import SnoozeIcon from "@mui/icons-material/Snooze";
 import SecurityIcon from "@mui/icons-material/Security";
 
 import styles from "../styles/CountryDetailsOverlay.module.scss";
+import { toggleCountryDetailsOverlay } from "../store/appSlice";
+import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 
 interface CountryInfo {
   label: string;
@@ -37,11 +40,11 @@ type CountryInfoList = CountryInfo[];
 export const CountryDetailsOverlay = () => {
   const drawerWidth = 400;
   const menuVisibility = true;
+  const dispatch = useAppDispatch();
+  const [timezonesClpsOpen, setTmezonesClpsOpen] = useState(false);
 
   const [country, setCountry] = useState<CountryInfoList>([]);
-  const countryData = useSelector<CountrySliceType, CountryType[]>(
-    (state) => state.Country.countries
-  );
+  const countryData = useAppSelector((state) => state.Country.countries);
 
   const concatArrayVals = (arr: string[]) => {
     return Array.isArray(arr) ? arr.join(", ") : arr;
@@ -49,6 +52,32 @@ export const CountryDetailsOverlay = () => {
 
   const numberWithCommas = (num: number) => {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+
+  interface TimezoneCollapseProps {
+    timezones: string[];
+  }
+
+  useEffect(() => {
+    console.log(timezonesClpsOpen);
+  }, [timezonesClpsOpen]);
+
+  const TimezoneCollapse = ({ timezones }: TimezoneCollapseProps) => {
+    console.log(timezones);
+
+    return (
+      <>
+        <Typography component={"span"}>{timezones[0]}</Typography>
+        <Button onClick={() => dispatch()}>Details</Button>
+        <Collapse in={timezonesClpsOpen} collapsedSize={40}>
+          {timezones.map((zone, index) => (
+            <Typography key={index} variant="body1">
+              {zone}
+            </Typography>
+          ))}
+        </Collapse>
+      </>
+    );
   };
 
   useEffect(() => {
@@ -122,7 +151,7 @@ export const CountryDetailsOverlay = () => {
         },
         {
           label: "Timezones",
-          content: concatArrayVals(c.timezones),
+          content: <TimezoneCollapse timezones={c.timezones} />,
           icon: <SnoozeIcon />,
         },
         {
@@ -138,7 +167,9 @@ export const CountryDetailsOverlay = () => {
     }
   }, [countryData]);
 
-  const handleOnClick = () => {};
+  const handleOnClick = () => {
+    dispatch(toggleCountryDetailsOverlay());
+  };
 
   return (
     <Drawer
@@ -157,11 +188,16 @@ export const CountryDetailsOverlay = () => {
     >
       <Button onClick={handleOnClick}>Close</Button>
       <Divider />
+
       <List>
         {country.map((c, index) => (
           <ListItem key={index} className={styles.listItem}>
             <ListItemIcon>{c.icon}</ListItemIcon>
-            <ListItemText primary={c.label} secondary={c.content} />
+            <ListItemText
+              primary={c.label}
+              secondary={c.content}
+              secondaryTypographyProps={{ component: "span" }}
+            />
           </ListItem>
         ))}
       </List>

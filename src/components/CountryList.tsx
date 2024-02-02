@@ -1,11 +1,12 @@
 import styles from "../styles/CountryList.module.scss";
 import { KeyboardEvent, useEffect, useMemo, useState } from "react";
 import TextField from "@mui/material/TextField";
-import { useSelector } from "react-redux";
+
 import React from "react";
 import { Typography } from "@mui/material";
 import { CountrySliceType } from "../types/slices/CountrySliceType";
 import { CountryType } from "../types/CountryType";
+import { useAppSelector } from "../hooks/hooks";
 
 export const CountryList = () => {
   const [initialCountryData, setInitialCountryData] = useState<CountryType[]>(
@@ -13,9 +14,7 @@ export const CountryList = () => {
   );
   const [filteredData, setFilteredData] = useState<CountryType[]>([]);
   const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
-  const countries = useSelector(
-    (state: CountrySliceType) => state.Country.countries
-  );
+  const countries = useAppSelector((state) => state.Country.countries);
 
   useEffect(() => {
     setInitialCountryData(countries);

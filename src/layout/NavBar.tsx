@@ -11,11 +11,12 @@ import {
   setCountrySelectDialogOpen,
   toggleMenuVisibility,
 } from "../store/appSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { CountrySliceType } from "../types/slices/CountrySliceType";
+import { useAppDispatch } from "../hooks/hooks";
 
 export const NavBar = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const handleOnClick = () => {
     dispatch(toggleMenuVisibility());

@@ -6,7 +6,6 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
-import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { CountryType } from "../types/CountryType";
 import { CountrySliceType } from "../types/slices/CountrySliceType";
@@ -23,6 +22,7 @@ import HandshakeIcon from "@mui/icons-material/Handshake";
 import GoogleIcon from "@mui/icons-material/Google";
 import SnoozeIcon from "@mui/icons-material/Snooze";
 import SecurityIcon from "@mui/icons-material/Security";
+import { useAppSelector } from "../hooks/hooks";
 
 interface CountryInfo {
   label: string;
@@ -38,9 +38,7 @@ export const Country = () => {
 
   const [country, setCountry] = useState<CountryInfoList>([]);
 
-  const countryData = useSelector<CountrySliceType, CountryType[]>(
-    (state) => state.Country.countries
-  );
+  const countryData = useAppSelector((state) => state.Country.countries);
 
   useEffect(() => {
     if (countryData && countryData.length > 0) {

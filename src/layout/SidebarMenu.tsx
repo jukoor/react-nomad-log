@@ -10,16 +10,13 @@ import { menuStrucutre } from "./MenuStructure";
 import { NavLink } from "react-router-dom";
 import styles from "../styles/SidebarMenu.module.scss";
 import { Button } from "@mui/material";
-import { useDispatch } from "react-redux";
 import { toggleMenuVisibility } from "../store/appSlice";
 import { AppSliceType } from "../types/slices/AppSliceType";
-import { useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 
 export const SidebarMenu = () => {
-  const dispatch = useDispatch();
-  const menuVisibility = useSelector(
-    (state: AppSliceType) => state.App.menuOpen
-  );
+  const dispatch = useAppDispatch();
+  const menuVisibility = useAppSelector((state) => state.App.menuOpen);
 
   const drawerWidth = 240;
 

@@ -3,14 +3,13 @@ import { Profile } from "./pages/Profile";
 import { Home } from "./pages/Home";
 import { PageLayout } from "./layout/PageLayout";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "./store/store";
 import "./styles/global/App.scss";
 import { Country } from "./pages/Country";
 import { fetchAllCountriesData } from "./services/apiCall";
+import { useAppDispatch } from "./hooks/hooks";
 
 function App() {
-  const dispatch: AppDispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(fetchAllCountriesData());

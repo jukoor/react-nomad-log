@@ -6,6 +6,7 @@ const appSlice = createSlice({
   initialState: {
     countrySelectDialogIsOpen: false,
     menuOpen: false,
+    countryDetailsOverlayOpen: false,
   } as AppSliceInnerType,
   reducers: {
     setCountrySelectDialogOpen: (state, action) => {
@@ -14,10 +15,16 @@ const appSlice = createSlice({
     toggleMenuVisibility: (state) => {
       state.menuOpen = !state.menuOpen;
     },
+    toggleCountryDetailsOverlay: (state) => {
+      state.countryDetailsOverlayOpen = !state.countryDetailsOverlayOpen;
+    },
   },
 });
 
-export const { setCountrySelectDialogOpen, toggleMenuVisibility } =
-  appSlice.actions;
+export const {
+  setCountrySelectDialogOpen,
+  toggleMenuVisibility,
+  toggleCountryDetailsOverlay,
+} = appSlice.actions;
 
 export default appSlice.reducer;
