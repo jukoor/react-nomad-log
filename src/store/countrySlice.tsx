@@ -5,7 +5,6 @@ import countryDataStatic from "../../assets/json/restcountries.all.json";
 import { fetchAllCountriesData } from "../services/apiCall";
 import { CountryType } from "../types/CountryType";
 
-console.log(countryDataStatic);
 export const countrySlice = createSlice({
   name: "countries",
   initialState: {

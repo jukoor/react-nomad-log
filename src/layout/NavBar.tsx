@@ -9,6 +9,7 @@ import styles from "../styles/NavBar.module.scss";
 import { Avatar, LinearProgress } from "@mui/material";
 import {
   setCountrySelectDialogOpen,
+  toggleCountryDetailsOverlay,
   toggleMenuVisibility,
 } from "../store/appSlice";
 import { useSelector } from "react-redux";
@@ -43,6 +44,10 @@ export const NavBar = () => {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Passport Pooper
           </Typography>
+
+          <Button onClick={() => dispatch(toggleCountryDetailsOverlay())}>
+            Country Info
+          </Button>
 
           <Button
             className={styles.addBtnSpecial}

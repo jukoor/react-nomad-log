@@ -1,8 +1,12 @@
 import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
   Button,
   Collapse,
   Divider,
   Drawer,
+  IconButton,
   List,
   ListItem,
   ListItemIcon,
@@ -24,11 +28,12 @@ import HandshakeIcon from "@mui/icons-material/Handshake";
 import GoogleIcon from "@mui/icons-material/Google";
 import SnoozeIcon from "@mui/icons-material/Snooze";
 import SecurityIcon from "@mui/icons-material/Security";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import styles from "../styles/CountryDetailsOverlay.module.scss";
 import { toggleCountryDetailsOverlay } from "../store/appSlice";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
-
+import CloseIcon from "@mui/icons-material/Close";
 interface CountryInfo {
   label: string;
   content: string | string[] | number | boolean | ReactElement;
@@ -39,12 +44,15 @@ type CountryInfoList = CountryInfo[];
 
 export const CountryDetailsOverlay = () => {
   const drawerWidth = 400;
-  const menuVisibility = true;
+
   const dispatch = useAppDispatch();
   const [timezonesClpsOpen, setTmezonesClpsOpen] = useState(false);
 
   const [country, setCountry] = useState<CountryInfoList>([]);
   const countryData = useAppSelector((state) => state.Country.countries);
+  const overlayOpen = useAppSelector(
+    (state) => state.App.countryDetailsOverlayOpen
+  );
 
   const concatArrayVals = (arr: string[]) => {
     return Array.isArray(arr) ? arr.join(", ") : arr;
@@ -67,15 +75,26 @@ export const CountryDetailsOverlay = () => {
 
     return (
       <>
-        <Typography component={"span"}>{timezones[0]}</Typography>
-        <Button onClick={() => dispatch()}>Details</Button>
-        <Collapse in={timezonesClpsOpen} collapsedSize={40}>
-          {timezones.map((zone, index) => (
-            <Typography key={index} variant="body1">
-              {zone}
-            </Typography>
-          ))}
-        </Collapse>
+        <Accordion className={styles.accordion}>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1-content"
+            id="panel1-header"
+          >
+            {timezones[0]}{" "}
+            {timezones.length > 1 ? `(+${timezones.length - 1})` : ""}
+          </AccordionSummary>
+          <AccordionDetails>
+            {timezones.map(
+              (zone, index) =>
+                index > 0 && (
+                  <Typography key={index} variant="body1">
+                    {zone}
+                  </Typography>
+                )
+            )}
+          </AccordionDetails>
+        </Accordion>
       </>
     );
   };
@@ -174,7 +193,7 @@ export const CountryDetailsOverlay = () => {
   return (
     <Drawer
       className={styles.moduleCountryDetailsOverlay}
-      open={menuVisibility}
+      open={overlayOpen}
       sx={{
         width: drawerWidth,
         flexShrink: 0,
@@ -186,7 +205,10 @@ export const CountryDetailsOverlay = () => {
       variant="temporary"
       anchor="right"
     >
-      <Button onClick={handleOnClick}>Close</Button>
+      <Typography variant="h5">Country Details</Typography>
+      <IconButton color="secondary" aria-label="Close" onClick={handleOnClick}>
+        <CloseIcon />
+      </IconButton>
       <Divider />
 
       <List>

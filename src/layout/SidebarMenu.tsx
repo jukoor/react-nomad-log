@@ -27,9 +27,11 @@ export const SidebarMenu = () => {
   return (
     <Box sx={{ display: "flex" }}>
       <Drawer
-        ModalProps={{
-          onBackdropClick: handleOnClick,
-        }}
+        ModalProps={
+          {
+            // onBackdropClick: handleOnClick,
+          }
+        }
         open={menuVisibility}
         sx={{
           width: drawerWidth,

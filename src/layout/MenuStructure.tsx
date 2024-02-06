@@ -36,4 +36,10 @@ export const menuStrucutre: MenuStructureType[] = [
     text: "Settings",
     icon: <ToggleOnOutlinedIcon />,
   },
+  {
+    id: 5,
+    target: "/chart",
+    text: "Chart",
+    icon: <ToggleOnOutlinedIcon />,
+  },
 ];

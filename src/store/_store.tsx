@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
-import countrySliceReducer from "./countrySlice";
-import userSliceReducer from "./userSlice";
+import countrySliceReducer from "./countrySlice.tsx";
+import userSliceReducer from "./userSlice.tsx";
 import appSliceReducer from "./appSlice.tsx";
 
 export const store = configureStore({
