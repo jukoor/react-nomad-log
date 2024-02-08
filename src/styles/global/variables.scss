@@ -1,3 +1,6 @@
-$header-height: "85px";
-
+/* Colors */
 $color-primary-dark: #212121;
+
+/* Sizes */
+$header-height: 85px;
+$map-height: calc(100% - $header-height);
