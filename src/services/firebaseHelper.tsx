@@ -1,5 +1,35 @@
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc } from "firebase/firestore";
 import { db } from "./firebaseConfig";
+import { useEffect, useState } from "react";
+import { setSelectedUser } from "../store/userSlice";
+import { useAppDispatch } from "../hooks/hooks";
+import { User } from "../types/User";
+
+export const loadUserDataFromFb = () => {
+  const dispatch = useAppDispatch();
+  const userId = "SEkyqNajL0Yvp9AATRZI";
+
+  useEffect(() => {
+    const getUserDataFromFirestore = async () => {
+      if (userId) {
+        try {
+          const docRef = doc(db, "users", userId);
+          const docSnap = await getDoc(docRef);
+
+          if (docSnap.exists()) {
+            dispatch(setSelectedUser(docSnap.data() as User));
+          } else {
+            console.log("Document does not exist");
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    };
+
+    getUserDataFromFirestore();
+  }, []);
+};
 
 // export const addDocToFirebase = async (selectedCountry: Country) => {
 //   console.log(selectedCountry);

@@ -66,9 +66,9 @@ export const CountryDetailsOverlay = () => {
     timezones: string[];
   }
 
-  useEffect(() => {
-    console.log(timezonesClpsOpen);
-  }, [timezonesClpsOpen]);
+  // useEffect(() => {
+  //   console.log(timezonesClpsOpen);
+  // }, [timezonesClpsOpen]);
 
   const TimezoneCollapse = ({ timezones }: TimezoneCollapseProps) => {
     console.log(timezones);

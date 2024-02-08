@@ -44,6 +44,7 @@ export const Profile = () => {
           if (docSnap.exists()) {
             dispatch(setSelectedUser(docSnap.data() as User));
             setUserData(docSnap.data() as User);
+            console.log(docSnap.data());
           } else {
             console.log("Document does not exist");
           }

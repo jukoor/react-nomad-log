@@ -1,6 +1,10 @@
 @import "global/variables.scss";
 
 .appBarComp {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  top: 0;
   .appBar {
     background-color: #1f2937;
     z-index: 10;
