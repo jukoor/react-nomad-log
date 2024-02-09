@@ -3,8 +3,9 @@
 .mapContainer {
   width: 100%;
   height: $map-height;
+  background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
+
   .map {
-    background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
     width: 100%;
     height: 100%;
   }
@@ -22,4 +23,21 @@
     right: 5%;
     z-index: 1;
   }
+}
+
+
+:global(.mapTooltipEmoji) {
+  font-size: 26px;
+  line-height: 1;
+  display: inline-block;
+  margin-right: 7px;
+}
+
+:global(.mapTooltipText) {
+  font-size: 18px;
+  line-height: 1;
+  position: relative;
+  display: inline-block;
+font-weight: 500;
+top: -3px;
 }

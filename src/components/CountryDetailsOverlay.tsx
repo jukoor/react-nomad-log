@@ -36,7 +36,7 @@ import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import CloseIcon from "@mui/icons-material/Close";
 interface CountryInfo {
   label: string;
-  content: string | string[] | number | boolean | ReactElement;
+  content: string | string[] | number | boolean | ReactElement | undefined;
   icon: ReactElement;
 }
 
@@ -48,10 +48,13 @@ export const CountryDetailsOverlay = () => {
   const dispatch = useAppDispatch();
   const [timezonesClpsOpen, setTmezonesClpsOpen] = useState(false);
 
-  const [country, setCountry] = useState<CountryInfoList>([]);
+  const [country, setCountry] = useState<CountryInfo[]>([]);
   const countryData = useAppSelector((state) => state.Country.countries);
   const overlayOpen = useAppSelector(
     (state) => state.App.countryDetailsOverlayOpen
+  );
+  const selectedCountry = useAppSelector(
+    (state) => state.Country.selectedCountry
   );
 
   const concatArrayVals = (arr: string[]) => {
@@ -100,89 +103,99 @@ export const CountryDetailsOverlay = () => {
   };
 
   useEffect(() => {
-    if (countryData && countryData.length > 0) {
-      const c = countryData[3];
-      setCountry([
-        {
-          label: "Country",
-          content: c.name.common,
-          icon: <PublicIcon />,
-        },
-        {
-          label: "Continent",
-          content: c.region,
-          icon: <PublicIcon />,
-        },
-        {
-          label: "Subregion",
-          content: c.subregion,
-          icon: <MyLocationIcon />,
-        },
-        {
-          label: "Capital",
-          content: concatArrayVals(c.capital),
-          icon: <TourOutlinedIcon />,
-        },
-        {
-          label: "Population",
-          content: numberWithCommas(c.population),
-          icon: <Diversity1Icon />,
-        },
-        {
-          label: "Size",
-          content: `${numberWithCommas(c.area)} km²`,
-          icon: <CropFreeIcon />,
-        },
-        {
-          label: "Flag",
-          content: c.flag,
-          icon: <PublicIcon />,
-        },
-        {
-          label: "Currency",
-          content: Array.isArray(c.currencies)
-            ? c.currencies.join(", ")
-            : Object.entries(c.currencies)
-                .map(([, value]) => `${value.name} (${value.symbol})`)
-                .join(", "),
-          icon: <EmojiFlagsIcon />,
-        },
-        {
-          label: "Land locked",
-          content: c.landlocked ? "Yes" : "No",
-          icon: <WaterIcon />,
-        },
-        {
-          label: "Borders",
-          content: concatArrayVals(c.borders),
-          icon: <HandshakeIcon />,
-        },
-        {
-          label: "Maps",
-          content: (
-            <>
-              <a href={c.maps.googleMaps} target="_blank">
-                Open in Google Maps
-              </a>
-            </>
-          ),
-          icon: <GoogleIcon />,
-        },
-        {
-          label: "Timezones",
-          content: <TimezoneCollapse timezones={c.timezones} />,
-          icon: <SnoozeIcon />,
-        },
-        {
-          label: "Coat Of Arms",
-          content: (
-            <>
-              <img src={c.coatOfArms.svg} width="40px" height="70px" />
-            </>
-          ),
-          icon: <SecurityIcon />,
-        },
-      ]);
+    if (countryData && countryData.length > 0 && selectedCountry) {
+      const activeCountry: CountryType | undefined = countryData.find(
+        (c) => c.cca2 == selectedCountry.country
+      );
+
+      if (activeCountry) {
+        // const activeCountryData = countryData[3];
+        setCountry([
+          {
+            label: "Country",
+            content: activeCountry.name.common,
+            icon: <PublicIcon />,
+          },
+          {
+            label: "Continent",
+            content: activeCountry.region,
+            icon: <PublicIcon />,
+          },
+          {
+            label: "Subregion",
+            content: activeCountry.subregion,
+            icon: <MyLocationIcon />,
+          },
+          {
+            label: "Capital",
+            content: concatArrayVals(activeCountry.capital),
+            icon: <TourOutlinedIcon />,
+          },
+          {
+            label: "Population",
+            content: numberWithCommas(activeCountry.population),
+            icon: <Diversity1Icon />,
+          },
+          {
+            label: "Size",
+            content: `${numberWithCommas(activeCountry.area)} km²`,
+            icon: <CropFreeIcon />,
+          },
+          {
+            label: "Flag",
+            content: activeCountry.flag,
+            icon: <PublicIcon />,
+          },
+          {
+            label: "Currency",
+            content: Array.isArray(activeCountry.currencies)
+              ? activeCountry.currencies.join(", ")
+              : Object.entries(activeCountry.currencies)
+                  .map(([, value]) => `${value.name} (${value.symbol})`)
+                  .join(", "),
+            icon: <EmojiFlagsIcon />,
+          },
+          {
+            label: "Land locked",
+            content: activeCountry.landlocked ? "Yes" : "No",
+            icon: <WaterIcon />,
+          },
+          {
+            label: "Borders",
+            content: concatArrayVals(activeCountry.borders),
+            icon: <HandshakeIcon />,
+          },
+          {
+            label: "Maps",
+            content: (
+              <>
+                <a href={activeCountry.maps.googleMaps} target="_blank">
+                  Open in Google Maps
+                </a>
+              </>
+            ),
+            icon: <GoogleIcon />,
+          },
+          {
+            label: "Timezones",
+            content: <TimezoneCollapse timezones={activeCountry.timezones} />,
+            icon: <SnoozeIcon />,
+          },
+          {
+            label: "Coat Of Arms",
+            content: (
+              <>
+                <img
+                  src={activeCountry.coatOfArms.svg}
+                  width="40px"
+                  height="70px"
+                />
+              </>
+            ),
+            icon: <SecurityIcon />,
+          },
+        ]);
+      }
     }
   }, [countryData]);
 

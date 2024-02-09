@@ -68,7 +68,8 @@ export const Map = () => {
     );
 
     worldSeries.mapPolygons.template.setAll({
-      tooltipText: "{emoji} {name}",
+      // tooltipText: "{emoji} {name}",
+      tooltipHTML: "<span class='mapTooltipEmoji'>{emoji}</span> <span class='mapTooltipText'>{name}</span>",
       interactive: true,
       fill: am5.color(0xaaaaaa),
       templateField: "polygonSettings",
@@ -93,6 +94,8 @@ export const Map = () => {
           if (countryColors[countryId]) {
             polygon.set("fill", countryColors[countryId]);
           }
+
+         
         }
       });
     });
