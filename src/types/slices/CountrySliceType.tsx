@@ -7,6 +7,6 @@ export type CountrySliceType = {
 
 export type CountrySliceInnerType = {
   countries: CountryType[];
-  selectedCountries: CountryShortType[];
+  selectedCountry: CountryShortType | null;
   loading: boolean;
 };

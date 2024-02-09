@@ -2,24 +2,36 @@ import * as am5 from "@amcharts/amcharts5";
 import * as am5map from "@amcharts/amcharts5/map";
 import am5geodata_worldLow from "@amcharts/amcharts5-geodata/worldLow";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
-import { useLayoutEffect } from "react";
+import { useLayoutEffect, useState } from "react";
 import { DataItem } from "@amcharts/amcharts5";
 import { IMapPolygonSeriesDataItem } from "@amcharts/amcharts5/map";
 import { IComponentDataItem } from "@amcharts/amcharts5/.internal/core/render/Component";
 import styles from "../styles/Map.module.scss";
-import { useAppSelector } from "../hooks/hooks";
+import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import { loadUserDataFromFb } from "../services/firebaseHelper";
 import am5geodata_data_countries2 from "@amcharts/amcharts5-geodata/data/countries2";
-import { Button } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import { getEmojiFlagFromCc } from "../utils/countryDataUtils";
-import { get } from "firebase/database";
+import AddIcon from "@mui/icons-material/Add";
+import FormatColorFillIcon from "@mui/icons-material/FormatColorFill";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import {
+  clearSelectedCountry,
+  setSelectedCountry,
+} from "../store/countrySlice";
 
 type CountryCode = string;
 
 export const Map = () => {
-  loadUserDataFromFb();
+  const dispatch = useAppDispatch();
 
   const userData = useAppSelector((state) => state.User.selectedUser);
+  const selectedCountry = useAppSelector(
+    (state) => state.Country.selectedCountry
+  );
+  const [countryDetailView, setCountryDetailView] = useState(false);
+
+  loadUserDataFromFb();
 
   useLayoutEffect(() => {
     const root = am5.Root.new("map");
@@ -91,6 +103,8 @@ export const Map = () => {
         const dataItem: DataItem<IComponentDataItem> | undefined =
           ev.target.dataItem;
         const data: any = dataItem?.dataContext;
+        console.log(dataItem);
+        console.log(data);
         if (dataItem) {
           const zoomAnimation = worldSeries.zoomToDataItem(
             dataItem as DataItem<IMapPolygonSeriesDataItem>
@@ -112,12 +126,14 @@ export const Map = () => {
               ]
             ) => {
               if (results[1].response) {
-                var geodata = am5.JSONParser.parse(results[1].response);
+                let geodata = am5.JSONParser.parse(results[1].response);
                 if (data && data.polygonSettings) {
                   countrySeries.setAll({
                     geoJSON: geodata,
                     fill: data.polygonSettings.fill,
                   });
+                  dispatch(setSelectedCountry(data.id));
+                  setCountryDetailView(true);
                 } else {
                   // Handle the case where data or data.polygonSettings is undefined
                   // You might want to set a default fill color or handle the error appropriately
@@ -133,7 +149,7 @@ export const Map = () => {
       }
     );
 
-    var countrySeries = chart.series.push(
+    let countrySeries = chart.series.push(
       am5map.MapPolygonSeries.new(root, {
         visible: false,
       })
@@ -149,7 +165,7 @@ export const Map = () => {
       fill: colors.getIndex(9),
     });
 
-    // var continents: { [key: string]: number } = {
+    // let continents: { [key: string]: number } = {
     //   AF: 0,
     //   AN: 1,
     //   AS: 2,
@@ -160,10 +176,10 @@ export const Map = () => {
     // };
 
     // Set up data for countries
-    var data = [];
-    for (var id in am5geodata_data_countries2) {
+    let data = [];
+    for (let id in am5geodata_data_countries2) {
       if (am5geodata_data_countries2.hasOwnProperty(id)) {
-        var country = am5geodata_data_countries2[id];
+        let country = am5geodata_data_countries2[id];
         if (country.maps.length) {
           data.push({
             id: id,
@@ -200,16 +216,42 @@ export const Map = () => {
     );
 
     backButton.events.on("click", function () {
+      setCountryDetailView(false);
       chart.goHome();
       worldSeries.show();
       countrySeries.hide();
       backButton.hide();
+      dispatch(clearSelectedCountry());
     });
 
     return () => root.dispose();
   }, [userData]);
 
-  return <div className={styles.map} id="map"></div>;
+  return (
+    <>
+      <div className={styles.mapContainer}>
+        {countryDetailView && (
+          <>
+            <div className={styles.selectedCountryName}>
+              <Typography variant="h4">{selectedCountry?.country}</Typography>
+            </div>
+            <div className={styles.mapActions}>
+              <Button variant="contained" startIcon={<AddIcon />}>
+                Add Country
+              </Button>
+              <Button variant="outlined" startIcon={<FormatColorFillIcon />}>
+                Add to Bucketlist
+              </Button>
+              <Button variant="outlined" startIcon={<InfoOutlinedIcon />}>
+                Country Info
+              </Button>
+            </div>
+          </>
+        )}
+        <div className={styles.map} id="map"></div>
+      </div>
+    </>
+  );
 };
 
 export default Map;

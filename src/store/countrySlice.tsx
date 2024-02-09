@@ -9,16 +9,18 @@ export const countrySlice = createSlice({
   name: "countries",
   initialState: {
     countries: countryDataStatic as any,
-    selectedCountries: [],
     selectedCountry: null,
     loading: false,
   } as CountrySliceInnerType,
   reducers: {
-    addSelectedCountry: (
+    setSelectedCountry: (
       state: CountrySliceInnerType,
       action: PayloadAction<CountryShortType>
     ) => {
-      state.selectedCountries = [...state.selectedCountries, action.payload];
+      state.selectedCountry = action.payload;
+    },
+    clearSelectedCountry: (state) => {
+      state.selectedCountry = null;
     },
   },
   extraReducers: (builder) => {
@@ -39,6 +41,7 @@ export const countrySlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { addSelectedCountry } = countrySlice.actions;
+export const { setSelectedCountry, clearSelectedCountry } =
+  countrySlice.actions;
 
 export default countrySlice.reducer;
