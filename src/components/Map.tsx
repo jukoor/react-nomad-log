@@ -11,6 +11,8 @@ import { useAppSelector } from "../hooks/hooks";
 import { loadUserDataFromFb } from "../services/firebaseHelper";
 import am5geodata_data_countries2 from "@amcharts/amcharts5-geodata/data/countries2";
 import { Button } from "@mui/material";
+import { getEmojiFlagFromCc } from "../utils/countryDataUtils";
+import { get } from "firebase/database";
 
 type CountryCode = string;
 
@@ -25,7 +27,7 @@ export const Map = () => {
 
     // Define a mapping of country ISO codes to colors
     const countryColors: any = {};
-    const visitedCountriesColor = am5.color(0xff5733); // Specified color for visited countries
+    const visitedCountriesColor = am5.color(0x009876); // Specified color for visited countries
 
     // Assign the specified color to all visited countries
     if (userData.countriesVisited) {
@@ -49,12 +51,12 @@ export const Map = () => {
     const worldSeries = chart.series.push(
       am5map.MapPolygonSeries.new(root, {
         geoJSON: am5geodata_worldLow,
-        exclude: [""],
+        exclude: ["AQ"],
       })
     );
 
     worldSeries.mapPolygons.template.setAll({
-      tooltipText: "{name}",
+      tooltipText: "{emoji} {name}",
       interactive: true,
       fill: am5.color(0xaaaaaa),
       templateField: "polygonSettings",
@@ -93,7 +95,7 @@ export const Map = () => {
           const zoomAnimation = worldSeries.zoomToDataItem(
             dataItem as DataItem<IMapPolygonSeriesDataItem>
           );
-          console.log(dataItem);
+
           Promise.all([
             zoomAnimation?.waitForStop(),
             am5.net.load(
@@ -110,7 +112,6 @@ export const Map = () => {
               ]
             ) => {
               if (results[1].response) {
-                console.log(results);
                 var geodata = am5.JSONParser.parse(results[1].response);
                 if (data && data.polygonSettings) {
                   countrySeries.setAll({
@@ -148,15 +149,15 @@ export const Map = () => {
       fill: colors.getIndex(9),
     });
 
-    var continents: { [key: string]: number } = {
-      AF: 0,
-      AN: 1,
-      AS: 2,
-      EU: 3,
-      NA: 4,
-      OC: 5,
-      SA: 6,
-    };
+    // var continents: { [key: string]: number } = {
+    //   AF: 0,
+    //   AN: 1,
+    //   AS: 2,
+    //   EU: 3,
+    //   NA: 4,
+    //   OC: 5,
+    //   SA: 6,
+    // };
 
     // Set up data for countries
     var data = [];
@@ -166,9 +167,11 @@ export const Map = () => {
         if (country.maps.length) {
           data.push({
             id: id,
+            emoji: getEmojiFlagFromCc(id),
             map: country.maps[0],
             polygonSettings: {
-              fill: colors.getIndex(continents[country.continent_code]),
+              // fill: colors.getIndex(continents[country.continent_code]),
+              fill: am5.color(0xaaaaaa),
             },
           });
         }
@@ -176,13 +179,21 @@ export const Map = () => {
     }
     worldSeries.data.setAll(data);
 
-    // Add custom button
+    worldSeries.mapPolygons.template.events.on("pointerover", function (ev) {
+      document.body.style.cursor = "pointer";
+    });
+
+    // series.columns.template.events.on("pointerout", function (ev) {
+    //     document.body.style.cursor = "default";
+    // });
+
+    // Add back button
     const backButton = chart.children.push(
       am5.Button.new(root, {
-        x: am5.percent(70),
+        x: am5.percent(1),
         dy: 10,
         label: am5.Label.new(root, {
-          text: "Back To World Map",
+          text: "Back",
         }),
         visible: false,
       })
@@ -194,44 +205,6 @@ export const Map = () => {
       countrySeries.hide();
       backButton.hide();
     });
-
-    // // Add button to go back to continents view
-    // var backContainer = chart.children.push(
-    //   am5.Container.new(root, {
-    //     x: am5.p50,
-    //     centerX: am5.p50,
-    //     dx: -10,
-    //     paddingTop: 5,
-    //     paddingRight: 10,
-    //     paddingBottom: 5,
-    //     y: 30,
-    //     interactiveChildren: false,
-    //     layout: root.horizontalLayout,
-    //     cursorOverStyle: "pointer",
-    //     background: am5.RoundedRectangle.new(root, {
-    //       fill: am5.color(0xffffff),
-    //       fillOpacity: 0.2,
-    //     }),
-    //     visible: true,
-    //   })
-    // );
-
-    // var backLabel = backContainer.children.push(
-    //   am5.Label.new(root, {
-    //     text: "Back to world map",
-    //     centerY: am5.p50,
-    //   })
-    // );
-
-    // var backButton = backContainer.children.push(
-    //   am5.Graphics.new(root, {
-    //     width: 32,
-    //     height: 32,
-    //     centerY: am5.p50,
-    //     fill: am5.color(0x555555),
-    //     svgPath: "",
-    //   })
-    // );
 
     return () => root.dispose();
   }, [userData]);
