@@ -11,7 +11,10 @@ import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import { loadUserDataFromFb } from "../services/firebaseHelper";
 import am5geodata_data_countries2 from "@amcharts/amcharts5-geodata/data/countries2";
 import { Button, Typography } from "@mui/material";
-import { getEmojiFlagFromCc } from "../utils/countryDataUtils";
+import {
+  findCountryByCode,
+  getEmojiFlagFromCc,
+} from "../utils/countryDataUtils";
 import AddIcon from "@mui/icons-material/Add";
 import FormatColorFillIcon from "@mui/icons-material/FormatColorFill";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
@@ -19,11 +22,13 @@ import {
   clearSelectedCountry,
   setSelectedCountry,
 } from "../store/countrySlice";
+import { toggleCountryDetailsOverlay } from "../store/appSlice";
 
 type CountryCode = string;
 
 export const Map = () => {
   const dispatch = useAppDispatch();
+  const countryData = useAppSelector((state) => state.Country.countries);
 
   const userData = useAppSelector((state) => state.User.selectedUser);
   const selectedCountry = useAppSelector(
@@ -105,8 +110,6 @@ export const Map = () => {
         const dataItem: DataItem<IComponentDataItem> | undefined =
           ev.target.dataItem;
         const data: any = dataItem?.dataContext;
-        console.log(dataItem);
-        console.log(data);
         if (dataItem) {
           const zoomAnimation = worldSeries.zoomToDataItem(
             dataItem as DataItem<IMapPolygonSeriesDataItem>
@@ -134,8 +137,10 @@ export const Map = () => {
                     geoJSON: geodata,
                     fill: data.polygonSettings.fill,
                   });
-                  console.log(data);
-                  dispatch(setSelectedCountry(data.id));
+
+                  dispatch(
+                    setSelectedCountry(findCountryByCode(data.id, countryData))
+                  );
                   setCountryDetailView(true);
                 } else {
                   // Handle the case where data or data.polygonSettings is undefined
@@ -245,7 +250,11 @@ export const Map = () => {
               <Button variant="outlined" startIcon={<FormatColorFillIcon />}>
                 Add to Bucketlist
               </Button>
-              <Button variant="outlined" startIcon={<InfoOutlinedIcon />}>
+              <Button
+                onClick={() => dispatch(toggleCountryDetailsOverlay())}
+                variant="outlined"
+                startIcon={<InfoOutlinedIcon />}
+              >
                 Country Info
               </Button>
             </div>

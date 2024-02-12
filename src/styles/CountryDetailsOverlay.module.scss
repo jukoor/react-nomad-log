@@ -5,6 +5,15 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 20px;
+
+      span {
+        flex: 1;
+
+        &:last-child {
+          text-align: right;
+        }
+      }
     }
   }
 
@@ -12,5 +21,12 @@
     width: 100%;
     height: auto;
     max-height: 50px;
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 10px 10px 15px;
   }
 }

@@ -13,10 +13,7 @@ export const countrySlice = createSlice({
     loading: false,
   } as CountrySliceInnerType,
   reducers: {
-    setSelectedCountry: (
-      state: CountrySliceInnerType,
-      action: PayloadAction<CountryType>
-    ) => {
+    setSelectedCountry: (state, action) => {
       state.selectedCountry = action.payload;
     },
     clearSelectedCountry: (state) => {

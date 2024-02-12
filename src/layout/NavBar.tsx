@@ -15,7 +15,7 @@ import {
 import { useSelector } from "react-redux";
 import { CountrySliceType } from "../types/slices/CountrySliceType";
 import { useAppDispatch } from "../hooks/hooks";
-import StyleOutlinedIcon from '@mui/icons-material/StyleOutlined';
+import StyleOutlinedIcon from "@mui/icons-material/StyleOutlined";
 
 export const NavBar = () => {
   const dispatch = useAppDispatch();
@@ -47,17 +47,13 @@ export const NavBar = () => {
           </Typography>
 
           <Button startIcon={<StyleOutlinedIcon />}></Button>
-
-          <Button onClick={() => dispatch(toggleCountryDetailsOverlay())}>
-            Country Info
-          </Button>
-
+          {/* 
           <Button
             className={styles.addBtnSpecial}
             onClick={() => dispatch(setCountrySelectDialogOpen(true))}
           >
             Add Location
-          </Button>
+          </Button> */}
 
           <Avatar
             sx={{ ml: "20px" }}

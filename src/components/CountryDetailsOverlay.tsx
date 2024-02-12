@@ -2,9 +2,6 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  Button,
-  ClickAwayListener,
-  Collapse,
   Divider,
   Drawer,
   IconButton,
@@ -14,10 +11,7 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
-import { CountryType } from "../types/CountryType3";
-import { CountrySliceType } from "../types/slices/CountrySliceType";
 import { ReactElement, useEffect, useState } from "react";
-
 import PublicIcon from "@mui/icons-material/Public";
 import MyLocationIcon from "@mui/icons-material/MyLocation";
 import TourOutlinedIcon from "@mui/icons-material/TourOutlined";
@@ -41,7 +35,6 @@ interface CountryInfo {
   content: string | string[] | number | boolean | ReactElement | undefined;
   icon: ReactElement;
 }
-type CountryInfoList = CountryInfo[];
 
 export const CountryDetailsOverlay = () => {
   const drawerWidth = 400;
@@ -50,12 +43,11 @@ export const CountryDetailsOverlay = () => {
   const [timezonesClpsOpen, setTmezonesClpsOpen] = useState(false);
 
   const [country, setCountry] = useState<CountryInfo[]>([]);
-  const countryData = useAppSelector((state) => state.Country.countries);
-  const overlayOpen = useAppSelector(
-    (state) => state.App.countryDetailsOverlayOpen
-  );
   const selectedCountry = useAppSelector(
     (state) => state.Country.selectedCountry
+  );
+  const overlayOpen = useAppSelector(
+    (state) => state.App.countryDetailsOverlayOpen
   );
 
   const concatArrayVals = (arr: string[]) => {
@@ -100,109 +92,89 @@ export const CountryDetailsOverlay = () => {
   };
 
   useEffect(() => {
-    if (countryData && countryData.length > 0 && selectedCountry) {
-      const activeCountry: CountryType | undefined = countryData.find(
-        (c) => c.cca2 === selectedCountry
-      );
+    if (selectedCountry) {
+      setCountry([
+        {
+          label: "Continent",
+          content: selectedCountry.region,
+          icon: <PublicIcon />,
+        },
+        {
+          label: "Subregion",
+          content: selectedCountry.subregion,
+          icon: <MyLocationIcon />,
+        },
+        {
+          label: "Capital",
+          content: concatArrayVals(selectedCountry.capital),
+          icon: <TourOutlinedIcon />,
+        },
+        {
+          label: "Population",
+          content: numberWithCommas(selectedCountry.population),
+          icon: <Diversity1Icon />,
+        },
+        {
+          label: "Size",
+          content: `${numberWithCommas(selectedCountry.area)} km²`,
+          icon: <CropFreeIcon />,
+        },
 
-      console.log(countryData);
-      console.log(activeCountry);
-      console.log(selectedCountry);
-
-      if (activeCountry) {
-        // const activeCountryData = countryData[3];
-        setCountry([
-          {
-            label: "Country",
-            content: activeCountry.name.common,
-            icon: <PublicIcon />,
-          },
-          {
-            label: "Continent",
-            content: activeCountry.region,
-            icon: <PublicIcon />,
-          },
-          {
-            label: "Subregion",
-            content: activeCountry.subregion,
-            icon: <MyLocationIcon />,
-          },
-          {
-            label: "Capital",
-            content: concatArrayVals(activeCountry.capital),
-            icon: <TourOutlinedIcon />,
-          },
-          {
-            label: "Population",
-            content: numberWithCommas(activeCountry.population),
-            icon: <Diversity1Icon />,
-          },
-          {
-            label: "Size",
-            content: `${numberWithCommas(activeCountry.area)} km²`,
-            icon: <CropFreeIcon />,
-          },
-          {
-            label: "Flag",
-            content: activeCountry.flag,
-            icon: <PublicIcon />,
-          },
-          {
-            label: "Currency",
-            content: Array.isArray(activeCountry.currencies)
-              ? activeCountry.currencies.join(", ")
-              : Object.entries(activeCountry.currencies)
-                  .map(([, value]) => `${value.name} (${value.symbol})`)
-                  .join(", "),
-            icon: <EmojiFlagsIcon />,
-          },
-          {
-            label: "Land locked",
-            content: activeCountry.landlocked ? "Yes" : "No",
-            icon: <WaterIcon />,
-          },
-          {
-            label: "Borders",
-            content: concatArrayVals(activeCountry.borders),
-            icon: <HandshakeIcon />,
-          },
-          {
-            label: "Maps",
-            content: (
-              <>
-                <a href={activeCountry.maps.googleMaps} target="_blank">
-                  Open in Google Maps
-                </a>
-              </>
-            ),
-            icon: <GoogleIcon />,
-          },
-          {
-            label: "Domain",
-            content: activeCountry.tld,
-            icon: <RouterOutlinedIcon />,
-          },
-          {
-            label: "Timezones",
-            content: <TimezoneCollapse timezones={activeCountry.timezones} />,
-            icon: <SnoozeIcon />,
-          },
-          {
-            label: "Coat Of Arms",
-            content: (
-              <>
-                <img
-                  src={activeCountry.coatOfArms.svg}
-                  className={styles.coatOfArms}
-                />
-              </>
-            ),
-            icon: <SecurityIcon />,
-          },
-        ]);
-      }
+        {
+          label: "Currency",
+          content: Array.isArray(selectedCountry.currencies)
+            ? selectedCountry.currencies.join(", ")
+            : Object.entries(selectedCountry.currencies)
+                .map(([, value]) => `${value.name} (${value.symbol})`)
+                .join(", "),
+          icon: <EmojiFlagsIcon />,
+        },
+        {
+          label: "Land locked",
+          content: selectedCountry.landlocked ? "Yes" : "No",
+          icon: <WaterIcon />,
+        },
+        {
+          label: "Borders",
+          content: concatArrayVals(selectedCountry.borders),
+          icon: <HandshakeIcon />,
+        },
+        {
+          label: "Maps",
+          content: (
+            <>
+              <a href={selectedCountry.maps.googleMaps} target="_blank">
+                Open in Google Maps
+              </a>
+            </>
+          ),
+          icon: <GoogleIcon />,
+        },
+        {
+          label: "Domain",
+          content: selectedCountry.tld,
+          icon: <RouterOutlinedIcon />,
+        },
+        {
+          label: "Timezones",
+          content: <TimezoneCollapse timezones={selectedCountry.timezones} />,
+          icon: <SnoozeIcon />,
+        },
+        {
+          label: "Coat Of Arms",
+          content: (
+            <>
+              <img
+                src={selectedCountry.coatOfArms.svg}
+                className={styles.coatOfArms}
+              />
+            </>
+          ),
+          icon: <SecurityIcon />,
+        },
+      ]);
     }
-  }, [countryData, selectedCountry]);
+  }, [selectedCountry]);
 
   const handleOnClick = () => {
     dispatch(toggleCountryDetailsOverlay());
@@ -227,10 +199,18 @@ export const CountryDetailsOverlay = () => {
       variant="temporary"
       anchor="right"
     >
-      <Typography variant="h5">Country Details</Typography>
-      <IconButton color="secondary" aria-label="Close" onClick={handleOnClick}>
-        <CloseIcon />
-      </IconButton>
+      <div className={styles.header}>
+        <Typography variant="h5">
+          {selectedCountry?.flag} {selectedCountry?.name.common}
+        </Typography>
+        <IconButton
+          color="secondary"
+          aria-label="Close"
+          onClick={handleOnClick}
+        >
+          <CloseIcon />
+        </IconButton>
+      </div>
       <Divider />
 
       <List>
