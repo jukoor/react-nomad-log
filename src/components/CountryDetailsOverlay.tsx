@@ -3,6 +3,7 @@ import {
   AccordionDetails,
   AccordionSummary,
   Button,
+  ClickAwayListener,
   Collapse,
   Divider,
   Drawer,
@@ -13,7 +14,7 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
-import { CountryType } from "../types/CountryType";
+import { CountryType } from "../types/CountryType3";
 import { CountrySliceType } from "../types/slices/CountrySliceType";
 import { ReactElement, useEffect, useState } from "react";
 
@@ -29,17 +30,17 @@ import GoogleIcon from "@mui/icons-material/Google";
 import SnoozeIcon from "@mui/icons-material/Snooze";
 import SecurityIcon from "@mui/icons-material/Security";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-
+import RouterOutlinedIcon from "@mui/icons-material/RouterOutlined";
 import styles from "../styles/CountryDetailsOverlay.module.scss";
 import { toggleCountryDetailsOverlay } from "../store/appSlice";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import CloseIcon from "@mui/icons-material/Close";
+
 interface CountryInfo {
   label: string;
   content: string | string[] | number | boolean | ReactElement | undefined;
   icon: ReactElement;
 }
-
 type CountryInfoList = CountryInfo[];
 
 export const CountryDetailsOverlay = () => {
@@ -68,10 +69,6 @@ export const CountryDetailsOverlay = () => {
   interface TimezoneCollapseProps {
     timezones: string[];
   }
-
-  // useEffect(() => {
-  //   console.log(timezonesClpsOpen);
-  // }, [timezonesClpsOpen]);
 
   const TimezoneCollapse = ({ timezones }: TimezoneCollapseProps) => {
     console.log(timezones);
@@ -105,8 +102,12 @@ export const CountryDetailsOverlay = () => {
   useEffect(() => {
     if (countryData && countryData.length > 0 && selectedCountry) {
       const activeCountry: CountryType | undefined = countryData.find(
-        (c) => c.cca2 == selectedCountry.country
+        (c) => c.cca2 === selectedCountry
       );
+
+      console.log(countryData);
+      console.log(activeCountry);
+      console.log(selectedCountry);
 
       if (activeCountry) {
         // const activeCountryData = countryData[3];
@@ -177,6 +178,11 @@ export const CountryDetailsOverlay = () => {
             icon: <GoogleIcon />,
           },
           {
+            label: "Domain",
+            content: activeCountry.tld,
+            icon: <RouterOutlinedIcon />,
+          },
+          {
             label: "Timezones",
             content: <TimezoneCollapse timezones={activeCountry.timezones} />,
             icon: <SnoozeIcon />,
@@ -187,8 +193,7 @@ export const CountryDetailsOverlay = () => {
               <>
                 <img
                   src={activeCountry.coatOfArms.svg}
-                  width="40px"
-                  height="70px"
+                  className={styles.coatOfArms}
                 />
               </>
             ),
@@ -197,9 +202,13 @@ export const CountryDetailsOverlay = () => {
         ]);
       }
     }
-  }, [countryData]);
+  }, [countryData, selectedCountry]);
 
   const handleOnClick = () => {
+    dispatch(toggleCountryDetailsOverlay());
+  };
+
+  const handleClickAway = () => {
     dispatch(toggleCountryDetailsOverlay());
   };
 

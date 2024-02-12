@@ -7,7 +7,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useParams } from "react-router-dom";
-import { CountryType } from "../types/CountryType";
+import { CountryType } from "../types/CountryType3";
 import { CountrySliceType } from "../types/slices/CountrySliceType";
 import { ReactElement, useEffect, useState } from "react";
 

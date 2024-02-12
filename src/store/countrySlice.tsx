@@ -8,14 +8,14 @@ import { CountryType } from "../types/CountryType";
 export const countrySlice = createSlice({
   name: "countries",
   initialState: {
-    countries: countryDataStatic as any,
+    countries: countryDataStatic as unknown as CountryType[],
     selectedCountry: null,
     loading: false,
   } as CountrySliceInnerType,
   reducers: {
     setSelectedCountry: (
       state: CountrySliceInnerType,
-      action: PayloadAction<CountryShortType>
+      action: PayloadAction<CountryType>
     ) => {
       state.selectedCountry = action.payload;
     },

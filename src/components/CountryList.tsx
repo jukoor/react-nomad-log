@@ -5,7 +5,7 @@ import TextField from "@mui/material/TextField";
 import React from "react";
 import { Typography } from "@mui/material";
 import { CountrySliceType } from "../types/slices/CountrySliceType";
-import { CountryType } from "../types/CountryType";
+import { CountryType } from "../types/CountryType3";
 import { useAppSelector } from "../hooks/hooks";
 
 export const CountryList = () => {

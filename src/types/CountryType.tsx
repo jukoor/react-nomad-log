@@ -1,9 +1,70 @@
-export interface CountryType {
-  name: {
-    common: string;
-    official: string;
-    nativeName: Record<string, { official: string; common: string }>;
+interface Name {
+  common: string;
+  official: string;
+  nativeName: {
+    [key: string]: {
+      official: string;
+      common: string;
+    };
   };
+}
+
+interface Currencies {
+  [key: string]: {
+    name: string;
+    symbol: string;
+  };
+}
+
+interface Idd {
+  root: string;
+  suffixes: string[];
+}
+
+interface Languages {
+  [key: string]: string;
+}
+
+interface Translations {
+  [key: string]: {
+    official: string;
+    common: string;
+  };
+}
+
+interface Demonyms {
+  [key: string]: {
+    f: string;
+    m: string;
+  };
+}
+
+interface Flags {
+  png: string;
+  svg: string;
+  alt: string;
+}
+
+interface Maps {
+  googleMaps: string;
+  openStreetMaps: string;
+}
+
+interface Car {
+  signs: string[];
+  side: string;
+}
+
+interface CapitalInfo {
+  latlng: number[];
+}
+
+interface Gini {
+  [key: string]: number;
+}
+
+export interface CountryType {
+  name: Name;
   tld: string[];
   cca2: string;
   ccn3: string;
@@ -12,50 +73,32 @@ export interface CountryType {
   independent: boolean;
   status: string;
   unMember: boolean;
-  currencies: Record<string, { name: string; symbol: string }>;
-  idd: {
-    root: string;
-    suffixes: string[];
-  };
+  currencies: Currencies;
+  idd: Idd;
   capital: string[];
   altSpellings: string[];
   region: string;
   subregion: string;
-  languages: Record<string, string>;
-  translations: Record<string, { official: string; common: string }>;
+  languages: Languages;
+  translations: Translations;
   latlng: number[];
   landlocked: boolean;
   borders: string[];
   area: number;
-  demonyms: Record<string, { f: string; m: string }>;
+  demonyms: Demonyms;
   flag: string;
-  maps: {
-    googleMaps: string;
-    openStreetMaps: string;
-  };
+  maps: Maps;
   population: number;
-  gini: Record<string, number>;
+  gini: Gini;
   fifa: string;
-  car: {
-    signs: string[];
-    side: string;
-  };
+  car: Car;
   timezones: string[];
   continents: string[];
-  flags: {
-    png: string;
-    svg: string;
-    alt: string;
-  };
-  coatOfArms: {
-    png: string;
-    svg: string;
-  };
+  flags: Flags;
+  coatOfArms: Flags;
   startOfWeek: string;
-  capitalInfo: {
-    latlng: number[];
-  };
-  postalCode: {
+  capitalInfo: CapitalInfo;
+  postalCode?: {
     format: string;
     regex: string;
   };

@@ -69,7 +69,8 @@ export const Map = () => {
 
     worldSeries.mapPolygons.template.setAll({
       // tooltipText: "{emoji} {name}",
-      tooltipHTML: "<span class='mapTooltipEmoji'>{emoji}</span> <span class='mapTooltipText'>{name}</span>",
+      tooltipHTML:
+        "<span class='mapTooltipEmoji'>{emoji}</span> <span class='mapTooltipText'>{name}</span>",
       interactive: true,
       fill: am5.color(0xaaaaaa),
       templateField: "polygonSettings",
@@ -94,8 +95,6 @@ export const Map = () => {
           if (countryColors[countryId]) {
             polygon.set("fill", countryColors[countryId]);
           }
-
-         
         }
       });
     });
@@ -135,6 +134,7 @@ export const Map = () => {
                     geoJSON: geodata,
                     fill: data.polygonSettings.fill,
                   });
+                  console.log(data);
                   dispatch(setSelectedCountry(data.id));
                   setCountryDetailView(true);
                 } else {
@@ -236,7 +236,7 @@ export const Map = () => {
         {countryDetailView && (
           <>
             <div className={styles.selectedCountryName}>
-              <Typography variant="h4">{selectedCountry?.country}</Typography>
+              {/* <Typography variant="h4">{selectedCountry?.name}</Typography> */}
             </div>
             <div className={styles.mapActions}>
               <Button variant="contained" startIcon={<AddIcon />}>
