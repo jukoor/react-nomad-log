@@ -19,7 +19,7 @@ import {
   doc,
   DocumentData,
 } from "firebase/firestore";
-import { User } from "../types/User";
+import { UserType } from "../types/UserType";
 import { setSelectedUser } from "../store/userSlice";
 import React from "react";
 import { useAppDispatch } from "../hooks/hooks";
@@ -42,8 +42,8 @@ export const Profile = () => {
           const docRef = doc(db, "users", userId);
           const docSnap = await getDoc(docRef);
           if (docSnap.exists()) {
-            dispatch(setSelectedUser(docSnap.data() as User));
-            setUserData(docSnap.data() as User);
+            dispatch(setSelectedUser(docSnap.data() as UserType));
+            setUserData(docSnap.data() as UserType);
             console.log(docSnap.data());
           } else {
             console.log("Document does not exist");

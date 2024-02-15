@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { User } from "../types/User";
+import { UserType } from "../types/UserType";
 
 export type UserState = {
-  selectedUser: User;
+  selectedUser: UserType;
 };
 
 export const userSlice = createSlice({
@@ -17,19 +17,27 @@ export const userSlice = createSlice({
       bucketList: [],
       homeTown: "",
       nationality: "",
+      countriesVisited: [],
     },
   } as UserState,
   reducers: {
-    setSelectedUser: (state: UserState, action: PayloadAction<User>) => {
+    setSelectedUser: (state, action) => {
       state.selectedUser = {
         ...state.selectedUser,
         ...action.payload,
       };
     },
+    addCountryVisited: (state, action) => {
+      console.log(action);
+      const countryToAdd = action.payload;
+      state.selectedUser.countriesVisited = [
+        ...state.selectedUser.countriesVisited,
+        ...countryToAdd,
+      ];
+    },
   },
 });
 
-// Action creators are generated for each case reducer function
-export const { setSelectedUser } = userSlice.actions;
+export const { setSelectedUser, addCountryVisited } = userSlice.actions;
 
 export default userSlice.reducer;

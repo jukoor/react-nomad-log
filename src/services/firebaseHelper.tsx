@@ -3,7 +3,7 @@ import { db } from "./firebaseConfig";
 import { useEffect, useState } from "react";
 import { setSelectedUser } from "../store/userSlice";
 import { useAppDispatch } from "../hooks/hooks";
-import { User } from "../types/User";
+import { UserType } from "../types/UserType";
 
 export const loadUserDataFromFb = () => {
   const dispatch = useAppDispatch();
@@ -17,7 +17,7 @@ export const loadUserDataFromFb = () => {
           const docSnap = await getDoc(docRef);
 
           if (docSnap.exists()) {
-            dispatch(setSelectedUser(docSnap.data() as User));
+            dispatch(setSelectedUser(docSnap.data() as UserType));
           } else {
             console.log("Document does not exist");
           }

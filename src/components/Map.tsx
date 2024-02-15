@@ -23,6 +23,7 @@ import {
   setSelectedCountry,
 } from "../store/countrySlice";
 import { toggleCountryDetailsOverlay } from "../store/appSlice";
+import { addCountryVisited } from "../store/userSlice";
 
 type CountryCode = string;
 
@@ -244,10 +245,20 @@ export const Map = () => {
               {/* <Typography variant="h4">{selectedCountry?.name}</Typography> */}
             </div>
             <div className={styles.mapActions}>
-              <Button variant="contained" startIcon={<AddIcon />}>
+              <Button
+                onClick={() =>
+                  dispatch(addCountryVisited(selectedCountry?.cca2))
+                }
+                variant="contained"
+                startIcon={<AddIcon />}
+              >
                 Add Country
               </Button>
-              <Button variant="outlined" startIcon={<FormatColorFillIcon />}>
+              <Button
+                onClick={() => dispatch(toggleCountryDetailsOverlay())}
+                variant="outlined"
+                startIcon={<FormatColorFillIcon />}
+              >
                 Add to Bucketlist
               </Button>
               <Button

@@ -3,7 +3,7 @@ import { Card, CardContent, Avatar, Typography, Chip } from "@mui/material";
 import styles from "../../styles/Bio.module.scss";
 import { useContext, useEffect } from "react";
 import { UserDataContext } from "../../pages/Profile";
-import { User } from "../../types/User";
+import { UserType } from "../../types/UserType";
 
 export const Bio = () => {
   const userData = useContext(UserDataContext);

@@ -1,10 +1,10 @@
 import { Card, CardContent, Typography } from "@mui/material";
 import { useContext } from "react";
 import { UserDataContext } from "../../pages/Profile";
-import { User } from "../../types/User";
+import { UserType } from "../../types/UserType";
 
 export const CountriesVisited = () => {
-  const userData = useContext(UserDataContext) as User;
+  const userData = useContext(UserDataContext) as UserType;
 
   return (
     <Card sx={{ minWidth: 275 }}>
