@@ -11,6 +11,9 @@
         flex: 1;
 
         &:last-child {
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
           text-align: right;
         }
       }
@@ -18,9 +21,10 @@
   }
 
   .coatOfArms {
-    width: 100%;
+    width: auto;
     height: auto;
     max-height: 50px;
+    max-width: 35px;
   }
 
   .header {
@@ -28,5 +32,16 @@
     align-items: center;
     justify-content: space-between;
     padding: 10px 10px 10px 15px;
+  }
+
+  .headerEmoji {
+    display: inline-block;
+    margin-right: 20px;
+  }
+
+  .link {
+    color: grey;
+    display: inline-flex;
+    gap: 6px;
   }
 }
