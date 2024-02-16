@@ -1,9 +1,39 @@
-import { addDoc, collection, doc, getDoc } from "firebase/firestore";
+import {
+  addDoc,
+  arrayUnion,
+  collection,
+  doc,
+  getDoc,
+  updateDoc,
+} from "firebase/firestore";
 import { db } from "./firebaseConfig";
 import { setSelectedUser } from "../store/userSlice";
-import { useAppDispatch } from "../hooks/hooks";
+import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import { UserType } from "../types/UserType";
 import { useCallback } from "react";
+
+// Annahme: Du hast bereits den Benutzer-UID (z. B. aus der Authentifizierung)
+export const addToArray = async (countryToAdd: string) => {
+  const userData = useAppSelector((state) => state.User.selectedUser);
+
+  try {
+    await updateDoc(doc(db, "users", userData.uid), {
+      array: arrayUnion(countryToAdd),
+    });
+    console.log("Element erfolgreich zum Array hinzugefügt!");
+  } catch (error) {
+    console.error("Fehler beim Hinzufügen des Elements:", error);
+  }
+};
+
+export const createGroceryList = (selectedCountry: string) => {
+  const userData = useAppSelector((state) => state.User.selectedUser);
+
+  const groceriesColRef = collection(db, `users/${userData.uid}`);
+  // return addDoc(groceriesColRef, {
+  //   selectedCountry,
+  // });
+};
 
 export const loadUserFromFirebase = (userId: string) => {
   const dispatch = useAppDispatch();
@@ -13,6 +43,7 @@ export const loadUserFromFirebase = (userId: string) => {
       try {
         const docRef = doc(db, "users", userId);
         const docSnap = await getDoc(docRef);
+        console.log();
         if (docSnap.exists()) {
           dispatch(setSelectedUser(docSnap.data() as UserType));
         } else {

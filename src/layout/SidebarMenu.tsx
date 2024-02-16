@@ -9,19 +9,28 @@ import ListItemText from "@mui/material/ListItemText";
 import { menuStrucutre } from "./MenuStructure";
 import { NavLink } from "react-router-dom";
 import styles from "../styles/SidebarMenu.module.scss";
-import { Button } from "@mui/material";
+import { Button, ClickAwayListener } from "@mui/material";
 import { toggleMenuVisibility } from "../store/appSlice";
-import { AppSliceType } from "../types/slices/AppSliceType";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 export const SidebarMenu = () => {
   const dispatch = useAppDispatch();
   const menuVisibility = useAppSelector((state) => state.App.menuOpen);
+  const user = useAppSelector((state) => state.User.selectedUser);
 
   const drawerWidth = 240;
 
   const handleOnClick = () => {
     dispatch(toggleMenuVisibility());
+  };
+
+  const AvatarBox = () => {
+    return (
+      <div>
+        {user.nameFirst} {user.nameLast}
+      </div>
+    );
   };
 
   return (
@@ -47,6 +56,8 @@ export const SidebarMenu = () => {
         <Button onClick={handleOnClick}>Close</Button>
         <Divider />
 
+        <AvatarBox />
+
         <List>
           {menuStrucutre.map((item) => (
             <ListItem key={item.id} disablePadding>
@@ -65,6 +76,16 @@ export const SidebarMenu = () => {
               </NavLink>
             </ListItem>
           ))}
+          <ListItem key={"logout"} disablePadding>
+            <NavLink to={"/"}>
+              <ListItemButton>
+                <ListItemIcon>
+                  <LogoutIcon />
+                </ListItemIcon>
+                <ListItemText primary={"Logout"} />
+              </ListItemButton>
+            </NavLink>
+          </ListItem>
         </List>
       </Drawer>
       {/* <Outlet /> */}

@@ -10,6 +10,7 @@ import styles from "../styles/Map.module.scss";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import {
   addDocToFirebase,
+  addToArray,
   loadUserFromFirebase,
 } from "../services/firebaseHelper";
 import am5geodata_data_countries2 from "@amcharts/amcharts5-geodata/data/countries2";
@@ -48,12 +49,12 @@ export const Map = () => {
     firebaseUserData();
   }, [firebaseUserData]);
 
-  useEffect(() => {
-    if (countryToAdd) {
-      let addDocVar = addDocToFirebase(countryToAdd);
-      addDocVar();
-    }
-  }, [countryToAdd]);
+  // useEffect(() => {
+  //   if (countryToAdd) {
+  //     let addDocVar = addDocToFirebase(countryToAdd);
+  //     addDocVar();
+  //   }
+  // }, [countryToAdd]);
 
   useLayoutEffect(() => {
     const root = am5.Root.new("map");
@@ -264,10 +265,12 @@ export const Map = () => {
               <Button
                 onClick={() => {
                   if (selectedCountry?.cca2) {
-                    dispatch(addCountryVisited(selectedCountry?.cca2));
+                    // dispatch(addCountryVisited(selectedCountry?.cca2));
                     console.log(selectedCountry?.cca2);
                     // addDocToFirebase(selectedCountry?.cca2 || "");
-                    setCountryToAdd(selectedCountry?.cca2);
+                    // createGroceryList(selectedCountry?.cca2);
+
+                    addToArray(selectedCountry?.cca2);
                   }
                 }}
                 variant="contained"
