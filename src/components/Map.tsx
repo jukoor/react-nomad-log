@@ -2,13 +2,16 @@ import * as am5 from "@amcharts/amcharts5";
 import * as am5map from "@amcharts/amcharts5/map";
 import am5geodata_worldLow from "@amcharts/amcharts5-geodata/worldLow";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
-import { useLayoutEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { DataItem } from "@amcharts/amcharts5";
 import { IMapPolygonSeriesDataItem } from "@amcharts/amcharts5/map";
 import { IComponentDataItem } from "@amcharts/amcharts5/.internal/core/render/Component";
 import styles from "../styles/Map.module.scss";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
-import { loadUserDataFromFb } from "../services/firebaseHelper";
+import {
+  addDocToFirebase,
+  loadUserFromFirebase,
+} from "../services/firebaseHelper";
 import am5geodata_data_countries2 from "@amcharts/amcharts5-geodata/data/countries2";
 import { Button, Typography } from "@mui/material";
 import {
@@ -29,15 +32,28 @@ type CountryCode = string;
 
 export const Map = () => {
   const dispatch = useAppDispatch();
-  const countryData = useAppSelector((state) => state.Country.countries);
 
+  const countryData = useAppSelector((state) => state.Country.countries);
   const userData = useAppSelector((state) => state.User.selectedUser);
   const selectedCountry = useAppSelector(
     (state) => state.Country.selectedCountry
   );
-  const [countryDetailView, setCountryDetailView] = useState(false);
 
-  loadUserDataFromFb();
+  const [countryDetailView, setCountryDetailView] = useState(false);
+  const [countryToAdd, setCountryToAdd] = useState<string>();
+
+  const firebaseUserData = loadUserFromFirebase("8pVS1cDjBszgEUE0aug8");
+
+  useEffect(() => {
+    firebaseUserData();
+  }, [firebaseUserData]);
+
+  useEffect(() => {
+    if (countryToAdd) {
+      let addDocVar = addDocToFirebase(countryToAdd);
+      addDocVar();
+    }
+  }, [countryToAdd]);
 
   useLayoutEffect(() => {
     const root = am5.Root.new("map");
@@ -246,9 +262,14 @@ export const Map = () => {
             </div>
             <div className={styles.mapActions}>
               <Button
-                onClick={() =>
-                  dispatch(addCountryVisited(selectedCountry?.cca2))
-                }
+                onClick={() => {
+                  if (selectedCountry?.cca2) {
+                    dispatch(addCountryVisited(selectedCountry?.cca2));
+                    console.log(selectedCountry?.cca2);
+                    // addDocToFirebase(selectedCountry?.cca2 || "");
+                    setCountryToAdd(selectedCountry?.cca2);
+                  }
+                }}
                 variant="contained"
                 startIcon={<AddIcon />}
               >

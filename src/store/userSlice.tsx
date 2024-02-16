@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { UserType } from "../types/UserType";
 
 export type UserState = {
@@ -27,9 +27,10 @@ export const userSlice = createSlice({
         ...action.payload,
       };
     },
+    // Add visited country to redux store and to firebase db
     addCountryVisited: (state, action) => {
-      console.log(action);
       const countryToAdd = action.payload;
+
       state.selectedUser.countriesVisited = [
         ...state.selectedUser.countriesVisited,
         ...countryToAdd,
