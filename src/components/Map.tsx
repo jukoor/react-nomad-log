@@ -9,12 +9,11 @@ import { IComponentDataItem } from "@amcharts/amcharts5/.internal/core/render/Co
 import styles from "../styles/Map.module.scss";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import {
-  addDocToFirebase,
-  addToArray,
+  updateCountriesVisitedFb,
   loadUserFromFirebase,
 } from "../services/firebaseHelper";
 import am5geodata_data_countries2 from "@amcharts/amcharts5-geodata/data/countries2";
-import { Button, Typography } from "@mui/material";
+import { Alert, AlertColor, Button, Typography } from "@mui/material";
 import {
   findCountryByCode,
   getEmojiFlagFromCc,
@@ -27,7 +26,13 @@ import {
   setSelectedCountry,
 } from "../store/countrySlice";
 import { toggleCountryDetailsOverlay } from "../store/appSlice";
-import { addCountryVisited } from "../store/userSlice";
+import { addCountryVisited, setSelectedUser } from "../store/userSlice";
+import firebase from "firebase/app";
+import "firebase/database";
+import { db } from "../services/firebaseConfig";
+import { arrayUnion, doc, getDoc, updateDoc } from "firebase/firestore";
+import Snackbar from "@mui/material/Snackbar";
+import { UserType } from "../types/UserType";
 
 type CountryCode = string;
 
@@ -41,20 +46,16 @@ export const Map = () => {
   );
 
   const [countryDetailView, setCountryDetailView] = useState(false);
-  const [countryToAdd, setCountryToAdd] = useState<string>();
-
-  const firebaseUserData = loadUserFromFirebase("8pVS1cDjBszgEUE0aug8");
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
 
   useEffect(() => {
-    firebaseUserData();
-  }, [firebaseUserData]);
+    if (userData) {
+      console.log(userData.countriesVisited);
+    }
+  }, [userData]);
 
-  // useEffect(() => {
-  //   if (countryToAdd) {
-  //     let addDocVar = addDocToFirebase(countryToAdd);
-  //     addDocVar();
-  //   }
-  // }, [countryToAdd]);
+  loadUserFromFirebase("8pVS1cDjBszgEUE0aug8");
 
   useLayoutEffect(() => {
     const root = am5.Root.new("map");
@@ -253,6 +254,17 @@ export const Map = () => {
     return () => root.dispose();
   }, [userData]);
 
+  const handleClose = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setSnackbarMessage(""); // Clear the message when the Snackbar is closed
+  };
+
   return (
     <>
       <div className={styles.mapContainer}>
@@ -265,12 +277,21 @@ export const Map = () => {
               <Button
                 onClick={() => {
                   if (selectedCountry?.cca2) {
-                    // dispatch(addCountryVisited(selectedCountry?.cca2));
-                    console.log(selectedCountry?.cca2);
-                    // addDocToFirebase(selectedCountry?.cca2 || "");
-                    // createGroceryList(selectedCountry?.cca2);
+                    // Add new country to firebase and redux
+                    dispatch(addCountryVisited(selectedCountry?.cca2));
 
-                    addToArray(selectedCountry?.cca2);
+                    const usersColRef = doc(db, "users", userData.uid);
+                    updateDoc(usersColRef, {
+                      countriesVisited: arrayUnion(selectedCountry?.cca2),
+                    })
+                      .then((response) => {
+                        setSnackbarMessage(" successfully added.");
+                        setSnackbarSeverity("success");
+                      })
+                      .catch((error) => {
+                        setSnackbarMessage(" could not be added.");
+                        setSnackbarSeverity("error");
+                      });
                   }
                 }}
                 variant="contained"
@@ -296,6 +317,21 @@ export const Map = () => {
           </>
         )}
         <div className={styles.map} id="map"></div>
+        <Snackbar
+          open={snackbarMessage !== ""}
+          autoHideDuration={6000}
+          onClose={handleClose}
+        >
+          <Alert
+            onClose={handleClose}
+            severity={snackbarSeverity as AlertColor}
+            variant="filled"
+            sx={{ width: "100%" }}
+          >
+            <span className={styles.scsMsgEmoji}>{selectedCountry?.flag}</span>
+            {selectedCountry?.name.common}: {snackbarMessage}
+          </Alert>
+        </Snackbar>
       </div>
     </>
   );

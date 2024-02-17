@@ -29,11 +29,11 @@ export const userSlice = createSlice({
     },
     // Add visited country to redux store and to firebase db
     addCountryVisited: (state, action) => {
-      const countryToAdd = action.payload;
-
+      const countryToAdd = action.payload as string;
+      console.log(countryToAdd);
       state.selectedUser.countriesVisited = [
         ...state.selectedUser.countriesVisited,
-        ...countryToAdd,
+        countryToAdd,
       ];
     },
   },

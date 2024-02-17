@@ -10,68 +10,53 @@ import { db } from "./firebaseConfig";
 import { setSelectedUser } from "../store/userSlice";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import { UserType } from "../types/UserType";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
+import firebase from "firebase/compat/app";
 
 // Annahme: Du hast bereits den Benutzer-UID (z. B. aus der Authentifizierung)
-export const addToArray = async (countryToAdd: string) => {
+export const updateCountriesVisitedFb = (countryToAdd: string) => {
   const userData = useAppSelector((state) => state.User.selectedUser);
-
-  try {
-    await updateDoc(doc(db, "users", userData.uid), {
-      array: arrayUnion(countryToAdd),
-    });
-    console.log("Element erfolgreich zum Array hinzugefügt!");
-  } catch (error) {
-    console.error("Fehler beim Hinzufügen des Elements:", error);
-  }
-};
-
-export const createGroceryList = (selectedCountry: string) => {
-  const userData = useAppSelector((state) => state.User.selectedUser);
-
-  const groceriesColRef = collection(db, `users/${userData.uid}`);
-  // return addDoc(groceriesColRef, {
-  //   selectedCountry,
-  // });
 };
 
 export const loadUserFromFirebase = (userId: string) => {
   const dispatch = useAppDispatch();
+  useEffect(() => {
+    const loadUserData = async () => {
+      if (userId) {
+        try {
+          const docRef = doc(db, "users", userId);
+          const docSnap = await getDoc(docRef);
 
-  const loadUserData = useCallback(async () => {
-    if (userId) {
-      try {
-        const docRef = doc(db, "users", userId);
-        const docSnap = await getDoc(docRef);
-        console.log();
-        if (docSnap.exists()) {
-          dispatch(setSelectedUser(docSnap.data() as UserType));
-        } else {
-          console.log("Document does not exist");
+          if (docSnap.exists()) {
+            console.log("works");
+            dispatch(setSelectedUser(docSnap.data() as UserType));
+          } else {
+            console.log("Document does not exist");
+          }
+          // No need to return anything here
+        } catch (error) {
+          console.log(error);
         }
-      } catch (error) {
-        console.log(error);
       }
-    }
+    };
+    loadUserData(); // Call the async function
   }, [userId, dispatch]);
-
-  return loadUserData;
 };
 
-export const addDocToFirebase = (selectedCountry: string) => {
-  const addDocument = useCallback(async () => {
-    try {
-      const docRef = await addDoc(collection(db, "countriesVisited"), {
-        selectedCountry,
-      });
-      console.log("Document written with ID: ", docRef.id);
-    } catch (e) {
-      console.error("Error adding document: ", e);
-    }
-  }, [selectedCountry]);
+// export const addDocToFirebase = (selectedCountry: string) => {
+//   const addDocument = useCallback(async () => {
+//     try {
+//       const docRef = await addDoc(collection(db, "countriesVisited"), {
+//         selectedCountry,
+//       });
+//       console.log("Document written with ID: ", docRef.id);
+//     } catch (e) {
+//       console.error("Error adding document: ", e);
+//     }
+//   }, [selectedCountry]);
 
-  return addDocument;
-};
+//   return addDocument;
+// };
 
 // useEffect(() => {
 //   console.log(visitedCountriesCount);
