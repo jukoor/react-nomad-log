@@ -265,6 +265,26 @@ export const Map = () => {
     setSnackbarMessage(""); // Clear the message when the Snackbar is closed
   };
 
+  const handleAddCountryVisitedClick = () => {
+    if (selectedCountry?.cca2) {
+      // Add new country to firebase and redux
+      dispatch(addCountryVisited(selectedCountry?.cca2));
+
+      const usersColRef = doc(db, "users", userData.uid);
+      updateDoc(usersColRef, {
+        countriesVisited: arrayUnion(selectedCountry?.cca2),
+      })
+        .then((response) => {
+          setSnackbarMessage(" successfully added.");
+          setSnackbarSeverity("success");
+        })
+        .catch((error) => {
+          setSnackbarMessage(" could not be added.");
+          setSnackbarSeverity("error");
+        });
+    }
+  };
+
   return (
     <>
       <div className={styles.mapContainer}>
@@ -275,25 +295,7 @@ export const Map = () => {
             </div>
             <div className={styles.mapActions}>
               <Button
-                onClick={() => {
-                  if (selectedCountry?.cca2) {
-                    // Add new country to firebase and redux
-                    dispatch(addCountryVisited(selectedCountry?.cca2));
-
-                    const usersColRef = doc(db, "users", userData.uid);
-                    updateDoc(usersColRef, {
-                      countriesVisited: arrayUnion(selectedCountry?.cca2),
-                    })
-                      .then((response) => {
-                        setSnackbarMessage(" successfully added.");
-                        setSnackbarSeverity("success");
-                      })
-                      .catch((error) => {
-                        setSnackbarMessage(" could not be added.");
-                        setSnackbarSeverity("error");
-                      });
-                  }
-                }}
+                onClick={handleAddCountryVisitedClick}
                 variant="contained"
                 startIcon={<AddIcon />}
               >
