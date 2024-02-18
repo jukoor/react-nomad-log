@@ -6,18 +6,17 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import styles from "../styles/NavBar.module.scss";
-import { Avatar, LinearProgress } from "@mui/material";
-import {
-  setCountrySelectDialogOpen,
-  toggleCountryDetailsOverlay,
-  toggleMenuVisibility,
-} from "../store/appSlice";
+import { Avatar, Badge, LinearProgress } from "@mui/material";
+import { toggleMenuVisibility } from "../store/appSlice";
 import { useSelector } from "react-redux";
 import { CountrySliceType } from "../types/slices/CountrySliceType";
-import { useAppDispatch } from "../hooks/hooks";
-import StyleOutlinedIcon from "@mui/icons-material/StyleOutlined";
+import { useAppDispatch, useAppSelector } from "../hooks/hooks";
+import LuggageIcon from "@mui/icons-material/Luggage";
+import { useEffect } from "react";
 
 export const NavBar = () => {
+  const userData = useAppSelector((state) => state.User.selectedUser);
+
   const dispatch = useAppDispatch();
 
   const handleOnClick = () => {
@@ -27,6 +26,16 @@ export const NavBar = () => {
   const loading = useSelector(
     (state: CountrySliceType) => state.Country.loading
   );
+
+  function stringAvatar(name: string) {
+    return {
+      children: `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`,
+    };
+  }
+
+  useEffect(() => {
+    console.log(userData);
+  }, [userData]);
 
   return (
     <Box className={styles.appBarComp} sx={{ flexGrow: 1 }}>
@@ -46,7 +55,13 @@ export const NavBar = () => {
             Passportyfy
           </Typography>
 
-          <Button startIcon={<StyleOutlinedIcon />}></Button>
+          <Badge
+            badgeContent={userData.countriesVisited.length}
+            color="secondary"
+          >
+            <Button startIcon={<LuggageIcon />}></Button>
+          </Badge>
+
           {/* 
           <Button
             className={styles.addBtnSpecial}
@@ -54,12 +69,12 @@ export const NavBar = () => {
           >
             Add Location
           </Button> */}
-
-          <Avatar
-            sx={{ ml: "20px" }}
-            alt="Profile"
-            src="https://mui.com/static/images/avatar/2.jpg"
-          />
+          {userData.nameFirst.length > 0 && (
+            <Avatar
+              sx={{ bgColor: "red", width: 40, height: 40 }}
+              {...stringAvatar(`${userData.nameFirst} ${userData.nameLast}`)}
+            />
+          )}
         </Toolbar>
       </AppBar>
       {loading && (

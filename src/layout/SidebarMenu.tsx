@@ -9,7 +9,7 @@ import ListItemText from "@mui/material/ListItemText";
 import { menuStrucutre } from "./MenuStructure";
 import { NavLink } from "react-router-dom";
 import styles from "../styles/SidebarMenu.module.scss";
-import { Button, ClickAwayListener } from "@mui/material";
+import { Button } from "@mui/material";
 import { toggleMenuVisibility } from "../store/appSlice";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import LogoutIcon from "@mui/icons-material/Logout";
@@ -36,6 +36,7 @@ export const SidebarMenu = () => {
   return (
     <Box sx={{ display: "flex" }}>
       <Drawer
+        className={styles.sidebar}
         ModalProps={
           {
             // onBackdropClick: handleOnClick,
@@ -48,6 +49,7 @@ export const SidebarMenu = () => {
           "& .MuiDrawer-paper": {
             width: drawerWidth,
             boxSizing: "border-box",
+            backgroundColor: "#0b2948",
           },
         }}
         variant="temporary"
@@ -70,16 +72,23 @@ export const SidebarMenu = () => {
                 }
               >
                 <ListItemButton>
-                  <ListItemIcon>{item.icon}</ListItemIcon>
+                  <ListItemIcon sx={{ minWidth: "40px", color: "#59CFFF" }}>
+                    {item.icon}
+                  </ListItemIcon>
                   <ListItemText primary={item.text} />
                 </ListItemButton>
               </NavLink>
             </ListItem>
           ))}
           <ListItem key={"logout"} disablePadding>
-            <NavLink to={"/"}>
+            <NavLink
+              to={"/logout"}
+              className={({ isActive }) =>
+                isActive ? `${styles.active} ${styles.link}` : `${styles.link}`
+              }
+            >
               <ListItemButton>
-                <ListItemIcon>
+                <ListItemIcon sx={{ minWidth: "40px", color: "#59CFFF" }}>
                   <LogoutIcon />
                 </ListItemIcon>
                 <ListItemText primary={"Logout"} />
@@ -88,7 +97,6 @@ export const SidebarMenu = () => {
           </ListItem>
         </List>
       </Drawer>
-      {/* <Outlet /> */}
     </Box>
   );
 };

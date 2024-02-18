@@ -1,3 +1,15 @@
-.active {
-  color: red !important;
+.link {
+  width: 100%;
+  text-decoration: none;
+  color: #8ba1b7;
+  transition: background-color 0.3s ease-out;
+  &:hover {
+    background-color: #00458b;
+  }
+  &.active {
+    background-color: #00458b;
+    :global(.MuiTypography-root) {
+      // color: red;
+    }
+  }
 }
