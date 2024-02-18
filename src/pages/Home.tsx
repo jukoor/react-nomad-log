@@ -1,5 +1,5 @@
-import Map from "../components/Map";
+import { MapContainer } from "../components/MapContainer";
 
 export const Home = () => {
-  return <Map />;
+  return <MapContainer />;
 };

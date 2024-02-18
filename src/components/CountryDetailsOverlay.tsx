@@ -75,9 +75,15 @@ export const CountryDetailsOverlay = () => {
     timezones: string[];
   }
 
-  const TimezoneCollapse = ({ timezones }: TimezoneCollapseProps) => {
-    console.log(timezones);
+  useEffect(() => {
+    if (selectedCountry) {
+      console.log(selectedCountry);
+    }
+  }, [selectedCountry]);
 
+  // Todo: Flag, Currencies
+
+  const TimezoneCollapse = ({ timezones }: TimezoneCollapseProps) => {
     return (
       <>
         {timezones.length > 1 ? (
@@ -136,9 +142,9 @@ export const CountryDetailsOverlay = () => {
     );
   };
 
-  useEffect(() => {
-    console.log(selectedCountry);
-  }, [selectedCountry]);
+  // useEffect(() => {
+  //   console.log(selectedCountry);
+  // }, [selectedCountry]);
 
   useEffect(() => {
     if (selectedCountry) {
@@ -232,14 +238,14 @@ export const CountryDetailsOverlay = () => {
           label: "Coat of Arms",
           content: (
             <>
-              <IconButton
-                aria-label="Enlarge Coat of Arms"
-                title="Enlarge Coat of Arms"
-                onClick={handleOpenDialog}
-                sx={{ marginRight: "5px" }}
-              >
-                <ZoomInIcon />
-              </IconButton>
+              <Tooltip title="Enlarge Coat of Arms">
+                <IconButton
+                  onClick={handleOpenDialog}
+                  sx={{ marginRight: "5px" }}
+                >
+                  <ZoomInIcon />
+                </IconButton>
+              </Tooltip>
               <img
                 src={selectedCountry.coatOfArms.svg}
                 className={styles.coatOfArms}
@@ -287,7 +293,7 @@ export const CountryDetailsOverlay = () => {
         <div className={styles.header}>
           <Typography variant="h5">
             <span className={styles.headerEmoji}>{selectedCountry?.flag}</span>
-            {selectedCountry?.name.common}
+            {selectedCountry?.name.official}
           </Typography>
           <IconButton
             color="secondary"
@@ -321,11 +327,21 @@ export const CountryDetailsOverlay = () => {
           {selectedCountry?.flag} {selectedCountry?.name.common}: Coat of Arms
         </DialogTitle>
 
-        <DialogContent sx={{ margin: "20px" }}>
+        <DialogContent
+          sx={{
+            margin: "20px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           <img
             src={selectedCountry?.coatOfArms.svg}
             alt="Coat of Arms"
-            style={{ maxWidth: "100%", height: "auto" }}
+            style={{
+              maxWidth: "100%",
+              objectFit: "contain",
+            }}
           />
         </DialogContent>
         <DialogActions>

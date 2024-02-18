@@ -13,11 +13,6 @@ import { UserType } from "../types/UserType";
 import { useCallback, useEffect } from "react";
 import firebase from "firebase/compat/app";
 
-// Annahme: Du hast bereits den Benutzer-UID (z. B. aus der Authentifizierung)
-export const updateCountriesVisitedFb = (countryToAdd: string) => {
-  const userData = useAppSelector((state) => state.User.selectedUser);
-};
-
 export const loadUserFromFirebase = (userId: string) => {
   const dispatch = useAppDispatch();
   useEffect(() => {
@@ -28,7 +23,6 @@ export const loadUserFromFirebase = (userId: string) => {
           const docSnap = await getDoc(docRef);
 
           if (docSnap.exists()) {
-            console.log("works");
             dispatch(setSelectedUser(docSnap.data() as UserType));
           } else {
             console.log("Document does not exist");

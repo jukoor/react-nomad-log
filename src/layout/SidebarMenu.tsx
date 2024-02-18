@@ -6,7 +6,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import { menuStrucutre } from "./MenuStructure";
+import { menuStructure } from "./MenuStructure";
 import { NavLink } from "react-router-dom";
 import styles from "../styles/SidebarMenu.module.scss";
 import { Button } from "@mui/material";
@@ -61,8 +61,8 @@ export const SidebarMenu = () => {
         <AvatarBox />
 
         <List>
-          {menuStrucutre.map((item) => (
-            <ListItem key={item.id} disablePadding>
+          {menuStructure.map((item) => (
+            <ListItem onClick={handleOnClick} key={item.id} disablePadding>
               <NavLink
                 to={item.target}
                 className={({ isActive }) =>

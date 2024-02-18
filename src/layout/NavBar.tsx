@@ -33,10 +33,6 @@ export const NavBar = () => {
     };
   }
 
-  useEffect(() => {
-    console.log(userData);
-  }, [userData]);
-
   return (
     <Box className={styles.appBarComp} sx={{ flexGrow: 1 }}>
       <AppBar className={styles.appBar} position="static" color="transparent">

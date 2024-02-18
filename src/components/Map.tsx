@@ -1,61 +1,30 @@
 import * as am5 from "@amcharts/amcharts5";
 import * as am5map from "@amcharts/amcharts5/map";
+import am5geodata_data_countries2 from "@amcharts/amcharts5-geodata/data/countries2";
 import am5geodata_worldLow from "@amcharts/amcharts5-geodata/worldLow";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
-import { useEffect, useLayoutEffect, useState } from "react";
 import { DataItem } from "@amcharts/amcharts5";
-import { IMapPolygonSeriesDataItem } from "@amcharts/amcharts5/map";
 import { IComponentDataItem } from "@amcharts/amcharts5/.internal/core/render/Component";
-import styles from "../styles/Map.module.scss";
-import { useAppDispatch, useAppSelector } from "../hooks/hooks";
+import { IMapPolygonSeriesDataItem } from "@amcharts/amcharts5/map";
+import { useLayoutEffect } from "react";
 import {
-  updateCountriesVisitedFb,
-  loadUserFromFirebase,
-} from "../services/firebaseHelper";
-import am5geodata_data_countries2 from "@amcharts/amcharts5-geodata/data/countries2";
-import { Alert, AlertColor, Button, Typography } from "@mui/material";
+  setSelectedCountry,
+  clearSelectedCountry,
+} from "../store/countrySlice";
 import {
   findCountryByCode,
   getEmojiFlagFromCc,
 } from "../utils/countryDataUtils";
-import AddIcon from "@mui/icons-material/Add";
-import FormatColorFillIcon from "@mui/icons-material/FormatColorFill";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import {
-  clearSelectedCountry,
-  setSelectedCountry,
-} from "../store/countrySlice";
-import { toggleCountryDetailsOverlay } from "../store/appSlice";
-import { addCountryVisited, setSelectedUser } from "../store/userSlice";
-import firebase from "firebase/app";
-import "firebase/database";
-import { db } from "../services/firebaseConfig";
-import { arrayUnion, doc, getDoc, updateDoc } from "firebase/firestore";
-import Snackbar from "@mui/material/Snackbar";
-import { UserType } from "../types/UserType";
+import { useAppDispatch, useAppSelector } from "../hooks/hooks";
+import styles from "../styles/Map.module.scss";
 
 type CountryCode = string;
 
 export const Map = () => {
   const dispatch = useAppDispatch();
 
-  const countryData = useAppSelector((state) => state.Country.countries);
   const userData = useAppSelector((state) => state.User.selectedUser);
-  const selectedCountry = useAppSelector(
-    (state) => state.Country.selectedCountry
-  );
-
-  const [countryDetailView, setCountryDetailView] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState("");
-  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
-
-  useEffect(() => {
-    if (userData) {
-      console.log(userData.countriesVisited);
-    }
-  }, [userData]);
-
-  loadUserFromFirebase("8pVS1cDjBszgEUE0aug8");
+  const countryData = useAppSelector((state) => state.Country.countries);
 
   useLayoutEffect(() => {
     const root = am5.Root.new("map");
@@ -81,7 +50,29 @@ export const Map = () => {
       })
     );
 
-    chart.set("zoomControl", am5map.ZoomControl.new(root, {}));
+    const zoomCtrl = am5map.ZoomControl.new(root, {});
+    // const { minusButton, plusButton } = zoomCtrl;
+
+    // if (plusButton && plusButton.get("background")) {
+    //   plusButton.set("cursorOverStyle", "pointer");
+    //   const background = plusButton.get("background");
+    //   if (background) {
+    //     background.setAll({
+    //       cornerRadiusTL: 0,
+    //       cornerRadiusTR: 0,
+    //       cornerRadiusBR: 0,
+    //       cornerRadiusBL: 0,
+    //       fill: am5.color(0xe3e3e3),
+    //       fillOpacity: 0.7,
+    //     });
+    //   }
+    // }
+
+    // minusButton.set("cursorOverStyle", "pointer");
+
+    chart.set("zoomControl", zoomCtrl);
+
+    // const zoomControl = chart.set("zoomControl", am5map.ZoomControl.new(root, {}));
 
     // Create polygon series
     const worldSeries = chart.series.push(
@@ -92,7 +83,6 @@ export const Map = () => {
     );
 
     worldSeries.mapPolygons.template.setAll({
-      // tooltipText: "{emoji} {name}",
       tooltipHTML:
         "<span class='mapTooltipEmoji'>{emoji}</span> <span class='mapTooltipText'>{name}</span>",
       interactive: true,
@@ -160,7 +150,6 @@ export const Map = () => {
                   dispatch(
                     setSelectedCountry(findCountryByCode(data.id, countryData))
                   );
-                  setCountryDetailView(true);
                 } else {
                   // Handle the case where data or data.polygonSettings is undefined
                   // You might want to set a default fill color or handle the error appropriately
@@ -192,16 +181,6 @@ export const Map = () => {
       fill: colors.getIndex(9),
     });
 
-    // let continents: { [key: string]: number } = {
-    //   AF: 0,
-    //   AN: 1,
-    //   AS: 2,
-    //   EU: 3,
-    //   NA: 4,
-    //   OC: 5,
-    //   SA: 6,
-    // };
-
     // Set up data for countries
     let data = [];
     for (let id in am5geodata_data_countries2) {
@@ -222,13 +201,9 @@ export const Map = () => {
     }
     worldSeries.data.setAll(data);
 
-    worldSeries.mapPolygons.template.events.on("pointerover", function (ev) {
+    worldSeries.mapPolygons.template.events.on("pointerover", function () {
       document.body.style.cursor = "pointer";
     });
-
-    // series.columns.template.events.on("pointerout", function (ev) {
-    //     document.body.style.cursor = "default";
-    // });
 
     // Add back button
     const backButton = chart.children.push(
@@ -243,7 +218,6 @@ export const Map = () => {
     );
 
     backButton.events.on("click", function () {
-      setCountryDetailView(false);
       chart.goHome();
       worldSeries.show();
       countrySeries.hide();
@@ -253,90 +227,5 @@ export const Map = () => {
 
     return () => root.dispose();
   }, [userData]);
-
-  const handleClose = (
-    event?: React.SyntheticEvent | Event,
-    reason?: string
-  ) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    setSnackbarMessage(""); // Clear the message when the Snackbar is closed
-  };
-
-  const handleAddCountryVisitedClick = () => {
-    if (selectedCountry?.cca2) {
-      // Add new country to firebase and redux
-      dispatch(addCountryVisited(selectedCountry?.cca2));
-
-      const usersColRef = doc(db, "users", userData.uid);
-      updateDoc(usersColRef, {
-        countriesVisited: arrayUnion(selectedCountry?.cca2),
-      })
-        .then((response) => {
-          setSnackbarMessage(" successfully added.");
-          setSnackbarSeverity("success");
-        })
-        .catch((error) => {
-          setSnackbarMessage(" could not be added.");
-          setSnackbarSeverity("error");
-        });
-    }
-  };
-
-  return (
-    <>
-      <div className={styles.mapContainer}>
-        {countryDetailView && (
-          <>
-            <div className={styles.selectedCountryName}>
-              {/* <Typography variant="h4">{selectedCountry?.name}</Typography> */}
-            </div>
-            <div className={styles.mapActions}>
-              <Button
-                onClick={handleAddCountryVisitedClick}
-                variant="contained"
-                startIcon={<AddIcon />}
-              >
-                Add Country
-              </Button>
-              <Button
-                onClick={() => dispatch(toggleCountryDetailsOverlay())}
-                variant="outlined"
-                startIcon={<FormatColorFillIcon />}
-              >
-                Add to Bucketlist
-              </Button>
-              <Button
-                onClick={() => dispatch(toggleCountryDetailsOverlay())}
-                variant="outlined"
-                startIcon={<InfoOutlinedIcon />}
-              >
-                Country Info
-              </Button>
-            </div>
-          </>
-        )}
-        <div className={styles.map} id="map"></div>
-        <Snackbar
-          open={snackbarMessage !== ""}
-          autoHideDuration={6000}
-          onClose={handleClose}
-        >
-          <Alert
-            onClose={handleClose}
-            severity={snackbarSeverity as AlertColor}
-            variant="filled"
-            sx={{ width: "100%" }}
-          >
-            <span className={styles.scsMsgEmoji}>{selectedCountry?.flag}</span>
-            {selectedCountry?.name.common}: {snackbarMessage}
-          </Alert>
-        </Snackbar>
-      </div>
-    </>
-  );
+  return <div className={styles.map} id="map"></div>;
 };
-
-export default Map;
