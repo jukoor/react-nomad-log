@@ -11,10 +11,7 @@ import {
   setSelectedCountry,
   clearSelectedCountry,
 } from "../store/countrySlice";
-import {
-  findCountryByCode,
-  getEmojiFlagFromCc,
-} from "../utils/countryDataUtils";
+import { getCountryData, getEmojiFlag } from "../utils/countryDataUtils";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import styles from "../styles/Map.module.scss";
 
@@ -147,9 +144,7 @@ export const Map = () => {
                     fill: data.polygonSettings.fill,
                   });
 
-                  dispatch(
-                    setSelectedCountry(findCountryByCode(data.id, countryData))
-                  );
+                  dispatch(setSelectedCountry(getCountryData(data.id)));
                 } else {
                   // Handle the case where data or data.polygonSettings is undefined
                   // You might want to set a default fill color or handle the error appropriately
@@ -189,7 +184,7 @@ export const Map = () => {
         if (country.maps.length) {
           data.push({
             id: id,
-            emoji: getEmojiFlagFromCc(id),
+            emoji: getEmojiFlag(id),
             map: country.maps[0],
             polygonSettings: {
               // fill: colors.getIndex(continents[country.continent_code]),

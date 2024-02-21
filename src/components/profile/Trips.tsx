@@ -2,7 +2,7 @@ import { Card, CardContent, List, ListItem, Typography } from "@mui/material";
 
 export const Trips = () => {
   return (
-    <Card sx={{ minWidth: 275 }}>
+    <Card>
       <CardContent>
         <Typography
           variant="h5"
