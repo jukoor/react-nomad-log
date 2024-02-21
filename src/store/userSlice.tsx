@@ -3,6 +3,7 @@ import { UserType } from "../types/UserType";
 
 export type UserState = {
   selectedUser: UserType;
+  loading: boolean;
 };
 
 export const userSlice = createSlice({
@@ -19,26 +20,41 @@ export const userSlice = createSlice({
       nationality: "",
       countriesVisited: [],
     },
+    loading: false,
   } as UserState,
   reducers: {
+    setLoading: (state, action) => {
+      var value = action.payload as boolean;
+      state.loading = value;
+    },
     setSelectedUser: (state, action) => {
       state.selectedUser = {
         ...state.selectedUser,
         ...action.payload,
       };
     },
-    // Add visited country to redux store and to firebase db
     addCountryVisited: (state, action) => {
       const countryToAdd = action.payload as string;
-      console.log(countryToAdd);
       state.selectedUser.countriesVisited = [
         ...state.selectedUser.countriesVisited,
         countryToAdd,
       ];
     },
+    removeCountryVisited: (state, action) => {
+      const countryToRemove = action.payload as string;
+      state.selectedUser.countriesVisited =
+        state.selectedUser.countriesVisited.filter(
+          (country) => country !== countryToRemove
+        );
+    },
   },
 });
 
-export const { setSelectedUser, addCountryVisited } = userSlice.actions;
+export const {
+  setSelectedUser,
+  addCountryVisited,
+  removeCountryVisited,
+  setLoading,
+} = userSlice.actions;
 
 export default userSlice.reducer;

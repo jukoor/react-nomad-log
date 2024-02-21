@@ -8,25 +8,27 @@ import MenuIcon from "@mui/icons-material/Menu";
 import styles from "../styles/NavBar.module.scss";
 import { Avatar, Badge, LinearProgress } from "@mui/material";
 import { toggleMenuVisibility } from "../store/appSlice";
-import { useSelector } from "react-redux";
-import { CountrySliceType } from "../types/slices/CountrySliceType";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import LuggageIcon from "@mui/icons-material/Luggage";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export const NavBar = () => {
-  const userData = useAppSelector((state) => state.User.selectedUser);
-
   const dispatch = useAppDispatch();
+
+  const userData = useAppSelector((state) => state.User);
+  const countryData = useAppSelector((state) => state.Country);
+  const selectedUser = userData.selectedUser;
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setLoading(userData.loading || countryData.loading);
+  }, [userData.loading, countryData.loading]);
 
   const handleOnClick = () => {
     dispatch(toggleMenuVisibility());
   };
 
-  const loading = useSelector(
-    (state: CountrySliceType) => state.Country.loading
-  );
-
+  // Display first letter of first and last name as Avatar
   function stringAvatar(name: string) {
     return {
       children: `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`,
@@ -52,7 +54,7 @@ export const NavBar = () => {
           </Typography>
 
           <Badge
-            badgeContent={userData.countriesVisited.length}
+            badgeContent={selectedUser.countriesVisited.length}
             color="secondary"
           >
             <Button startIcon={<LuggageIcon />}></Button>
@@ -65,16 +67,18 @@ export const NavBar = () => {
           >
             Add Location
           </Button> */}
-          {userData.nameFirst.length > 0 && (
+          {selectedUser.nameFirst.length > 0 && (
             <Avatar
               sx={{ bgColor: "red", width: 40, height: 40 }}
-              {...stringAvatar(`${userData.nameFirst} ${userData.nameLast}`)}
+              {...stringAvatar(
+                `${selectedUser.nameFirst} ${selectedUser.nameLast}`
+              )}
             />
           )}
         </Toolbar>
       </AppBar>
       {loading && (
-        <Box sx={{ width: "100%" }}>
+        <Box className={styles.navbarLoading}>
           <LinearProgress />
         </Box>
       )}

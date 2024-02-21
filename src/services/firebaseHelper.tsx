@@ -7,7 +7,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { db } from "./firebaseConfig";
-import { setSelectedUser } from "../store/userSlice";
+import { setLoading, setSelectedUser } from "../store/userSlice";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import { UserType } from "../types/UserType";
 import { useCallback, useEffect } from "react";
@@ -15,8 +15,10 @@ import firebase from "firebase/compat/app";
 
 export const loadUserFromFirebase = (userId: string) => {
   const dispatch = useAppDispatch();
+
   useEffect(() => {
     const loadUserData = async () => {
+      dispatch(setLoading(true)); // Set loading state to true before fetching data
       if (userId) {
         try {
           const docRef = doc(db, "users", userId);
@@ -27,9 +29,10 @@ export const loadUserFromFirebase = (userId: string) => {
           } else {
             console.log("Document does not exist");
           }
-          // No need to return anything here
         } catch (error) {
           console.log(error);
+        } finally {
+          dispatch(setLoading(false)); // Set loading to false after fetching
         }
       }
     };

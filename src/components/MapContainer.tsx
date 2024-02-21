@@ -7,10 +7,10 @@ import AddIcon from "@mui/icons-material/Add";
 import FormatColorFillIcon from "@mui/icons-material/FormatColorFill";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { toggleCountryDetailsOverlay } from "../store/appSlice";
-import { addCountryVisited } from "../store/userSlice";
+import { addCountryVisited, removeCountryVisited } from "../store/userSlice";
 import "firebase/database";
 import { db } from "../services/firebaseConfig";
-import { arrayUnion, doc, updateDoc } from "firebase/firestore";
+import { arrayRemove, arrayUnion, doc, updateDoc } from "firebase/firestore";
 import { Map } from "./Map";
 import { SnackMessage, SnackMessageProps } from "./SnackMessage";
 
@@ -31,37 +31,48 @@ export const MapContainer = () => {
 
   loadUserFromFirebase(dummyUserId);
 
-  const handleAddCountryVisitedClick = () => {
-    // Add new country to firebase and redux
-    dispatch(addCountryVisited(selectedCountry?.cca2));
+  const toggleCountryVisited = (action: String) => {
+    const operation = action === "add" ? arrayUnion : arrayRemove;
+    const messageSuccess =
+      action === "add" ? "successfully added." : "successfully removed.";
+    const messageError =
+      action === "add" ? "could not be added." : "could not be removed.";
+    console.log(action);
+    console.log(messageSuccess);
+    const countryActionCode =
+      action === "add" ? addCountryVisited : removeCountryVisited;
+
+    dispatch(countryActionCode(selectedCountry?.cca2));
 
     const usersColRef = doc(db, "users", userData.uid);
     updateDoc(usersColRef, {
-      countriesVisited: arrayUnion(selectedCountry?.cca2),
+      countriesVisited: operation(selectedCountry?.cca2),
     })
       // @ts-ignore
       .then((response) => {
         setSnackbarOptions({
-          message: `${selectedCountry?.flag}  ${selectedCountry?.name.common} successfully added.`,
+          message: `${selectedCountry?.flag}${"  "}${
+            selectedCountry?.name.common
+          } ${messageSuccess}`,
           severity: "success",
         });
       }) // @ts-ignore
       .catch((error) => {
         setSnackbarOptions({
-          message: `${selectedCountry?.flag}  ${selectedCountry?.name.common} could not be added.`,
+          message: `${selectedCountry?.flag}  ${selectedCountry?.name.common} ${messageError}`,
           severity: "error",
         });
       });
   };
-
-  const handleRemoveCountryVisitedClick = () => {};
 
   const MapButtons = () => {
     return (
       <div className={styles.mapActions}>
         {userData.countriesVisited.includes(selectedCountry?.cca2 || "") ? (
           <Button
-            onClick={handleRemoveCountryVisitedClick}
+            onClick={() => {
+              toggleCountryVisited("remove");
+            }}
             variant="contained"
             startIcon={<AddIcon />}
           >
@@ -69,7 +80,9 @@ export const MapContainer = () => {
           </Button>
         ) : (
           <Button
-            onClick={handleAddCountryVisitedClick}
+            onClick={() => {
+              toggleCountryVisited("add");
+            }}
             variant="contained"
             startIcon={<AddIcon />}
           >

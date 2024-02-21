@@ -13,6 +13,8 @@ import { Button } from "@mui/material";
 import { toggleMenuVisibility } from "../store/appSlice";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import LogoutIcon from "@mui/icons-material/Logout";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
 
 export const SidebarMenu = () => {
   const dispatch = useAppDispatch();
@@ -26,9 +28,20 @@ export const SidebarMenu = () => {
   };
 
   const AvatarBox = () => {
+    const currentHour = new Date().getHours();
+    const welcomeText =
+      currentHour < 8
+        ? "Good Morning"
+        : currentHour < 16
+        ? "Good Afternoon"
+        : "Good Evening";
+
     return (
       <div>
-        {user.nameFirst} {user.nameLast}
+        <div className={styles.welcomeText}>{welcomeText},</div>
+        <div>
+          {user.nameFirst} {user.nameLast}
+        </div>
       </div>
     );
   };
@@ -55,7 +68,15 @@ export const SidebarMenu = () => {
         variant="temporary"
         anchor="left"
       >
-        <Button onClick={handleOnClick}>Close</Button>
+        <IconButton
+          color="secondary"
+          aria-label="Close Sidebar"
+          title="Close Sidebar"
+          sx={{ alignSelf: "flex-end" }}
+          onClick={handleOnClick}
+        >
+          <CloseIcon />
+        </IconButton>
         <Divider />
 
         <AvatarBox />
