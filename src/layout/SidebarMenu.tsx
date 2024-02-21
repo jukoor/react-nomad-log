@@ -37,12 +37,12 @@ export const SidebarMenu = () => {
         : "Good Evening";
 
     return (
-      <div>
+      <Box sx={{ padding: "20px" }}>
         <div className={styles.welcomeText}>{welcomeText},</div>
-        <div>
+        <div className={styles.name}>
           {user.nameFirst} {user.nameLast}
         </div>
-      </div>
+      </Box>
     );
   };
 
@@ -50,12 +50,8 @@ export const SidebarMenu = () => {
     <Box sx={{ display: "flex" }}>
       <Drawer
         className={styles.sidebar}
-        ModalProps={
-          {
-            // onBackdropClick: handleOnClick,
-          }
-        }
         open={menuVisibility}
+        onClose={handleOnClick}
         sx={{
           width: drawerWidth,
           flexShrink: 0,
@@ -65,7 +61,6 @@ export const SidebarMenu = () => {
             backgroundColor: "#0b2948",
           },
         }}
-        variant="temporary"
         anchor="left"
       >
         <IconButton
