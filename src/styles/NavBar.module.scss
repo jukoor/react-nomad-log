@@ -46,4 +46,23 @@
     z-index: 1;
     width: 100%;
   }
+
+  .link {
+    text-decoration: none;
+    border-radius: 50%;
+
+    .avatar {
+      width: 35px;
+      height: 35px;
+      font-size: 16px;
+      background: $color-pink;
+    }
+
+    &.active,
+    &:hover {
+      .avatar {
+        border: 1px solid #fff;
+      }
+    }
+  }
 }

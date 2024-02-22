@@ -63,7 +63,7 @@ export const SidebarMenu = () => {
         anchor="left"
       >
         <IconButton
-          color="secondary"
+          color="primary"
           aria-label="Close Sidebar"
           title="Close Sidebar"
           sx={{ alignSelf: "flex-end" }}

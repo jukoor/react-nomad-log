@@ -5,7 +5,9 @@ import axios from "axios";
 export const fetchAllCountriesData = createAsyncThunk(
   "countries/fetchCountries",
   async () => {
-    const response = await axios.get("https://restcountries.com/v3.1/all");
+    const response = await axios.get(
+      "https://restcountries.com/v3.1/independent?status=true"
+    );
 
     return response.data;
   }

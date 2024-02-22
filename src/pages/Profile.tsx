@@ -67,7 +67,7 @@ export const Profile = () => {
               <Stack spacing={2}>
                 <Bio />
                 <CountriesVisited />
-                <ContinentsVisited />
+                {/* <ContinentsVisited /> */}
                 <BucketList />
                 <Trips />
               </Stack>

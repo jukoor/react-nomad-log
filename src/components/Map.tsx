@@ -5,8 +5,8 @@ import am5geodata_worldLow from "@amcharts/amcharts5-geodata/worldLow";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
 import { DataItem } from "@amcharts/amcharts5";
 import { IComponentDataItem } from "@amcharts/amcharts5/.internal/core/render/Component";
-import { IMapPolygonSeriesDataItem } from "@amcharts/amcharts5/map";
-import { useLayoutEffect } from "react";
+import { IMapPolygonSeriesDataItem, MapChart } from "@amcharts/amcharts5/map";
+import { useEffect, useLayoutEffect, useRef } from "react";
 import {
   setSelectedCountry,
   clearSelectedCountry,
@@ -14,6 +14,7 @@ import {
 import { getCountryData, getEmojiFlag } from "../utils/countryDataUtils";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import styles from "../styles/Map.module.scss";
+import { toggleCountryActionsBar } from "../store/appSlice";
 
 type CountryCode = string;
 
@@ -22,6 +23,19 @@ export const Map = () => {
 
   const userData = useAppSelector((state) => state.User.selectedUser);
   const countryData = useAppSelector((state) => state.Country.countries);
+  const actionBarOpen = useAppSelector(
+    (state) => state.App.countryActionsBarOpen
+  );
+
+  const chartRef = useRef<MapChart>();
+  const worldSeriesRef = useRef<am5map.MapPolygonSeries>();
+  const countrySeriesRef = useRef<am5map.MapPolygonSeries>();
+
+  useEffect(() => {
+    return () => {
+      dispatch(clearSelectedCountry());
+    };
+  }, []);
 
   useLayoutEffect(() => {
     const root = am5.Root.new("map");
@@ -29,12 +43,21 @@ export const Map = () => {
 
     // Define a mapping of country ISO codes to colors
     const countryColors: any = {};
-    const visitedCountriesColor = am5.color(0x009876); // Specified color for visited countries
+    const bucketListColors: any = {};
+
+    const visitedCountriesColor = am5.color("#009876");
+    const bucketListColor = am5.color("#FFC107");
 
     // Assign the specified color to all visited countries
     if (userData.countriesVisited) {
-      userData.countriesVisited.forEach((countryCode: CountryCode) => {
-        countryColors[countryCode] = visitedCountriesColor;
+      userData.countriesVisited.forEach((country: CountryCode) => {
+        countryColors[country] = visitedCountriesColor;
+      });
+    }
+
+    if (userData.bucketList) {
+      userData.bucketList.forEach((country: CountryCode) => {
+        bucketListColors[country] = bucketListColor;
       });
     }
 
@@ -50,8 +73,6 @@ export const Map = () => {
     const zoomCtrl = am5map.ZoomControl.new(root, {});
 
     // minusButton.set("cursorOverStyle", "pointer");
-
-    const zoomMinusBtn = zoomCtrl.minusButton;
 
     chart.set("zoomControl", zoomCtrl);
 
@@ -89,6 +110,9 @@ export const Map = () => {
           const countryId = polygon.dataItem.dataContext.id as CountryCode;
           if (countryColors[countryId]) {
             polygon.set("fill", countryColors[countryId]);
+          }
+          if (bucketListColors[countryId]) {
+            polygon.set("fill", bucketListColors[countryId]);
           }
         }
       });
@@ -138,7 +162,6 @@ export const Map = () => {
 
                 countrySeries.show();
                 worldSeries.hide(100);
-                backButton.show();
               }
             }
           );
@@ -186,27 +209,23 @@ export const Map = () => {
       document.body.style.cursor = "pointer";
     });
 
-    // Add back button
-    const backButton = chart.children.push(
-      am5.Button.new(root, {
-        x: am5.percent(1),
-        dy: 10,
-        label: am5.Label.new(root, {
-          text: "Back",
-        }),
-        visible: false,
-      })
-    );
-
-    backButton.events.on("click", function () {
-      chart.goHome();
-      worldSeries.show();
-      countrySeries.hide();
-      backButton.hide();
-      dispatch(clearSelectedCountry());
-    });
+    // Set refs to make elements accessible
+    chartRef.current = chart;
+    worldSeriesRef.current = worldSeries;
+    countrySeriesRef.current = countrySeries;
 
     return () => root.dispose();
   }, [userData]);
+
+  useLayoutEffect(() => {
+    if (actionBarOpen) {
+      chartRef.current?.goHome();
+      worldSeriesRef.current?.show();
+      countrySeriesRef.current?.hide();
+      dispatch(clearSelectedCountry());
+      dispatch(toggleCountryActionsBar(false));
+    }
+  }, [actionBarOpen]);
+
   return <div className={styles.map} id="map"></div>;
 };

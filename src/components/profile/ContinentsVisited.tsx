@@ -26,7 +26,7 @@ export const ContinentsVisited = () => {
           color="text.secondary"
           gutterBottom
         >
-          Bucket List
+          Continents visited
         </Typography>
         <Typography variant="h5" letterSpacing={20}>
           {/* {uniqueContinents().map((continent) => (

@@ -2,15 +2,14 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import styles from "../styles/NavBar.module.scss";
 import { Avatar, Badge, LinearProgress } from "@mui/material";
 import { toggleMenuVisibility } from "../store/appSlice";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
-import LuggageIcon from "@mui/icons-material/Luggage";
 import { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
 
 export const NavBar = () => {
   const dispatch = useAppDispatch();
@@ -50,30 +49,28 @@ export const NavBar = () => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Passportyfy
+            Nomad Map
           </Typography>
 
-          <Badge
-            badgeContent={selectedUser.countriesVisited.length}
-            color="secondary"
-          >
-            <Button startIcon={<LuggageIcon />}></Button>
-          </Badge>
-
-          {/* 
-          <Button
-            className={styles.addBtnSpecial}
-            onClick={() => dispatch(setCountrySelectDialogOpen(true))}
-          >
-            Add Location
-          </Button> */}
           {selectedUser.nameFirst.length > 0 && (
-            <Avatar
-              sx={{ bgColor: "red", width: 40, height: 40 }}
-              {...stringAvatar(
-                `${selectedUser.nameFirst} ${selectedUser.nameLast}`
-              )}
-            />
+            // <Badge
+            //   badgeContent={selectedUser.countriesVisited.length}
+            //   color="secondary"
+            // >
+            <NavLink
+              to="/profile/8pVS1cDjBszgEUE0aug8"
+              className={({ isActive }) =>
+                isActive ? `${styles.active} ${styles.link}` : `${styles.link}`
+              }
+            >
+              <Avatar
+                className={styles.avatar}
+                {...stringAvatar(
+                  `${selectedUser.nameFirst} ${selectedUser.nameLast}`
+                )}
+              />
+            </NavLink>
+            // </Badge>
           )}
         </Toolbar>
       </AppBar>

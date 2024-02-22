@@ -1,11 +1,14 @@
-import { Card, CardContent, Typography } from "@mui/material";
+import { Card, CardContent, List, ListItem, Typography } from "@mui/material";
 import { useContext } from "react";
 import { UserDataContext } from "../../pages/Profile";
 import { UserType } from "../../types/UserType";
-import { getEmojiFlag } from "../../utils/countryDataUtils";
+import styles from "../../styles/BucketList.module.scss";
+import { getCountryData, getEmojiFlag } from "../../utils/countryDataUtils";
+import { useAppSelector } from "../../hooks/hooks";
 
 export const BucketList = () => {
   const userData = useContext(UserDataContext) as UserType;
+  const countries = useAppSelector((state) => state.Country.countries);
 
   return (
     <Card sx={{ minWidth: 275 }}>
@@ -18,11 +21,20 @@ export const BucketList = () => {
         >
           Bucket List
         </Typography>
-        <Typography variant="h5" letterSpacing={20}>
+
+        <List component="ol" className={styles.orderedList}>
           {userData?.bucketList.map((item: any, index: any) => {
-            return <span key={index}>{getEmojiFlag(item)}</span>;
+            let countryName = getCountryData(item, countries);
+            return (
+              <ListItem key={`${item}_${index}`} className={styles.listItem}>
+                <span className={styles.flag}>{getEmojiFlag(item)}</span>
+                {countryName.name.common}
+              </ListItem>
+            );
           })}
-        </Typography>
+        </List>
+
+        <Typography variant="h5" letterSpacing={20}></Typography>
       </CardContent>
     </Card>
   );
