@@ -48,28 +48,12 @@ export const Map = () => {
     );
 
     const zoomCtrl = am5map.ZoomControl.new(root, {});
-    // const { minusButton, plusButton } = zoomCtrl;
-
-    // if (plusButton && plusButton.get("background")) {
-    //   plusButton.set("cursorOverStyle", "pointer");
-    //   const background = plusButton.get("background");
-    //   if (background) {
-    //     background.setAll({
-    //       cornerRadiusTL: 0,
-    //       cornerRadiusTR: 0,
-    //       cornerRadiusBR: 0,
-    //       cornerRadiusBL: 0,
-    //       fill: am5.color(0xe3e3e3),
-    //       fillOpacity: 0.7,
-    //     });
-    //   }
-    // }
 
     // minusButton.set("cursorOverStyle", "pointer");
 
-    chart.set("zoomControl", zoomCtrl);
+    const zoomMinusBtn = zoomCtrl.minusButton;
 
-    // const zoomControl = chart.set("zoomControl", am5map.ZoomControl.new(root, {}));
+    chart.set("zoomControl", zoomCtrl);
 
     // Create polygon series
     const worldSeries = chart.series.push(
@@ -144,7 +128,9 @@ export const Map = () => {
                     fill: data.polygonSettings.fill,
                   });
 
-                  dispatch(setSelectedCountry(getCountryData(data.id)));
+                  dispatch(
+                    setSelectedCountry(getCountryData(data.id, countryData))
+                  );
                 } else {
                   // Handle the case where data or data.polygonSettings is undefined
                   // You might want to set a default fill color or handle the error appropriately

@@ -30,14 +30,14 @@
 
 :global(.mapTooltipEmoji) {
   font-size: 26px;
-  line-height: 1;
+  line-height: 30px;
   display: inline-block;
   margin-right: 7px;
 }
 
 :global(.mapTooltipText) {
   font-size: 18px;
-  line-height: 1;
+  line-height: 20px;
   position: relative;
   display: inline-block;
   font-weight: 500;

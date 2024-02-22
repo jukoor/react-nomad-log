@@ -9,7 +9,6 @@ import ListItemText from "@mui/material/ListItemText";
 import { menuStructure } from "./MenuStructure";
 import { NavLink } from "react-router-dom";
 import styles from "../styles/SidebarMenu.module.scss";
-import { Button } from "@mui/material";
 import { toggleMenuVisibility } from "../store/appSlice";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import LogoutIcon from "@mui/icons-material/Logout";

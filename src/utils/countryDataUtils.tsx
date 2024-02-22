@@ -1,5 +1,3 @@
-import { useAppSelector } from "../hooks/hooks";
-
 /* Returns Emoji flag icon by country code */
 export const getEmojiFlag = (countryCode: string) => {
   const codePoints = countryCode
@@ -10,8 +8,6 @@ export const getEmojiFlag = (countryCode: string) => {
 };
 
 /* Searches all countries data to return the specific country data by countryCode input */
-export const getCountryData = (countryCode: string) => {
-  const allCountries = useAppSelector((state) => state.Country.countries);
-
+export const getCountryData = (countryCode: string, allCountries: any[]) => {
   return allCountries?.find((country) => country.cca2 === countryCode);
 };
