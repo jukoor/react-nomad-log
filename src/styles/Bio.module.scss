@@ -1,0 +1,14 @@
+.tags {
+  margin-bottom: 20px;
+}
+
+.tag {
+  margin-right: 10px;
+  font-weight: 500;
+
+  :global(.MuiChip-label) {
+    &::first-letter {
+      margin-right: 4px;
+    }
+  }
+}

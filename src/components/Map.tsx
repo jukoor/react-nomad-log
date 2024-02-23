@@ -205,9 +205,9 @@ export const Map = () => {
     }
     worldSeries.data.setAll(data);
 
-    worldSeries.mapPolygons.template.events.on("pointerover", function () {
-      document.body.style.cursor = "pointer";
-    });
+    // worldSeries.mapPolygons.template.events.on("pointerover", function () {
+    //   document.body.style.cursor = "pointer";
+    // });
 
     // Set refs to make elements accessible
     chartRef.current = chart;

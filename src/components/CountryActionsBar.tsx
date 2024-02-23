@@ -119,7 +119,7 @@ export const CountryActionsBar = () => {
           variant="outlined"
           startIcon={<InfoOutlinedIcon />}
         >
-          Infos
+          Details
         </Button>
       </div>
     );

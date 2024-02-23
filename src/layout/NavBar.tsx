@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import styles from "../styles/NavBar.module.scss";
-import { Avatar, Badge, LinearProgress } from "@mui/material";
+import { Avatar, LinearProgress, Link, Tooltip } from "@mui/material";
 import { toggleMenuVisibility } from "../store/appSlice";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import { useEffect, useState } from "react";
@@ -49,28 +49,27 @@ export const NavBar = () => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Nomad Map
+            <Link href="/" underline="none" color="inherit">
+              Nomad Map
+            </Link>
           </Typography>
 
           {selectedUser.nameFirst.length > 0 && (
-            // <Badge
-            //   badgeContent={selectedUser.countriesVisited.length}
-            //   color="secondary"
-            // >
             <NavLink
               to="/profile/8pVS1cDjBszgEUE0aug8"
               className={({ isActive }) =>
                 isActive ? `${styles.active} ${styles.link}` : `${styles.link}`
               }
             >
-              <Avatar
-                className={styles.avatar}
-                {...stringAvatar(
-                  `${selectedUser.nameFirst} ${selectedUser.nameLast}`
-                )}
-              />
+              <Tooltip title="Profile" arrow placement="left">
+                <Avatar
+                  className={styles.avatar}
+                  {...stringAvatar(
+                    `${selectedUser.nameFirst} ${selectedUser.nameLast}`
+                  )}
+                />
+              </Tooltip>
             </NavLink>
-            // </Badge>
           )}
         </Toolbar>
       </AppBar>

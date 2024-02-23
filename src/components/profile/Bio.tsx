@@ -11,6 +11,7 @@ import {
 import styles from "../../styles/Bio.module.scss";
 import { useContext } from "react";
 import { UserDataContext } from "../../pages/Profile";
+import { getFirstLettersFromName } from "../../utils/appUtils";
 
 export const Bio = () => {
   const userData = useContext(UserDataContext);
@@ -27,12 +28,13 @@ export const Bio = () => {
           }}
         >
           <Avatar
-            src="https://mui.com/static/images/avatar/2.jpg"
-            sx={{ width: 56, height: 56 }}
             className={styles.avatar}
+            {...getFirstLettersFromName(
+              `${userData?.nameFirst} ${userData?.nameLast}`
+            )}
           />
           <Typography
-            variant="h4"
+            variant="h5"
             component="h1"
             color="text.secondary"
             className={styles.name}
@@ -50,16 +52,20 @@ export const Bio = () => {
           <br></br>
           Living in: 🇳🇿 {userData?.homeTown}
         </Typography>
-        {userData?.bioTags.map((item: any, index: any) => {
-          return (
-            <Chip
-              sx={{ mr: "10px", mb: "20px" }}
-              key={index}
-              label={item}
-              variant="outlined"
-            />
-          );
-        })}
+
+        <div className={styles.tags}>
+          {userData?.bioTags.map((item: any, index: any) => {
+            return (
+              <Chip
+                className={styles.tag}
+                key={index}
+                label={item}
+                variant="outlined"
+                color="primary"
+              />
+            );
+          })}
+        </div>
 
         <Typography variant="button" display="block" gutterBottom>
           BIO

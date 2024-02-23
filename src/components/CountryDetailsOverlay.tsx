@@ -2,7 +2,6 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  Button,
   Dialog,
   DialogActions,
   DialogContent,
@@ -19,12 +18,9 @@ import {
 } from "@mui/material";
 import { ReactElement, useEffect, useState } from "react";
 import PublicIcon from "@mui/icons-material/Public";
-import MyLocationIcon from "@mui/icons-material/MyLocation";
-import TourOutlinedIcon from "@mui/icons-material/TourOutlined";
-import Diversity1Icon from "@mui/icons-material/Diversity1";
-import CropFreeIcon from "@mui/icons-material/CropFree";
+import Diversity1OutlinedIcon from "@mui/icons-material/Diversity1Outlined";
 import WaterIcon from "@mui/icons-material/Water";
-import HandshakeIcon from "@mui/icons-material/Handshake";
+import HandshakeOutlinedIcon from "@mui/icons-material/HandshakeOutlined";
 import GoogleIcon from "@mui/icons-material/Google";
 import SnoozeIcon from "@mui/icons-material/Snooze";
 import SecurityIcon from "@mui/icons-material/Security";
@@ -32,10 +28,15 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import RouterOutlinedIcon from "@mui/icons-material/RouterOutlined";
 import LaunchIcon from "@mui/icons-material/Launch";
 import ZoomInIcon from "@mui/icons-material/ZoomIn";
-import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
+import DirectionsCarOutlinedIcon from "@mui/icons-material/DirectionsCarOutlined";
 import SwitchLeftIcon from "@mui/icons-material/SwitchLeft";
 import SwitchRightIcon from "@mui/icons-material/SwitchRight";
 import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
+import AdjustOutlinedIcon from "@mui/icons-material/AdjustOutlined";
+import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
+import CropFreeOutlinedIcon from "@mui/icons-material/CropFreeOutlined";
+import TourOutlinedIcon from "@mui/icons-material/TourOutlined";
+import CurrencyExchangeOutlinedIcon from "@mui/icons-material/CurrencyExchangeOutlined";
 
 import styles from "../styles/CountryDetailsOverlay.module.scss";
 import { toggleCountryDetailsOverlay } from "../store/appSlice";
@@ -49,11 +50,13 @@ interface CountryInfo {
 }
 
 export const CountryDetailsOverlay = () => {
-  const drawerWidth = 400;
-
   const dispatch = useAppDispatch();
-  const [timezonesClpsOpen, setTmezonesClpsOpen] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
+  const [imageToDisplay, setImageToDisplay] = useState<"coatOfArms" | "flags">(
+    "coatOfArms"
+  );
+
+  const drawerWidth = 400;
 
   const [country, setCountry] = useState<CountryInfo[]>([]);
   const selectedCountry = useAppSelector(
@@ -142,27 +145,23 @@ export const CountryDetailsOverlay = () => {
     );
   };
 
-  // useEffect(() => {
-  //   console.log(selectedCountry);
-  // }, [selectedCountry]);
-
   useEffect(() => {
     if (selectedCountry) {
       setCountry([
         {
-          label: "Continent",
+          label: "Region",
           content: selectedCountry.region,
           icon: <PublicIcon />,
         },
         {
           label: "Subregion",
           content: selectedCountry.subregion,
-          icon: <MyLocationIcon />,
+          icon: <MapOutlinedIcon />,
         },
         {
           label: "Capital",
           content: concatArrayVals(selectedCountry.capital),
-          icon: <TourOutlinedIcon />,
+          icon: <AdjustOutlinedIcon />,
         },
         {
           label: "Language",
@@ -177,27 +176,27 @@ export const CountryDetailsOverlay = () => {
         {
           label: "Population",
           content: numberWithCommas(selectedCountry.population),
-          icon: <Diversity1Icon />,
+          icon: <Diversity1OutlinedIcon />,
         },
         {
           label: "Size",
           content: `${numberWithCommas(selectedCountry.area)} km²`,
-          icon: <CropFreeIcon />,
+          icon: <CropFreeOutlinedIcon />,
         },
         {
           label: "Car",
           content: <Car />,
-          icon: <DirectionsCarIcon />,
+          icon: <DirectionsCarOutlinedIcon />,
         },
-        // {
-        //   label: "Currency",
-        //   content: Array.isArray(selectedCountry.currencies)
-        //     ? selectedCountry.currencies.join(", ")
-        //     : Object.entries(selectedCountry.currencies)
-        //         .map(([, value]) => `${value.name} (${value.symbol})`)
-        //         .join(", "),
-        //   icon: <CropFreeIcon />,
-        // },
+        {
+          label: "Currency",
+          content: Object.entries(selectedCountry.currencies)[0]
+            ? `${Object.entries(selectedCountry.currencies)[0][1].name} (${
+                Object.entries(selectedCountry.currencies)[0][1].symbol
+              })`
+            : "",
+          icon: <CurrencyExchangeOutlinedIcon />,
+        },
         {
           label: "Land locked",
           content: selectedCountry.landlocked ? "Yes" : "No",
@@ -206,7 +205,7 @@ export const CountryDetailsOverlay = () => {
         {
           label: "Borders",
           content: concatArrayVals(selectedCountry.borders) || "None",
-          icon: <HandshakeIcon />,
+          icon: <HandshakeOutlinedIcon />,
         },
         {
           label: "Maps",
@@ -235,21 +234,55 @@ export const CountryDetailsOverlay = () => {
           icon: <SnoozeIcon />,
         },
         {
-          label: "Coat of Arms",
+          label: "Flag",
           content: (
             <>
-              <Tooltip title="Enlarge Coat of Arms">
+              <Tooltip title="Enlarge Flag" placement="top">
                 <IconButton
-                  onClick={handleOpenDialog}
+                  onClick={() => handleOpenDialog("flags")}
                   sx={{ marginRight: "5px" }}
                 >
                   <ZoomInIcon />
                 </IconButton>
               </Tooltip>
-              <img
-                src={selectedCountry.coatOfArms.svg}
-                className={styles.coatOfArms}
-              />
+              <Tooltip title="Enlarge Flag" placement="top">
+                <IconButton
+                  onClick={() => handleOpenDialog("flags")}
+                  sx={{ marginRight: "5px" }}
+                >
+                  <img
+                    src={selectedCountry.flags.svg}
+                    className={styles.coatOfArms}
+                  />
+                </IconButton>
+              </Tooltip>
+            </>
+          ),
+          icon: <TourOutlinedIcon />,
+        },
+        {
+          label: "Coat of Arms",
+          content: (
+            <>
+              <Tooltip title="Enlarge Coat of Arms">
+                <IconButton
+                  onClick={() => handleOpenDialog("coatOfArms")}
+                  sx={{ marginRight: "5px" }}
+                >
+                  <ZoomInIcon />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Enlarge Coat of Arms">
+                <IconButton
+                  onClick={() => handleOpenDialog("coatOfArms")}
+                  sx={{ marginRight: "5px" }}
+                >
+                  <img
+                    src={selectedCountry.coatOfArms.svg}
+                    className={styles.coatOfArms}
+                  />
+                </IconButton>
+              </Tooltip>
             </>
           ),
           icon: <SecurityIcon />,
@@ -262,11 +295,8 @@ export const CountryDetailsOverlay = () => {
     dispatch(toggleCountryDetailsOverlay());
   };
 
-  const handleClickAway = () => {
-    dispatch(toggleCountryDetailsOverlay());
-  };
-
-  const handleOpenDialog = () => {
+  const handleOpenDialog = (imageType: "coatOfArms" | "flags") => {
+    setImageToDisplay(imageType);
     setOpenDialog(true);
   };
 
@@ -279,33 +309,39 @@ export const CountryDetailsOverlay = () => {
       <Drawer
         className={styles.moduleCountryDetailsOverlay}
         open={overlayOpen}
+        onClose={handleOnClick}
         sx={{
-          width: drawerWidth,
+          width: "100%",
+          maxWidth: drawerWidth,
           flexShrink: 0,
           "& .MuiDrawer-paper": {
             width: drawerWidth,
             boxSizing: "border-box",
           },
         }}
-        variant="temporary"
         anchor="right"
       >
         <div className={styles.header}>
-          <Typography variant="h5">
+          <Typography variant="h5" sx={{ display: "flex" }}>
             <span className={styles.headerEmoji}>{selectedCountry?.flag}</span>
-            {selectedCountry?.name.official}
+            <span className={styles.title}>
+              {selectedCountry?.name.official}
+            </span>
           </Typography>
-          <IconButton
-            color="secondary"
-            aria-label="Close"
-            onClick={handleOnClick}
+          <Tooltip
+            sx={{ marginRight: "5px" }}
+            title="Close"
+            placement="bottom"
+            arrow
           >
-            <CloseIcon />
-          </IconButton>
+            <IconButton aria-label="Close" onClick={handleOnClick}>
+              <CloseIcon />
+            </IconButton>
+          </Tooltip>
         </div>
         <Divider />
 
-        <List>
+        <List sx={{ paddingTop: 0 }}>
           {country.map((c, index) => (
             <ListItem key={index} className={styles.listItem}>
               <ListItemIcon>{c.icon}</ListItemIcon>
@@ -321,32 +357,48 @@ export const CountryDetailsOverlay = () => {
       <Dialog
         open={openDialog}
         onClose={handleCloseDialog}
-        sx={{ "& .MuiDialog-paper": { width: "60%" } }}
+        sx={{ "& .MuiDialog-paper": { width: "60%", height: "100%" } }}
       >
         <DialogTitle>
-          {selectedCountry?.flag} {selectedCountry?.name.common}: Coat of Arms
+          <span>
+            {selectedCountry?.flag} {selectedCountry?.name.common}:{" "}
+            {imageToDisplay === "flags" ? "Flag" : "Coat of Arms"}
+          </span>
+
+          <IconButton onClick={handleCloseDialog}>
+            <CloseIcon />
+          </IconButton>
         </DialogTitle>
 
         <DialogContent
           sx={{
             margin: "20px",
             display: "flex",
+            height: "100%",
             justifyContent: "center",
             alignItems: "center",
           }}
         >
           <img
-            src={selectedCountry?.coatOfArms.svg}
-            alt="Coat of Arms"
+            src={selectedCountry?.[imageToDisplay].svg}
+            alt={
+              imageToDisplay.charAt(0).toUpperCase() + imageToDisplay.slice(1)
+            }
             style={{
+              maxHeight: "100%",
+              width: "auto",
               maxWidth: "100%",
-              objectFit: "contain",
             }}
           />
         </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseDialog}>Close</Button>
-        </DialogActions>
+
+        {imageToDisplay === "flags" && (
+          <DialogActions>
+            <Typography variant="body2" align="left">
+              {selectedCountry?.flags.alt}
+            </Typography>
+          </DialogActions>
+        )}
       </Dialog>
     </>
   );

@@ -44,7 +44,6 @@ export const Profile = () => {
           if (docSnap.exists()) {
             dispatch(setSelectedUser(docSnap.data() as UserType));
             setUserData(docSnap.data() as UserType);
-            console.log(docSnap.data());
           } else {
             console.log("Document does not exist");
           }
@@ -69,7 +68,7 @@ export const Profile = () => {
                 <CountriesVisited />
                 {/* <ContinentsVisited /> */}
                 <BucketList />
-                <Trips />
+                {/* <Trips /> */}
               </Stack>
             </Container>
           </div>

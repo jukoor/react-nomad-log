@@ -14,5 +14,15 @@ export const theme = createTheme({
         },
       },
     },
+    MuiDialogTitle: {
+      styleOverrides: {
+        root: {
+          padding: "10px 14px 8px 24px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: " space-between",
+        },
+      },
+    },
   },
 });
