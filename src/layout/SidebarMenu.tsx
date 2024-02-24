@@ -29,9 +29,11 @@ export const SidebarMenu = () => {
   const AvatarBox = () => {
     const currentHour = new Date().getHours();
     const welcomeText =
-      currentHour < 8
+      currentHour >= 22 || currentHour < 6
+        ? "Good Night"
+        : currentHour < 12
         ? "Good Morning"
-        : currentHour < 16
+        : currentHour < 18
         ? "Good Afternoon"
         : "Good Evening";
 

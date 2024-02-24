@@ -12,17 +12,20 @@ import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { handleGoogleSignUp } from "../Auth";
 import { getAuth, signOut } from "firebase/auth";
+import { useAuthState } from "react-firebase-hooks/auth";
+import Login from "../components/Login";
 
 export const NavBar = () => {
   const dispatch = useAppDispatch();
+  const auth = getAuth();
+
+  const [user] = useAuthState(auth);
 
   const userData = useAppSelector((state) => state.User);
   const countryData = useAppSelector((state) => state.Country);
   const selectedUser = userData.selectedUser;
   const [loading, setLoading] = useState(false);
   const [triggerSignUp, setTriggerSignUp] = useState(false);
-
-  const auth = getAuth();
 
   useEffect(() => {
     setLoading(userData.loading || countryData.loading);
@@ -43,6 +46,10 @@ export const NavBar = () => {
     };
   }
 
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
+
   return (
     <Box className={styles.appBarComp} sx={{ flexGrow: 1 }}>
       <AppBar className={styles.appBar} position="static" color="transparent">
@@ -57,6 +64,7 @@ export const NavBar = () => {
           >
             <MenuIcon />
           </IconButton>
+
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             <Link href="/" underline="none" color="inherit">
               Nomad Map
@@ -80,8 +88,12 @@ export const NavBar = () => {
               </Tooltip>
             </NavLink>
           )}
-          <Button onClick={() => setTriggerSignUp(true)}>Sign Up</Button>
-          <Button onClick={() => signOut(auth)}>Sign Out</Button>
+
+          {!user ? (
+            <Login />
+          ) : (
+            <Button onClick={() => signOut(auth)}>Logout</Button>
+          )}
         </Toolbar>
       </AppBar>
       {loading && (
