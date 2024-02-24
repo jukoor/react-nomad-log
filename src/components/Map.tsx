@@ -14,7 +14,14 @@ import {
 import { getCountryData, getEmojiFlag } from "../utils/countryDataUtils";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import styles from "../styles/Map.module.scss";
-import { toggleCountryActionsBar } from "../store/appSlice";
+import {
+  setCountryActionsBar,
+  setMapZoomIn,
+  setMapZoomOut,
+} from "../store/appSlice";
+import { Box, Button, IconButton } from "@mui/material";
+import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
+import RemoveOutlinedIcon from "@mui/icons-material/RemoveOutlined";
 
 type CountryCode = string;
 
@@ -26,6 +33,9 @@ export const Map = () => {
   const actionBarOpen = useAppSelector(
     (state) => state.App.countryActionsBarOpen
   );
+
+  const mapZoomIn = useAppSelector((state) => state.App.mapZoomIn);
+  const mapZoomOut = useAppSelector((state) => state.App.mapZoomOut);
 
   const chartRef = useRef<MapChart>();
   const worldSeriesRef = useRef<am5map.MapPolygonSeries>();
@@ -69,12 +79,6 @@ export const Map = () => {
         projection: am5map.geoMercator(),
       })
     );
-
-    const zoomCtrl = am5map.ZoomControl.new(root, {});
-
-    // minusButton.set("cursorOverStyle", "pointer");
-
-    chart.set("zoomControl", zoomCtrl);
 
     // Create polygon series
     const worldSeries = chart.series.push(
@@ -228,14 +232,46 @@ export const Map = () => {
       worldSeriesRef.current?.show();
       countrySeriesRef.current?.hide();
       dispatch(clearSelectedCountry());
-      dispatch(toggleCountryActionsBar(false));
+      dispatch(setCountryActionsBar(false));
     }
   }, [actionBarOpen]);
 
   useLayoutEffect(() => {
-    console.log("changed");
-    console.log(userData.countriesVisited);
-  }, [userData.countriesVisited]);
+    if (mapZoomIn) {
+      chartRef.current?.zoomIn();
+      dispatch(setMapZoomIn(false));
+    }
+  }, [mapZoomIn]);
 
-  return <div className={styles.map} id="map"></div>;
+  useLayoutEffect(() => {
+    if (mapZoomOut) {
+      chartRef.current?.zoomOut();
+      dispatch(setMapZoomOut(false));
+    }
+  }, [mapZoomOut]);
+
+  // useLayoutEffect(() => {
+  //   console.log("changed");
+  //   console.log(userData.countriesVisited);
+  // }, [userData.countriesVisited]);
+
+  return (
+    <>
+      <div className={styles.map} id="map"></div>
+      <Box className={styles.zoomControl}>
+        <IconButton
+          className={styles.zoomBtn}
+          onClick={() => dispatch(setMapZoomIn(true))}
+        >
+          <AddOutlinedIcon />
+        </IconButton>
+        <IconButton
+          className={styles.zoomBtn}
+          onClick={() => dispatch(setMapZoomOut(true))}
+        >
+          <RemoveOutlinedIcon />
+        </IconButton>
+      </Box>
+    </>
+  );
 };

@@ -8,6 +8,8 @@ const appSlice = createSlice({
     menuOpen: false,
     countryDetailsOverlayOpen: false,
     countryActionsBarOpen: false,
+    mapZoomIn: false,
+    mapZoomOut: false,
   } as AppSliceInnerType,
   reducers: {
     setCountrySelectDialogOpen: (state, action) => {
@@ -19,8 +21,14 @@ const appSlice = createSlice({
     toggleCountryDetailsOverlay: (state) => {
       state.countryDetailsOverlayOpen = !state.countryDetailsOverlayOpen;
     },
-    toggleCountryActionsBar: (state, action) => {
+    setCountryActionsBar: (state, action) => {
       state.countryActionsBarOpen = action.payload;
+    },
+    setMapZoomIn: (state, action) => {
+      state.mapZoomIn = action.payload;
+    },
+    setMapZoomOut: (state, action) => {
+      state.mapZoomOut = action.payload;
     },
   },
 });
@@ -29,7 +37,9 @@ export const {
   setCountrySelectDialogOpen,
   toggleMenuVisibility,
   toggleCountryDetailsOverlay,
-  toggleCountryActionsBar,
+  setCountryActionsBar,
+  setMapZoomIn,
+  setMapZoomOut,
 } = appSlice.actions;
 
 export default appSlice.reducer;

@@ -7,4 +7,6 @@ export type AppSliceInnerType = {
   menuOpen: boolean;
   countryDetailsOverlayOpen: boolean;
   countryActionsBarOpen: boolean;
+  mapZoomIn: boolean;
+  mapZoomOut: boolean;
 };

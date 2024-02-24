@@ -3,7 +3,7 @@ import { arrayUnion, arrayRemove, doc, updateDoc } from "firebase/firestore";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import { db } from "../services/firebaseConfig";
 import {
-  toggleCountryActionsBar,
+  setCountryActionsBar,
   toggleCountryDetailsOverlay,
 } from "../store/appSlice";
 import {
@@ -94,7 +94,7 @@ export const CountryActionsBar = () => {
         console.log("done");
       });
 
-    dispatch(toggleCountryActionsBar(true));
+    dispatch(setCountryActionsBar(true));
 
     // switch (listType) {
     //   case "visited":
@@ -188,7 +188,7 @@ export const CountryActionsBar = () => {
           >
             <div className={styles.countryActionsBar}>
               <div>
-                <Button onClick={() => dispatch(toggleCountryActionsBar(true))}>
+                <Button onClick={() => dispatch(setCountryActionsBar(true))}>
                   Back to Map
                 </Button>
               </div>

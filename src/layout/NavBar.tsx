@@ -10,7 +10,6 @@ import { toggleMenuVisibility } from "../store/appSlice";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { handleGoogleSignUp } from "../Auth";
 import { getAuth, signOut } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import Login from "../components/Login";
@@ -25,15 +24,10 @@ export const NavBar = () => {
   const countryData = useAppSelector((state) => state.Country);
   const selectedUser = userData.selectedUser;
   const [loading, setLoading] = useState(false);
-  const [triggerSignUp, setTriggerSignUp] = useState(false);
 
   useEffect(() => {
     setLoading(userData.loading || countryData.loading);
   }, [userData.loading, countryData.loading]);
-
-  useEffect(() => {
-    if (triggerSignUp) handleGoogleSignUp();
-  }, [triggerSignUp]);
 
   const handleOnClick = () => {
     dispatch(toggleMenuVisibility());
