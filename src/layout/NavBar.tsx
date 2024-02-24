@@ -5,11 +5,13 @@ import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import styles from "../styles/NavBar.module.scss";
-import { Avatar, LinearProgress, Link, Tooltip } from "@mui/material";
+import { Avatar, Button, LinearProgress, Link, Tooltip } from "@mui/material";
 import { toggleMenuVisibility } from "../store/appSlice";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
+import { handleGoogleSignUp } from "../Auth";
+import { getAuth, signOut } from "firebase/auth";
 
 export const NavBar = () => {
   const dispatch = useAppDispatch();
@@ -18,10 +20,17 @@ export const NavBar = () => {
   const countryData = useAppSelector((state) => state.Country);
   const selectedUser = userData.selectedUser;
   const [loading, setLoading] = useState(false);
+  const [triggerSignUp, setTriggerSignUp] = useState(false);
+
+  const auth = getAuth();
 
   useEffect(() => {
     setLoading(userData.loading || countryData.loading);
   }, [userData.loading, countryData.loading]);
+
+  useEffect(() => {
+    if (triggerSignUp) handleGoogleSignUp();
+  }, [triggerSignUp]);
 
   const handleOnClick = () => {
     dispatch(toggleMenuVisibility());
@@ -71,6 +80,8 @@ export const NavBar = () => {
               </Tooltip>
             </NavLink>
           )}
+          <Button onClick={() => setTriggerSignUp(true)}>Sign Up</Button>
+          <Button onClick={() => signOut(auth)}>Sign Out</Button>
         </Toolbar>
       </AppBar>
       {loading && (

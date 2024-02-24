@@ -137,34 +137,39 @@ export const Map = () => {
                 ".json",
               chart
             ),
-          ]).then(
-            (
-              results: [
-                void | undefined,
-                am5.net.INetLoadResult<am5map.MapChart>
-              ]
-            ) => {
-              if (results[1].response) {
-                let geodata = am5.JSONParser.parse(results[1].response);
-                if (data && data.polygonSettings) {
-                  countrySeries.setAll({
-                    geoJSON: geodata,
-                    fill: data.polygonSettings.fill,
-                  });
+          ])
+            .then(
+              (
+                results: [
+                  void | undefined,
+                  am5.net.INetLoadResult<am5map.MapChart>
+                ]
+              ) => {
+                if (results[1].response) {
+                  let geodata = am5.JSONParser.parse(results[1].response);
+                  if (data && data.polygonSettings) {
+                    countrySeries.setAll({
+                      geoJSON: geodata,
+                      fill: data.polygonSettings.fill,
+                    });
 
-                  dispatch(
-                    setSelectedCountry(getCountryData(data.id, countryData))
-                  );
-                } else {
-                  // Handle the case where data or data.polygonSettings is undefined
-                  // You might want to set a default fill color or handle the error appropriately
+                    dispatch(
+                      setSelectedCountry(getCountryData(data.id, countryData))
+                    );
+                  } else {
+                    console.log("polygon fill error");
+                    // Handle the case where data or data.polygonSettings is undefined
+                    // You might want to set a default fill color or handle the error appropriately
+                  }
+
+                  countrySeries.show();
+                  worldSeries.hide(100);
                 }
-
-                countrySeries.show();
-                worldSeries.hide(100);
               }
-            }
-          );
+            )
+            .catch((error) => {
+              console.log(error);
+            });
         }
       }
     );
@@ -226,6 +231,11 @@ export const Map = () => {
       dispatch(toggleCountryActionsBar(false));
     }
   }, [actionBarOpen]);
+
+  useLayoutEffect(() => {
+    console.log("changed");
+    console.log(userData.countriesVisited);
+  }, [userData.countriesVisited]);
 
   return <div className={styles.map} id="map"></div>;
 };

@@ -47,6 +47,19 @@ export const userSlice = createSlice({
           (country) => country !== countryToRemove
         );
     },
+    addCountryBucketList: (state, action) => {
+      const countryToAdd = action.payload as string;
+      state.selectedUser.bucketList = [
+        ...state.selectedUser.bucketList,
+        countryToAdd,
+      ];
+    },
+    removeCountryBucketList: (state, action) => {
+      const countryToRemove = action.payload as string;
+      state.selectedUser.bucketList = state.selectedUser.bucketList.filter(
+        (country) => country !== countryToRemove
+      );
+    },
   },
 });
 
@@ -54,6 +67,8 @@ export const {
   setSelectedUser,
   addCountryVisited,
   removeCountryVisited,
+  addCountryBucketList,
+  removeCountryBucketList,
   setLoading,
 } = userSlice.actions;
 

@@ -6,7 +6,12 @@ import {
   toggleCountryActionsBar,
   toggleCountryDetailsOverlay,
 } from "../store/appSlice";
-import { addCountryVisited, removeCountryVisited } from "../store/userSlice";
+import {
+  addCountryBucketList,
+  addCountryVisited,
+  removeCountryBucketList,
+  removeCountryVisited,
+} from "../store/userSlice";
 import { useEffect, useState } from "react";
 import { SnackMessage } from "./SnackMessage";
 import styles from "../styles/CountryActionBar.module.scss";
@@ -42,27 +47,31 @@ export const CountryActionsBar = () => {
   useEffect(() => {
     setStartSlideAnim(true);
 
-    return () => {
-      console.log("unmoun");
-    };
+    return () => {};
   }, []);
 
-  const toggleCountryVisited = (action: String) => {
+  type ActionType = "add" | "remove";
+  type ListType = "visited" | "bucketList";
+
+  const toggleCountryList = (action: ActionType, listType: ListType) => {
+    const lists: Record<ListType, { firebaseField: string }> = {
+      visited: {
+        firebaseField: "countriesVisited",
+      },
+      bucketList: {
+        firebaseField: "bucketList",
+      },
+    };
+
     const operation = action === "add" ? arrayUnion : arrayRemove;
     const messageSuccess =
       action === "add" ? "successfully added." : "successfully removed.";
     const messageError =
       action === "add" ? "could not be added." : "could not be removed.";
-    console.log(action);
-    console.log(messageSuccess);
-    const countryActionCode =
-      action === "add" ? addCountryVisited : removeCountryVisited;
-
-    dispatch(countryActionCode(selectedCountry?.cca2));
 
     const usersColRef = doc(db, "users", userData.uid);
     updateDoc(usersColRef, {
-      countriesVisited: operation(selectedCountry?.cca2),
+      [lists[listType].firebaseField]: operation(selectedCountry?.cca2),
     })
       // @ts-ignore
       .then((response) => {
@@ -80,7 +89,35 @@ export const CountryActionsBar = () => {
           severity: "error",
         });
         showSnackbar();
+      })
+      .finally(() => {
+        console.log("done");
       });
+
+    dispatch(toggleCountryActionsBar(true));
+
+    // switch (listType) {
+    //   case "visited":
+    //     switch (action) {
+    //       case "add":
+    //         dispatch(addCountryVisited(selectedCountry?.cca2));
+    //         break;
+    //       case "remove":
+    //         dispatch(removeCountryVisited(selectedCountry?.cca2));
+    //         break;
+    //     }
+    //     break;
+    //   case "bucketList":
+    //     switch (action) {
+    //       case "add":
+    //         dispatch(addCountryBucketList(selectedCountry?.cca2));
+    //         break;
+    //       case "remove":
+    //         dispatch(removeCountryBucketList(selectedCountry?.cca2));
+    //         break;
+    //     }
+    // break;
+    // }
   };
 
   const MapButtons = () => {
@@ -89,7 +126,7 @@ export const CountryActionsBar = () => {
         {userData.countriesVisited.includes(selectedCountry?.cca2 || "") ? (
           <Button
             onClick={() => {
-              toggleCountryVisited("remove");
+              toggleCountryList("remove", "visited");
             }}
             variant="contained"
             startIcon={<RemoveCircleOutlineIcon />}
@@ -99,7 +136,7 @@ export const CountryActionsBar = () => {
         ) : (
           <Button
             onClick={() => {
-              toggleCountryVisited("add");
+              toggleCountryList("add", "visited");
             }}
             variant="contained"
             startIcon={<AddCircleOutlineIcon />}
@@ -107,13 +144,27 @@ export const CountryActionsBar = () => {
             Visited
           </Button>
         )}
-        <Button
-          onClick={() => dispatch(toggleCountryDetailsOverlay())}
-          variant="outlined"
-          startIcon={<FormatColorFillIcon />}
-        >
-          Bucket List
-        </Button>
+        {userData.bucketList.includes(selectedCountry?.cca2 || "") ? (
+          <Button
+            onClick={() => {
+              toggleCountryList("remove", "bucketList");
+            }}
+            variant="outlined"
+            startIcon={<FormatColorFillIcon />}
+          >
+            Remove Bucket
+          </Button>
+        ) : (
+          <Button
+            onClick={() => {
+              toggleCountryList("add", "bucketList");
+            }}
+            variant="outlined"
+            startIcon={<FormatColorFillIcon />}
+          >
+            Add Bucket
+          </Button>
+        )}
         <Button
           onClick={() => dispatch(toggleCountryDetailsOverlay())}
           variant="outlined"
