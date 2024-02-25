@@ -6,7 +6,7 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import styles from "../styles/NavBar.module.scss";
 import { Avatar, Button, LinearProgress, Link, Tooltip } from "@mui/material";
-import { toggleMenuVisibility } from "../store/appSlice";
+import { setSnackbarOptions, toggleMenuVisibility } from "../store/appSlice";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
@@ -64,6 +64,16 @@ export const NavBar = () => {
               Nomad Map
             </Link>
           </Typography>
+
+          <Button
+            onClick={() =>
+              dispatch(
+                setSnackbarOptions({ message: "Hi Jual", severity: "error" })
+              )
+            }
+          >
+            Snack
+          </Button>
 
           {selectedUser.nameFirst.length > 0 && (
             <NavLink

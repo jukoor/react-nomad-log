@@ -1,23 +1,41 @@
-import { Alert, AlertColor, Snackbar } from "@mui/material";
-import { FC } from "react";
+import { Alert, Snackbar } from "@mui/material";
+import { useAppDispatch, useAppSelector } from "../hooks/hooks";
+import { setSnackbarOptions } from "../store/appSlice";
 
-export type SnackMessageProps = {
-  message: string;
-  severity: AlertColor;
-  open: boolean;
-  onClose: () => void;
-};
+export const SnackMessage = () => {
+  const snackbarOptions = useAppSelector((state) => state.App.snackbarOptions);
+  const dispatch = useAppDispatch();
 
-export const SnackMessage: FC<SnackMessageProps> = ({
-  message,
-  severity,
-  open,
-  onClose,
-}) => {
+  const handleClose = (
+    // @ts-ignore
+    event: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    setTimeout(() => {
+      dispatch(setSnackbarOptions({ message: "", severity: "success" }));
+    }, 750);
+
+    if (reason === "clickaway") {
+      setTimeout(() => {
+        dispatch(setSnackbarOptions({ message: "", severity: "success" }));
+      }, 750);
+      return;
+    }
+  };
+
   return (
-    <Snackbar open={open} autoHideDuration={6000} onClose={onClose}>
-      <Alert onClose={onClose} severity={severity} sx={{ width: "100%" }}>
-        {message}
+    <Snackbar
+      open={!!snackbarOptions.message}
+      // autoHideDuration={6000}
+      onClose={handleClose}
+    >
+      <Alert
+        onClose={handleClose}
+        severity={snackbarOptions.severity}
+        // variant="outlined"
+        sx={{ width: "100%" }}
+      >
+        {snackbarOptions.message}
       </Alert>
     </Snackbar>
   );

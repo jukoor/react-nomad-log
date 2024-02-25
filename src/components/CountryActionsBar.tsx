@@ -3,17 +3,11 @@ import { arrayUnion, arrayRemove, doc, updateDoc } from "firebase/firestore";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import { db } from "../services/firebaseConfig";
 import {
+  setSnackbarOptions,
   setCountryActionsBar,
   toggleCountryDetailsOverlay,
 } from "../store/appSlice";
-import {
-  addCountryBucketList,
-  addCountryVisited,
-  removeCountryBucketList,
-  removeCountryVisited,
-} from "../store/userSlice";
 import { useEffect, useState } from "react";
-import { SnackMessage } from "./SnackMessage";
 import styles from "../styles/CountryActionBar.module.scss";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
@@ -29,20 +23,6 @@ export const CountryActionsBar = () => {
   );
 
   const [startSlideAnim, setStartSlideAnim] = useState(false);
-  const [snackbarOptions, setSnackbarOptions] = useState<any>({
-    message: "",
-    severity: "success",
-  });
-
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-
-  const handleSnackbarClose = () => {
-    setSnackbarOpen(false);
-  };
-
-  const showSnackbar = () => {
-    setSnackbarOpen(true);
-  };
 
   useEffect(() => {
     setStartSlideAnim(true);
@@ -53,6 +33,7 @@ export const CountryActionsBar = () => {
   type ActionType = "add" | "remove";
   type ListType = "visited" | "bucketList";
 
+  // Toggles (add/remove) Country to visited, lived or bucket list
   const toggleCountryList = (action: ActionType, listType: ListType) => {
     const lists: Record<ListType, { firebaseField: string }> = {
       visited: {
@@ -75,49 +56,30 @@ export const CountryActionsBar = () => {
     })
       // @ts-ignore
       .then((response) => {
-        setSnackbarOptions({
-          message: `${selectedCountry?.flag}${"  "}${
-            selectedCountry?.name.common
-          } ${messageSuccess}`,
-          severity: "success",
-        });
-        showSnackbar();
+        dispatch(
+          setSnackbarOptions({
+            message: `${selectedCountry?.flag}${"  "}${
+              selectedCountry?.name.common
+            } ${messageSuccess}`,
+            severity: "success",
+          })
+        );
       }) // @ts-ignore
       .catch((error) => {
-        setSnackbarOptions({
-          message: `${selectedCountry?.flag}  ${selectedCountry?.name.common} ${messageError}`,
-          severity: "error",
-        });
-        showSnackbar();
+        dispatch(
+          setSnackbarOptions({
+            message: `${selectedCountry?.flag}${"  "}${
+              selectedCountry?.name.common
+            } ${messageError}`,
+            severity: "error",
+          })
+        );
       })
       .finally(() => {
         console.log("done");
       });
 
     dispatch(setCountryActionsBar(true));
-
-    // switch (listType) {
-    //   case "visited":
-    //     switch (action) {
-    //       case "add":
-    //         dispatch(addCountryVisited(selectedCountry?.cca2));
-    //         break;
-    //       case "remove":
-    //         dispatch(removeCountryVisited(selectedCountry?.cca2));
-    //         break;
-    //     }
-    //     break;
-    //   case "bucketList":
-    //     switch (action) {
-    //       case "add":
-    //         dispatch(addCountryBucketList(selectedCountry?.cca2));
-    //         break;
-    //       case "remove":
-    //         dispatch(removeCountryBucketList(selectedCountry?.cca2));
-    //         break;
-    //     }
-    // break;
-    // }
   };
 
   const MapButtons = () => {
@@ -199,16 +161,14 @@ export const CountryActionsBar = () => {
               </div>
               <div>
                 <MapButtons />
+                {/* <ButtonGroup variant="outlined" aria-label="Basic button group">
+                  <Button>Visited</Button>
+                  <Button>Lived</Button>
+                  <Button>To Do</Button>
+                </ButtonGroup> */}
               </div>
             </div>
           </Slide>
-
-          <SnackMessage
-            message={snackbarOptions.message}
-            severity={snackbarOptions.severity}
-            open={snackbarOpen}
-            onClose={handleSnackbarClose}
-          />
         </>
       )}
     </>

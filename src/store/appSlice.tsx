@@ -11,6 +11,7 @@ const appSlice = createSlice({
     mapZoomIn: false,
     mapZoomOut: false,
     mapProjectionGlobe: null,
+    snackbarOptions: {},
   } as AppSliceInnerType,
   reducers: {
     setCountrySelectDialogOpen: (state, action) => {
@@ -38,6 +39,9 @@ const appSlice = createSlice({
         state.mapProjectionGlobe = !state.mapProjectionGlobe;
       }
     },
+    setSnackbarOptions: (state, action) => {
+      state.snackbarOptions = { ...state.snackbarOptions, ...action.payload };
+    },
   },
 });
 
@@ -49,6 +53,7 @@ export const {
   setMapZoomIn,
   setMapZoomOut,
   toggleMapProjection,
+  setSnackbarOptions,
 } = appSlice.actions;
 
 export default appSlice.reducer;

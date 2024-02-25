@@ -1,4 +1,9 @@
-import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
+import {
+  GoogleAuthProvider,
+  getAdditionalUserInfo,
+  getAuth,
+  signInWithPopup,
+} from "firebase/auth";
 import { Button } from "@mui/material";
 
 export const Login = () => {
@@ -9,8 +14,16 @@ export const Login = () => {
     try {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
-      console.log("Erfolgreich angemeldet:", user.displayName);
-      // Weiterleitung zur Hauptseite
+
+      const isNewUser = getAdditionalUserInfo(result);
+      console.log(isNewUser);
+      if (isNewUser) {
+        console.log("Erfolgreich angemeldet:", user.displayName);
+        // Perform actions specific to first-time sign-up
+      } else {
+        console.log("Erfolgreich angemeldet:", user.displayName);
+        // Perform actions specific to login
+      }
     } catch (error) {
       if (error instanceof Error) {
         console.error("Anmeldefehler:", error.message);
