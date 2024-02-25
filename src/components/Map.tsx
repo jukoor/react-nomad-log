@@ -18,10 +18,13 @@ import {
   setCountryActionsBar,
   setMapZoomIn,
   setMapZoomOut,
+  toggleMapProjection,
 } from "../store/appSlice";
-import { Box, Button, IconButton } from "@mui/material";
+import { Box, IconButton, Tooltip } from "@mui/material";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import RemoveOutlinedIcon from "@mui/icons-material/RemoveOutlined";
+import PublicIcon from "@mui/icons-material/Public";
+import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 
 type CountryCode = string;
 
@@ -36,6 +39,7 @@ export const Map = () => {
 
   const mapZoomIn = useAppSelector((state) => state.App.mapZoomIn);
   const mapZoomOut = useAppSelector((state) => state.App.mapZoomOut);
+  const mapProjection = useAppSelector((state) => state.App.mapProjectionGlobe);
 
   const chartRef = useRef<MapChart>();
   const worldSeriesRef = useRef<am5map.MapPolygonSeries>();
@@ -48,6 +52,7 @@ export const Map = () => {
   }, []);
 
   useLayoutEffect(() => {
+    console.log("rendering map");
     const root = am5.Root.new("map");
     const colors = am5.ColorSet.new(root, {});
 
@@ -77,6 +82,7 @@ export const Map = () => {
       am5map.MapChart.new(root, {
         panX: "rotateX",
         projection: am5map.geoMercator(),
+        // projection: am5map.geoOrthographic(),
       })
     );
 
@@ -226,6 +232,7 @@ export const Map = () => {
     return () => root.dispose();
   }, [userData]);
 
+  // Custom effect to open the country details top bar
   useLayoutEffect(() => {
     if (actionBarOpen) {
       chartRef.current?.goHome();
@@ -236,6 +243,7 @@ export const Map = () => {
     }
   }, [actionBarOpen]);
 
+  // Custom Zoom in
   useLayoutEffect(() => {
     if (mapZoomIn) {
       chartRef.current?.zoomIn();
@@ -243,6 +251,7 @@ export const Map = () => {
     }
   }, [mapZoomIn]);
 
+  // Custom Zoom out
   useLayoutEffect(() => {
     if (mapZoomOut) {
       chartRef.current?.zoomOut();
@@ -250,27 +259,55 @@ export const Map = () => {
     }
   }, [mapZoomOut]);
 
-  // useLayoutEffect(() => {
-  //   console.log("changed");
-  //   console.log(userData.countriesVisited);
-  // }, [userData.countriesVisited]);
+  useLayoutEffect(() => {
+    console.log(mapProjection);
+    if (!mapProjection) {
+      chartRef.current?.set("projection", am5map.geoMercator());
+    } else {
+      chartRef.current?.set("projection", am5map.geoOrthographic());
+    }
+    chartRef.current?.goHome();
+  }, [mapProjection]);
 
   return (
     <>
       <div className={styles.map} id="map"></div>
       <Box className={styles.zoomControl}>
-        <IconButton
-          className={styles.zoomBtn}
-          onClick={() => dispatch(setMapZoomIn(true))}
-        >
-          <AddOutlinedIcon />
-        </IconButton>
-        <IconButton
-          className={styles.zoomBtn}
-          onClick={() => dispatch(setMapZoomOut(true))}
-        >
-          <RemoveOutlinedIcon />
-        </IconButton>
+        {mapProjection === true ? (
+          <Tooltip title="Change globe to map" placement="right" arrow>
+            <IconButton
+              className={styles.zoomBtn}
+              onClick={() => dispatch(toggleMapProjection())}
+            >
+              <MapOutlinedIcon />
+            </IconButton>
+          </Tooltip>
+        ) : (
+          <Tooltip title="Change map to globe" placement="right" arrow>
+            <IconButton
+              className={styles.zoomBtn}
+              onClick={() => dispatch(toggleMapProjection())}
+            >
+              <PublicIcon />
+            </IconButton>
+          </Tooltip>
+        )}
+        <Tooltip title="Zoom in" placement="right" arrow>
+          <IconButton
+            className={styles.zoomBtn}
+            onClick={() => dispatch(setMapZoomIn(true))}
+          >
+            <AddOutlinedIcon />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Zoom out" placement="right" arrow>
+          <IconButton
+            className={styles.zoomBtn}
+            onClick={() => dispatch(setMapZoomOut(true))}
+          >
+            <RemoveOutlinedIcon />
+          </IconButton>
+        </Tooltip>
       </Box>
     </>
   );

@@ -9,4 +9,5 @@ export type AppSliceInnerType = {
   countryActionsBarOpen: boolean;
   mapZoomIn: boolean;
   mapZoomOut: boolean;
+  mapProjectionGlobe: boolean | null;
 };

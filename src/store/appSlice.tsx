@@ -10,6 +10,7 @@ const appSlice = createSlice({
     countryActionsBarOpen: false,
     mapZoomIn: false,
     mapZoomOut: false,
+    mapProjectionGlobe: null,
   } as AppSliceInnerType,
   reducers: {
     setCountrySelectDialogOpen: (state, action) => {
@@ -30,6 +31,13 @@ const appSlice = createSlice({
     setMapZoomOut: (state, action) => {
       state.mapZoomOut = action.payload;
     },
+    toggleMapProjection: (state) => {
+      if (state.mapProjectionGlobe === null) {
+        state.mapProjectionGlobe = true;
+      } else {
+        state.mapProjectionGlobe = !state.mapProjectionGlobe;
+      }
+    },
   },
 });
 
@@ -40,6 +48,7 @@ export const {
   setCountryActionsBar,
   setMapZoomIn,
   setMapZoomOut,
+  toggleMapProjection,
 } = appSlice.actions;
 
 export default appSlice.reducer;

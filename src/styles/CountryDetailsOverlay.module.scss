@@ -44,4 +44,14 @@
     display: inline-flex;
     gap: 6px;
   }
+  .accordion {
+    color: grey;
+    font-family: Raleway, "Helvetica Neue", Arial, sans-serif;
+    font-weight: 400;
+    font-size: 0.875rem;
+    line-height: 1.43;
+    :global(.MuiAccordionSummary-content) {
+      margin: 0;
+    }
+  }
 }
