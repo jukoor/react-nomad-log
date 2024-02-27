@@ -18,6 +18,7 @@ export const CountriesVisited = () => {
         >
           Countries visited
         </Typography>
+
         <Typography variant="h5" letterSpacing={20}>
           {userData?.countriesVisited.map((item: any, index: any) => {
             return <span key={index}>{getEmojiFlag(item)}</span>;

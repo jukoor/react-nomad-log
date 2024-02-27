@@ -4,6 +4,7 @@ import { UserType } from "../types/UserType";
 export type UserState = {
   selectedUser: UserType;
   loading: boolean;
+  isLoggedIn: boolean;
 };
 
 export const userSlice = createSlice({
@@ -20,6 +21,7 @@ export const userSlice = createSlice({
       nationality: "",
       countriesVisited: [],
     },
+    isLoggedIn: false,
     loading: false,
   } as UserState,
   reducers: {
@@ -60,16 +62,20 @@ export const userSlice = createSlice({
         (country) => country !== countryToRemove
       );
     },
+    setUserLoggedIn: (state, action) => {
+      state.isLoggedIn = action.payload;
+    },
   },
 });
 
 export const {
+  setLoading,
   setSelectedUser,
   addCountryVisited,
   removeCountryVisited,
   addCountryBucketList,
   removeCountryBucketList,
-  setLoading,
+  setUserLoggedIn,
 } = userSlice.actions;
 
 export default userSlice.reducer;

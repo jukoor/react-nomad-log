@@ -24,14 +24,14 @@ import { setSelectedUser } from "../store/userSlice";
 import React from "react";
 import { useAppDispatch } from "../hooks/hooks";
 
-export const UserDataContext = React.createContext<DocumentData | undefined>(
+export const UserDataContext = React.createContext<UserType | undefined>(
   undefined
 );
 
 export const Profile = () => {
   let { userId } = useParams();
 
-  let [userData, setUserData] = useState<DocumentData>();
+  let [userData, setUserData] = useState<UserType>();
 
   const dispatch = useAppDispatch();
 

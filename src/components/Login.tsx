@@ -5,11 +5,14 @@ import {
   signInWithPopup,
 } from "firebase/auth";
 import { Button } from "@mui/material";
+import { useAppDispatch } from "../hooks/hooks";
+import { setUserLoggedIn } from "../store/userSlice";
 
 export const Login = () => {
   const handleLogin = async () => {
     const provider = new GoogleAuthProvider();
     const auth = getAuth();
+    const dispatch = useAppDispatch();
 
     try {
       const result = await signInWithPopup(auth, provider);
@@ -24,6 +27,8 @@ export const Login = () => {
         console.log("Erfolgreich angemeldet:", user.displayName);
         // Perform actions specific to login
       }
+
+      dispatch(setUserLoggedIn(true));
     } catch (error) {
       if (error instanceof Error) {
         console.error("Anmeldefehler:", error.message);

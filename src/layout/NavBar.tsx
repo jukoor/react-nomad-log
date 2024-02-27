@@ -13,6 +13,7 @@ import { NavLink } from "react-router-dom";
 import { getAuth, signOut } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import Login from "../components/Login";
+import { getFirstLettersFromName } from "../utils/appUtils";
 
 export const NavBar = () => {
   const dispatch = useAppDispatch();
@@ -32,17 +33,6 @@ export const NavBar = () => {
   const handleOnClick = () => {
     dispatch(toggleMenuVisibility());
   };
-
-  // Display first letter of first and last name as Avatar
-  function stringAvatar(name: string) {
-    return {
-      children: `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`,
-    };
-  }
-
-  // useEffect(() => {
-  //   console.log(user);
-  // }, [user]);
 
   return (
     <Box className={styles.appBarComp} sx={{ flexGrow: 1 }}>
@@ -65,16 +55,6 @@ export const NavBar = () => {
             </Link>
           </Typography>
 
-          <Button
-            onClick={() =>
-              dispatch(
-                setSnackbarOptions({ message: "Hi Jual", severity: "error" })
-              )
-            }
-          >
-            Snack
-          </Button>
-
           {selectedUser.nameFirst.length > 0 && (
             <NavLink
               to="/profile/8pVS1cDjBszgEUE0aug8"
@@ -85,7 +65,7 @@ export const NavBar = () => {
               <Tooltip title="Profile" arrow placement="left">
                 <Avatar
                   className={styles.avatar}
-                  {...stringAvatar(
+                  {...getFirstLettersFromName(
                     `${selectedUser.nameFirst} ${selectedUser.nameLast}`
                   )}
                 />
