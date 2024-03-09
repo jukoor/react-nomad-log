@@ -65,4 +65,16 @@
       }
     }
   }
+
+  .appTitle {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .appName {
+    font-size: 16px;
+  }
+  .appSlogan {
+    font-size: 11px;
+  }
 }

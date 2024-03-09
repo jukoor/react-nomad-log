@@ -70,8 +70,8 @@ export const Map = () => {
       });
     }
 
-    if (userData.bucketList) {
-      userData.bucketList.forEach((country: CountryCode) => {
+    if (userData.countriesBucketList) {
+      userData.countriesBucketList.forEach((country: CountryCode) => {
         bucketListColors[country] = bucketListColor;
       });
     }

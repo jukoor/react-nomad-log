@@ -16,10 +16,11 @@ export const userSlice = createSlice({
       nameLast: "",
       bio: "",
       bioTags: [],
-      bucketList: [],
       homeTown: "",
       nationality: "",
       countriesVisited: [],
+      countriesBucketList: [],
+      countriesLived: [],
     },
     isLoggedIn: false,
     loading: false,
@@ -51,16 +52,17 @@ export const userSlice = createSlice({
     },
     addCountryBucketList: (state, action) => {
       const countryToAdd = action.payload as string;
-      state.selectedUser.bucketList = [
-        ...state.selectedUser.bucketList,
+      state.selectedUser.countriesBucketList = [
+        ...state.selectedUser.countriesBucketList,
         countryToAdd,
       ];
     },
     removeCountryBucketList: (state, action) => {
       const countryToRemove = action.payload as string;
-      state.selectedUser.bucketList = state.selectedUser.bucketList.filter(
-        (country) => country !== countryToRemove
-      );
+      state.selectedUser.countriesBucketList =
+        state.selectedUser.countriesBucketList.filter(
+          (country) => country !== countryToRemove
+        );
     },
     setUserLoggedIn: (state, action) => {
       state.isLoggedIn = action.payload;

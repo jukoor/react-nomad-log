@@ -1,3 +1,5 @@
+@import "./global/variables.scss";
+
 .link {
   width: 100%;
   text-decoration: none;
@@ -12,11 +14,19 @@
 }
 
 .welcomeText {
-  color: #fff;
-  margin-bottom: 5px;
+  color: $color-white;
+  margin-bottom: 0px;
+  font-weight: 900;
+  font-size: 11px;
 }
 
 .name {
-  color: #fff;
+  color: $color-white;
   font-weight: 500;
+}
+
+.winky {
+  display: inline-block;
+  margin-right: 8px;
+  font-size: 16px;
 }

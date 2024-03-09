@@ -21,10 +21,10 @@ export const Login = () => {
       const isNewUser = getAdditionalUserInfo(result);
       console.log(isNewUser);
       if (isNewUser) {
-        console.log("Erfolgreich angemeldet:", user.displayName);
+        console.log("Erfolgreich NEU angemeldet:", user.displayName);
         // Perform actions specific to first-time sign-up
       } else {
-        console.log("Erfolgreich angemeldet:", user.displayName);
+        console.log("Erfolgreich nicht neu angemeldet:", user.displayName);
         // Perform actions specific to login
       }
 

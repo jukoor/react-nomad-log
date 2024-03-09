@@ -39,7 +39,9 @@ export const SidebarMenu = () => {
 
     return (
       <Box sx={{ padding: "20px" }}>
-        <div className={styles.welcomeText}>{welcomeText},</div>
+        <div className={styles.welcomeText}>
+          <span className={styles.winky}>👋</span> {welcomeText},
+        </div>
         <div className={styles.name}>
           {user.nameFirst} {user.nameLast}
         </div>
@@ -97,21 +99,6 @@ export const SidebarMenu = () => {
               </NavLink>
             </ListItem>
           ))}
-          <ListItem key={"logout"} disablePadding>
-            <NavLink
-              to={"/logout"}
-              className={({ isActive }) =>
-                isActive ? `${styles.active} ${styles.link}` : `${styles.link}`
-              }
-            >
-              <ListItemButton>
-                <ListItemIcon sx={{ minWidth: "40px", color: "#59CFFF" }}>
-                  <LogoutIcon />
-                </ListItemIcon>
-                <ListItemText primary={"Logout"} />
-              </ListItemButton>
-            </NavLink>
-          </ListItem>
         </List>
       </Drawer>
     </Box>

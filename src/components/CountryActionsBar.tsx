@@ -106,7 +106,7 @@ export const CountryActionsBar = () => {
             Visited
           </Button>
         )}
-        {userData.bucketList.includes(selectedCountry?.cca2 || "") ? (
+        {userData.countriesBucketList.includes(selectedCountry?.cca2 || "") ? (
           <Button
             onClick={() => {
               toggleCountryList("remove", "bucketList");

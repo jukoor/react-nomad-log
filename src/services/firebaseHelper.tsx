@@ -1,5 +1,6 @@
 import {
   addDoc,
+  arrayRemove,
   arrayUnion,
   collection,
   doc,
@@ -8,10 +9,112 @@ import {
 } from "firebase/firestore";
 import { db } from "./firebaseConfig";
 import { setLoading, setSelectedUser } from "../store/userSlice";
-import { useAppDispatch, useAppSelector } from "../hooks/hooks";
+import { useAppDispatch } from "../hooks/hooks";
 import { UserType } from "../types/UserType";
-import { useCallback, useEffect } from "react";
+import { FC, useCallback, useEffect } from "react";
 import firebase from "firebase/compat/app";
+import { setSnackbarOptions } from "../store/appSlice";
+
+export type UpdateFirebaseFieldProps = {
+  list: "countriesVisited" | "countriesBucketList" | "countriesLived";
+  action: "add" | "remove";
+  userData: UserType | undefined;
+  selectedCountry: any;
+};
+
+// custom hook to update firebase field
+export const useUpdateFirebaseField = ({
+  list,
+  action,
+  userData,
+  selectedCountry,
+}: UpdateFirebaseFieldProps): (() => void) => {
+  const dispatch = useAppDispatch();
+
+  const updateField = useCallback(() => {
+    console.log("now");
+    if (userData && selectedCountry) {
+      const operation = action === "add" ? arrayUnion : arrayRemove;
+      const messageSuccess =
+        action === "add" ? "successfully added." : "successfully removed.";
+      const messageError =
+        action === "add" ? "could not be added." : "could not be removed.";
+      const usersColRef = doc(db, "users", userData.uid);
+
+      updateDoc(usersColRef, {
+        [list]: operation(selectedCountry?.cca2),
+      })
+        .then(() => {
+          dispatch(
+            setSnackbarOptions({
+              message: `${selectedCountry?.flag}  ${selectedCountry?.name.common} ${messageSuccess}`,
+              severity: "success",
+            })
+          );
+        })
+        .catch(() => {
+          dispatch(
+            setSnackbarOptions({
+              message: `${selectedCountry?.flag}  ${selectedCountry?.name.common} ${messageError}`,
+              severity: "error",
+            })
+          );
+        });
+    }
+  }, [list, action, userData, selectedCountry]);
+
+  return updateField;
+};
+
+// export default const useUpdateFirebaseField: FC<UpdateFirebaseFieldProps> = ({
+//   list,
+//   action,
+//   userDataObj,
+//   selectedCountry,
+// }) => {
+//   const dispatch = useAppDispatch();
+
+//   const operation = action === "add" ? arrayUnion : arrayRemove;
+//   const messageSuccess =
+//     action === "add" ? "successfully added." : "successfully removed.";
+//   const messageError =
+//     action === "add" ? "could not be added." : "could not be removed.";
+
+//     const updateField = () => {
+//       if (userDataObj) {
+//         const usersColRef = doc(db, "users", userDataObj.uid);
+//         updateDoc(usersColRef, {
+//           [list]: operation(selectedCountry?.cca2),
+//         })
+//           // @ts-ignore
+//           .then((response) => {
+//             dispatch(
+//               setSnackbarOptions({
+//                 message: `${selectedCountry?.flag}${"  "}${
+//                   selectedCountry?.name.common
+//                 } ${messageSuccess}`,
+//                 severity: "success",
+//               })
+//             );
+//           }) // @ts-ignore
+//           .catch((error) => {
+//             dispatch(
+//               setSnackbarOptions({
+//                 message: `${selectedCountry?.flag}${"  "}${
+//                   selectedCountry?.name.common
+//                 } ${messageError}`,
+//                 severity: "error",
+//               })
+//             );
+//           })
+//           .finally(() => {
+//             console.log("done");
+//           });
+//       }
+//     }
+
+//   return {updateField};
+// };
 
 export const loadUserFromFirebase = (userId: string) => {
   const dispatch = useAppDispatch();

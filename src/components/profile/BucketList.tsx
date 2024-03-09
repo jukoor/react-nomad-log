@@ -1,4 +1,5 @@
 import {
+  Badge,
   Box,
   ButtonGroup,
   Card,
@@ -11,7 +12,7 @@ import {
   Tabs,
   Typography,
 } from "@mui/material";
-import { useContext, useState } from "react";
+import { FC, useContext, useState } from "react";
 import { UserDataContext } from "../../pages/Profile";
 import styles from "../../styles/BucketList.module.scss";
 import { getCountryData, getEmojiFlag } from "../../utils/countryDataUtils";
@@ -20,6 +21,8 @@ import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import { setSelectedCountry } from "../../store/countrySlice";
 import { toggleCountryDetailsOverlay } from "../../store/appSlice";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import { useUpdateFirebaseField } from "../../services/firebaseHelper";
+import { UserType } from "../../types/UserType";
 
 interface TabPanelProps {
   children: React.ReactNode;
@@ -36,7 +39,7 @@ export const BucketList = () => {
   // @ts-ignore
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
-    console.log(newValue);
+    // console.log(newValue);
   };
 
   function CustomTabPanel(props: TabPanelProps) {
@@ -71,9 +74,8 @@ export const BucketList = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const countryList = userData?.[list] ?? [];
 
-    console.log(countryList);
-
     const handleChangePage = (
+      // @ts-ignore
       event: React.ChangeEvent<unknown>,
       value: number
     ) => {
@@ -86,10 +88,48 @@ export const BucketList = () => {
       currentPage * itemsPerPage
     );
 
+    type UpdateFirebaseFieldProps = {
+      list: "countriesVisited" | "countriesBucketList" | "countriesLived";
+      action: "add" | "remove";
+      userDataObj: UserType | undefined;
+      selectedCountry: any;
+    };
+
+    // const handleRemoveFromList: FC<UpdateFirebaseFieldProps> = ({
+    //   list,
+    //   action,
+    //   userDataObj,
+    //   selectedCountry,
+    // }) => {
+    //   updateFirebaseField({
+    //     list: list,
+    //     action: action,
+    //     userDataObj: userDataObj,
+    //     selectedCountry: selectedCountry,
+    //   });
+
+    //   return null;
+    // };
+
+    const updateField = useUpdateFirebaseField({
+      list: list,
+      action: "remove",
+      userData: userData,
+      selectedCountry: undefined, // Initially undefined, will be set on click
+    });
+
+    // Example usage within a button click handler
+    //  const handleClick = (selectedCountryName: string) => {
+    //   updateField({
+    //     ...updateField
+    //   });
+    //   updateField()
+    //  };
+
     return (
       <List className={styles.orderedList}>
         {paginatedCountryList.map((item: any, index: any) => {
-          let countryName = getCountryData(item, countries);
+          let singleCountry = getCountryData(item, countries);
           return (
             <ListItem
               data-index={index}
@@ -108,14 +148,17 @@ export const BucketList = () => {
                   >
                     <InfoOutlinedIcon />
                   </IconButton>
-                  <IconButton sx={{ marginRight: "5px" }}>
+                  <IconButton
+                    sx={{ marginRight: "5px" }}
+                    // onClick={() => handleClick(singleCountry.cca2)}
+                  >
                     <RemoveCircleOutlineIcon />
                   </IconButton>
                 </ButtonGroup>
               }
             >
               <span className={styles.flag}>{getEmojiFlag(item)}</span>
-              {countryName.name.common}
+              {singleCountry?.name.common}
             </ListItem>
           );
         })}
@@ -130,41 +173,51 @@ export const BucketList = () => {
   };
 
   return (
-    <Card sx={{ minWidth: 275 }}>
-      <CardContent>
-        <Typography
-          variant="h5"
-          component="h2"
-          color="text.secondary"
-          gutterBottom
-        >
-          Bucket List
-        </Typography>
-
-        <Box sx={{ width: "100%" }}>
-          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-            <Tabs
-              value={value}
-              onChange={handleChange}
-              aria-label="Lists of countries visited, bucket list countries and countries lived in."
+    <>
+      {userData && (
+        <Card sx={{ minWidth: 275 }}>
+          <CardContent>
+            <Typography
+              variant="h5"
+              component="h2"
+              color="text.secondary"
+              gutterBottom
             >
-              <Tab label="Visited" {...a11yProps(0)} />
-              <Tab label="Bucket List" {...a11yProps(1)} />
-              <Tab label="Lived in" {...a11yProps(2)} />
-            </Tabs>
-          </Box>
+              Bucket List
+            </Typography>
 
-          <CustomTabPanel value={value} index={0}>
-            <CountryList list={"countriesVisited"} />
-          </CustomTabPanel>
-          <CustomTabPanel value={value} index={1}>
-            <CountryList list={"countriesBucketList"} />
-          </CustomTabPanel>
-          <CustomTabPanel value={value} index={2}>
-            <CountryList list={"countriesLived"} />
-          </CustomTabPanel>
-        </Box>
-      </CardContent>
-    </Card>
+            <Box sx={{ width: "100%" }}>
+              <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                <Tabs
+                  value={value}
+                  onChange={handleChange}
+                  aria-label="Lists of countries visited, bucket list countries and countries lived in."
+                >
+                  {/*
+               badgeContent={userData?.countriesVisited.length}
+              badgeContent={3}
+              color="primary"
+            > */}
+                  <Tab label="Visited" {...a11yProps(0)} />
+                  {/* </Badge> */}
+                  <Tab label="Bucket List" {...a11yProps(1)} />
+                  <Tab label="Lived in" {...a11yProps(2)} />
+                </Tabs>
+              </Box>
+
+              <CustomTabPanel value={value} index={0}>
+                <CountryList list={"countriesVisited"} />
+              </CustomTabPanel>
+              <CustomTabPanel value={value} index={1}>
+                <CountryList list={"countriesBucketList"} />
+              </CustomTabPanel>
+              <CustomTabPanel value={value} index={2}>
+                <CountryList list={"countriesLived"} />
+              </CustomTabPanel>
+            </Box>
+          </CardContent>
+        </Card>
+      )}
+    </>
   );
 };
