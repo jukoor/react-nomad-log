@@ -23,11 +23,11 @@ export const userSlice = createSlice({
       countriesLived: [],
     },
     isLoggedIn: false,
-    loading: false,
+    loading: true,
   } as UserState,
   reducers: {
     setLoading: (state, action) => {
-      var value = action.payload as boolean;
+      const value = action.payload as boolean;
       state.loading = value;
     },
     setSelectedUser: (state, action) => {

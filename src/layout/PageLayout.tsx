@@ -1,6 +1,5 @@
 import { ReactNode } from "react";
-import { NavBar } from "./NavBar";
-import { CountrySelectOverlay } from "../components/CountrySelectOverlay";
+import { NavBar } from "./NavBar.tsx";
 import { SidebarMenu } from "./SidebarMenu";
 import { CountryDetailsOverlay } from "../components/CountryDetailsOverlay";
 import { SnackMessage } from "../components/SnackMessage";
@@ -17,7 +16,6 @@ export const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
       {children}
       <CountryDetailsOverlay />
       <SnackMessage />
-      {/* <CountrySelectOverlay /> */}
     </>
   );
 };

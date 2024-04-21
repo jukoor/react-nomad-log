@@ -3,24 +3,12 @@ import styles from "../styles/Profile.module.scss";
 import { Stack } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { Bio } from "../components/profile/Bio";
-import { CountriesVisited } from "../components/profile/CountriesVisited";
-import { ContinentsVisited } from "../components/profile/ContinentsVisited";
 import { BucketList } from "../components/profile/BucketList";
-import { Trips } from "../components/profile/Trips";
 import { useEffect, useState } from "react";
 import { db } from "../services/firebaseConfig";
-import {
-  collection,
-  addDoc,
-  serverTimestamp,
-  getDocs,
-  getDoc,
-  QuerySnapshot,
-  doc,
-  DocumentData,
-} from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import { UserType } from "../types/UserType";
-import { setSelectedUser } from "../store/userSlice";
+import { setLoading, setSelectedUser } from "../store/userSlice";
 import React from "react";
 import { useAppDispatch } from "../hooks/hooks";
 
@@ -49,6 +37,8 @@ export const Profile = () => {
           }
         } catch (error) {
           console.log(error);
+        } finally {
+          dispatch(setLoading(false));
         }
       }
     };
@@ -65,7 +55,6 @@ export const Profile = () => {
             <Container>
               <Stack spacing={2}>
                 <Bio />
-                <CountriesVisited />
                 {/* <ContinentsVisited /> */}
                 <BucketList />
                 {/* <Trips /> */}

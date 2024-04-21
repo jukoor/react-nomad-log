@@ -52,7 +52,6 @@ export const Map = () => {
   }, []);
 
   useLayoutEffect(() => {
-    console.log("rendering map");
     const root = am5.Root.new("map");
     const colors = am5.ColorSet.new(root, {});
 
@@ -260,7 +259,6 @@ export const Map = () => {
   }, [mapZoomOut]);
 
   useLayoutEffect(() => {
-    console.log(mapProjection);
     if (!mapProjection) {
       chartRef.current?.set("projection", am5map.geoMercator());
     } else {

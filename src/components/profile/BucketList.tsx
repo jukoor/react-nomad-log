@@ -12,7 +12,7 @@ import {
   Tabs,
   Typography,
 } from "@mui/material";
-import { FC, useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { UserDataContext } from "../../pages/Profile";
 import styles from "../../styles/BucketList.module.scss";
 import { getCountryData, getEmojiFlag } from "../../utils/countryDataUtils";
@@ -183,7 +183,7 @@ export const BucketList = () => {
               color="text.secondary"
               gutterBottom
             >
-              Bucket List
+              Country Lists
             </Typography>
 
             <Box sx={{ width: "100%" }}>
