@@ -53,7 +53,7 @@ export const Bio = () => {
           )}
         </Box>
 
-        {!userDataLoading ? (
+        {userDataLoading ? (
           <Skeleton variant="text" width={"30%"} />
         ) : (
           <Typography color="text.secondary" className={styles.nationality}>
@@ -61,7 +61,7 @@ export const Bio = () => {
           </Typography>
         )}
 
-        {!userDataLoading ? (
+        {userDataLoading ? (
           <Skeleton variant="text" width={"30%"} sx={{ mb: 1.5 }} />
         ) : (
           <Typography
@@ -98,7 +98,7 @@ export const Bio = () => {
           })}
         </div>
 
-        {!userDataLoading ? (
+        {userDataLoading ? (
           <Skeleton variant="text" width={"50px"} sx={{ mb: 1.5 }} />
         ) : (
           <Typography variant="button" display="block" gutterBottom>
@@ -107,7 +107,7 @@ export const Bio = () => {
         )}
 
         <Divider sx={{ mb: "10px" }} />
-        {!userDataLoading ? (
+        {userDataLoading ? (
           <Skeleton variant="rounded" width={"100%"} height={180} />
         ) : (
           <Typography variant="body2" className={styles.bio}>

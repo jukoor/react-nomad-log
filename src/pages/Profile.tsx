@@ -3,28 +3,19 @@ import styles from "../styles/Profile.module.scss";
 import { Stack } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { Bio } from "../components/profile/Bio";
-import { BucketList } from "../components/profile/BucketList";
-import { useEffect, useState } from "react";
+import { CountryLists } from "../components/profile/CountryLists";
+import { useEffect } from "react";
 import { db } from "../services/firebaseConfig";
 import { doc, getDoc } from "firebase/firestore";
 import { UserType } from "../types/UserType";
 import { setLoading, setSelectedUser } from "../store/userSlice";
-import React from "react";
-import { useAppDispatch, useAppSelector } from "../hooks/hooks";
-
-export const UserDataContext = React.createContext<UserType | undefined>(
-  undefined
-);
+import { useAppDispatch } from "../hooks/hooks";
 
 export const Profile = () => {
   let { userId } = useParams();
   const dispatch = useAppDispatch();
-  // let [userData, setUserData] = useState<UserType>();
 
-  const userData = useAppSelector((state) => state.User.selectedUser);
-  const userDataLoading = useAppSelector((state) => state.User.loading);
-
-  // ToDo: use customHook
+  // ToDo: extract to customHook
   useEffect(() => {
     const getUserDataFromFirestore = async () => {
       if (userId) {
@@ -33,7 +24,6 @@ export const Profile = () => {
           const docSnap = await getDoc(docRef);
           if (docSnap.exists()) {
             dispatch(setSelectedUser(docSnap.data() as UserType));
-            // setUserData(docSnap.data() as UserType);
           } else {
             console.log("Document does not exist");
           }
@@ -49,22 +39,20 @@ export const Profile = () => {
   }, []);
 
   return (
-    <UserDataContext.Provider value={userData}>
-      <div className={`${styles.module} ${styles.moduleProfile}`}>
-        <div className={styles.gradientHeader}></div>
-        <div className={styles.content}>
-          <div className={styles.bio}>
-            <Container>
-              <Stack spacing={2}>
-                <Bio />
-                {/* <ContinentsVisited /> */}
-                <BucketList />
-                {/* <Trips /> */}
-              </Stack>
-            </Container>
-          </div>
+    <div className={`${styles.module} ${styles.moduleProfile}`}>
+      <div className={styles.gradientHeader}></div>
+      <div className={styles.content}>
+        <div className={styles.bio}>
+          <Container>
+            <Stack spacing={2}>
+              <Bio />
+              {/* <ContinentsVisited /> */}
+              <CountryLists />
+              {/* <Trips /> */}
+            </Stack>
+          </Container>
         </div>
       </div>
-    </UserDataContext.Provider>
+    </div>
   );
 };

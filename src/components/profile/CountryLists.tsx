@@ -13,7 +13,6 @@ import {
   Typography,
 } from "@mui/material";
 import { useContext, useState } from "react";
-import { UserDataContext } from "../../pages/Profile";
 import styles from "../../styles/BucketList.module.scss";
 import { getCountryData, getEmojiFlag } from "../../utils/countryDataUtils";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
@@ -30,10 +29,12 @@ interface TabPanelProps {
   value: number;
 }
 
-export const BucketList = () => {
-  const userData = useContext(UserDataContext);
+export const CountryLists = () => {
   const countries = useAppSelector((state) => state.Country.countries);
   const dispatch = useAppDispatch();
+
+  const userData = useAppSelector((state) => state.User.selectedUser);
+  const userDataLoading = useAppSelector((state) => state.User.loading);
 
   const [value, setValue] = useState(0);
   // @ts-ignore
