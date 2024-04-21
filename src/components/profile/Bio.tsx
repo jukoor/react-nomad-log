@@ -12,6 +12,7 @@ import {
 import styles from "../../styles/Bio.module.scss";
 import { getFirstLettersFromName } from "../../utils/appUtils";
 import { useAppSelector } from "../../hooks/hooks";
+import React from "react";
 
 export const Bio = () => {
   const userData = useAppSelector((state) => state.User.selectedUser);
@@ -40,7 +41,7 @@ export const Bio = () => {
           )}
 
           {userDataLoading ? (
-            <Skeleton variant="rectangular" height={35} width={"50%"} />
+            <Skeleton variant="rounded" height={35} width={"50%"} />
           ) : (
             <Typography
               variant="h5"
@@ -76,9 +77,10 @@ export const Bio = () => {
         <div className={styles.tags}>
           {userData?.bioTags.map((item: string, index: number) => {
             return (
-              <>
-                {!userDataLoading ? (
+              <React.Fragment key={index}>
+                {userDataLoading ? (
                   <Skeleton
+                    key={index}
                     variant="text"
                     height={32}
                     width={"100px"}
@@ -93,7 +95,7 @@ export const Bio = () => {
                     color="primary"
                   />
                 )}
-              </>
+              </React.Fragment>
             );
           })}
         </div>

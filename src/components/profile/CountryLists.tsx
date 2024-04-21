@@ -8,11 +8,12 @@ import {
   List,
   ListItem,
   Pagination,
+  Skeleton,
   Tab,
   Tabs,
   Typography,
 } from "@mui/material";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import styles from "../../styles/BucketList.module.scss";
 import { getCountryData, getEmojiFlag } from "../../utils/countryDataUtils";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
@@ -22,6 +23,7 @@ import { toggleCountryDetailsOverlay } from "../../store/appSlice";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { useUpdateFirebaseField } from "../../services/firebaseHelper";
 import { UserType } from "../../types/UserType";
+import React from "react";
 
 interface TabPanelProps {
   children: React.ReactNode;
@@ -70,6 +72,7 @@ export const CountryLists = () => {
     list: "countriesVisited" | "countriesLived" | "countriesBucketList";
   }
 
+  // ToDo: Extract to own component
   const CountryList = ({ list }: CountryListProps) => {
     const itemsPerPage = 10;
     const [currentPage, setCurrentPage] = useState(1);
@@ -132,43 +135,56 @@ export const CountryLists = () => {
         {paginatedCountryList.map((item: any, index: any) => {
           let singleCountry = getCountryData(item, countries);
           return (
-            <ListItem
-              data-index={index}
-              key={`${item}_${index}`}
-              className={styles.listItem}
-              secondaryAction={
-                <ButtonGroup size="small" aria-label="Small button group">
-                  <IconButton
-                    sx={{ marginRight: "5px" }}
-                    onClick={() => {
-                      dispatch(
-                        setSelectedCountry(getCountryData(item, countries))
-                      );
-                      dispatch(toggleCountryDetailsOverlay());
-                    }}
-                  >
-                    <InfoOutlinedIcon />
-                  </IconButton>
-                  <IconButton
-                    sx={{ marginRight: "5px" }}
-                    // onClick={() => handleClick(singleCountry.cca2)}
-                  >
-                    <RemoveCircleOutlineIcon />
-                  </IconButton>
-                </ButtonGroup>
-              }
-            >
-              <span className={styles.flag}>{getEmojiFlag(item)}</span>
-              {singleCountry?.name.common}
-            </ListItem>
+            <React.Fragment key={index}>
+              {userDataLoading ? (
+                <Skeleton
+                  variant="rounded"
+                  height={30}
+                  width={"100%"}
+                  sx={{ mb: 0.5 }}
+                />
+              ) : (
+                <ListItem
+                  data-index={index}
+                  key={`${item}_${index}`}
+                  className={styles.listItem}
+                  secondaryAction={
+                    <ButtonGroup size="small" aria-label="Small button group">
+                      <IconButton
+                        sx={{ marginRight: "5px" }}
+                        onClick={() => {
+                          dispatch(
+                            setSelectedCountry(getCountryData(item, countries))
+                          );
+                          dispatch(toggleCountryDetailsOverlay());
+                        }}
+                      >
+                        <InfoOutlinedIcon />
+                      </IconButton>
+                      <IconButton
+                        sx={{ marginRight: "5px" }}
+                        // onClick={() => handleClick(singleCountry.cca2)}
+                      >
+                        <RemoveCircleOutlineIcon />
+                      </IconButton>
+                    </ButtonGroup>
+                  }
+                >
+                  <span className={styles.flag}>{getEmojiFlag(item)}</span>
+                  {singleCountry?.name.common}
+                </ListItem>
+              )}
+            </React.Fragment>
           );
         })}
-        <Pagination
-          count={totalPages}
-          page={currentPage}
-          onChange={handleChangePage}
-          sx={{ marginTop: 2 }}
-        />
+        {!userDataLoading && (
+          <Pagination
+            count={totalPages}
+            page={currentPage}
+            onChange={handleChangePage}
+            sx={{ marginTop: 2 }}
+          />
+        )}
       </List>
     );
   };
@@ -178,32 +194,44 @@ export const CountryLists = () => {
       {userData && (
         <Card sx={{ minWidth: 275 }}>
           <CardContent>
-            <Typography
-              variant="h5"
-              component="h2"
-              color="text.secondary"
-              gutterBottom
-            >
-              Country Lists
-            </Typography>
+            {userDataLoading ? (
+              <Skeleton
+                variant="rounded"
+                height={30}
+                width={"200px"}
+                sx={{ mb: 1 }}
+              />
+            ) : (
+              <Typography
+                variant="h5"
+                component="h2"
+                color="text.secondary"
+                gutterBottom
+              >
+                Country Lists
+              </Typography>
+            )}
 
             <Box sx={{ width: "100%" }}>
               <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-                <Tabs
-                  value={value}
-                  onChange={handleChange}
-                  aria-label="Lists of countries visited, bucket list countries and countries lived in."
-                >
-                  {/*
-               badgeContent={userData?.countriesVisited.length}
-              badgeContent={3}
-              color="primary"
-            > */}
-                  <Tab label="Visited" {...a11yProps(0)} />
-                  {/* </Badge> */}
-                  <Tab label="Bucket List" {...a11yProps(1)} />
-                  <Tab label="Lived in" {...a11yProps(2)} />
-                </Tabs>
+                {userDataLoading ? (
+                  <Skeleton variant="rounded" height={30} width={"100%"} />
+                ) : (
+                  <Tabs
+                    value={value}
+                    onChange={handleChange}
+                    aria-label="Lists of countries visited, bucket list countries and countries lived in."
+                  >
+                    {/*
+             badgeContent={userData?.countriesVisited.length}
+            badgeContent={3}
+            color="primary"
+          > */}
+                    <Tab label="Visited" {...a11yProps(0)} />
+                    <Tab label="Bucket List" {...a11yProps(1)} />
+                    <Tab label="Lived in" {...a11yProps(2)} />
+                  </Tabs>
+                )}
               </Box>
 
               <CustomTabPanel value={value} index={0}>
