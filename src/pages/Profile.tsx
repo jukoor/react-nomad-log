@@ -10,7 +10,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { UserType } from "../types/UserType";
 import { setLoading, setSelectedUser } from "../store/userSlice";
 import React from "react";
-import { useAppDispatch } from "../hooks/hooks";
+import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 
 export const UserDataContext = React.createContext<UserType | undefined>(
   undefined
@@ -18,11 +18,13 @@ export const UserDataContext = React.createContext<UserType | undefined>(
 
 export const Profile = () => {
   let { userId } = useParams();
-
-  let [userData, setUserData] = useState<UserType>();
-
   const dispatch = useAppDispatch();
+  // let [userData, setUserData] = useState<UserType>();
 
+  const userData = useAppSelector((state) => state.User.selectedUser);
+  const userDataLoading = useAppSelector((state) => state.User.loading);
+
+  // ToDo: use customHook
   useEffect(() => {
     const getUserDataFromFirestore = async () => {
       if (userId) {
@@ -31,7 +33,7 @@ export const Profile = () => {
           const docSnap = await getDoc(docRef);
           if (docSnap.exists()) {
             dispatch(setSelectedUser(docSnap.data() as UserType));
-            setUserData(docSnap.data() as UserType);
+            // setUserData(docSnap.data() as UserType);
           } else {
             console.log("Document does not exist");
           }
