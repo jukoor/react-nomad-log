@@ -99,7 +99,7 @@ export const NavBar = () => {
             >
               <span className={styles.appName}>Nomad Log</span>
               <span className={styles.appSlogan}>
-                Your personal Travel Tracker
+                Your Personal Travel Tracker
               </span>
             </Link>
           </Typography>

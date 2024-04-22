@@ -1,6 +1,6 @@
-# Travel Tracker
+# Nomad Log - Your Personal Travel Tracker
 
-Travel Tracker is a React application built using the Material-UI framework. It provides users with a convenient platform to track their visited countries, countries they have lived in, and countries they aspire to visit, all in one place. With seamless integration with Google authentication, users can create profiles effortlessly and securely.
+Nomad Log is a React application built using the Material-UI framework. It provides users with a convenient platform to track their visited countries, countries they have lived in, and countries they aspire to visit, all in one place. With seamless integration with Google authentication, users can create profiles effortlessly and securely.
 
 ## Features
 
