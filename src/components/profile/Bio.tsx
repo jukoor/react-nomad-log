@@ -11,7 +11,7 @@ import {
 
 import styles from "../../styles/Bio.module.scss";
 import { getFirstLettersFromName } from "../../utils/appUtils";
-import { useAppSelector } from "../../hooks/hooks";
+import { useAppSelector } from "../../hooks/reduxHooks";
 import React from "react";
 
 export const Bio = () => {

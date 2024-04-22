@@ -10,7 +10,7 @@ import { menuStructure } from "./MenuStructure";
 import { NavLink } from "react-router-dom";
 import styles from "../styles/SidebarMenu.module.scss";
 import { toggleMenuVisibility } from "../store/appSlice";
-import { useAppDispatch, useAppSelector } from "../hooks/hooks";
+import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 import LogoutIcon from "@mui/icons-material/Logout";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";

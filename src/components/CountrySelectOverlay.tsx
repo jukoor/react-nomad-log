@@ -14,7 +14,7 @@ import styles from "../styles/CountrySelectOverlay.module.scss";
 import { CountryList } from "./CountryList";
 import { setCountrySelectDialogOpen } from "../store/appSlice";
 import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../hooks/hooks";
+import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 
 interface DialogState {
   App: {

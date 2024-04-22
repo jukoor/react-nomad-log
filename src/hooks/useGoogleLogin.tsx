@@ -1,4 +1,4 @@
-import { useAppDispatch } from "./hooks";
+import { useAppDispatch } from "./reduxHooks";
 import { setUserLoggedIn } from "../store/userSlice";
 import {
   GoogleAuthProvider,

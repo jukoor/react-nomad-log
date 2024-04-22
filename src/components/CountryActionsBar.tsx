@@ -1,6 +1,6 @@
 import { Button, Slide, Typography } from "@mui/material";
 import { arrayUnion, arrayRemove, doc, updateDoc } from "firebase/firestore";
-import { useAppDispatch, useAppSelector } from "../hooks/hooks";
+import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 import { db } from "../services/firebaseConfig";
 import {
   setSnackbarOptions,

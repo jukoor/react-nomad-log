@@ -9,7 +9,7 @@ import {
 } from "firebase/firestore";
 import { db } from "./firebaseConfig";
 import { setLoading, setSelectedUser } from "../store/userSlice";
-import { useAppDispatch } from "../hooks/hooks";
+import { useAppDispatch } from "../hooks/reduxHooks";
 import { UserType } from "../types/UserType";
 import { FC, useCallback, useEffect } from "react";
 import firebase from "firebase/compat/app";

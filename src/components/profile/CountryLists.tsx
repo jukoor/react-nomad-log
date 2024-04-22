@@ -16,7 +16,7 @@ import {
 import { useState } from "react";
 import styles from "../../styles/BucketList.module.scss";
 import { getCountryData, getEmojiFlag } from "../../utils/countryDataUtils";
-import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
+import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import { setSelectedCountry } from "../../store/countrySlice";
 import { toggleCountryDetailsOverlay } from "../../store/appSlice";

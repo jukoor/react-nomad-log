@@ -12,7 +12,7 @@ import {
   clearSelectedCountry,
 } from "../store/countrySlice";
 import { getCountryData, getEmojiFlag } from "../utils/countryDataUtils";
-import { useAppDispatch, useAppSelector } from "../hooks/hooks";
+import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 import styles from "../styles/Map.module.scss";
 import {
   setCountryActionsBar,

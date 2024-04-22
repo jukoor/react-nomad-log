@@ -22,7 +22,7 @@ import HandshakeIcon from "@mui/icons-material/Handshake";
 import GoogleIcon from "@mui/icons-material/Google";
 import SnoozeIcon from "@mui/icons-material/Snooze";
 import SecurityIcon from "@mui/icons-material/Security";
-import { useAppSelector } from "../hooks/hooks";
+import { useAppSelector } from "../hooks/reduxHooks";
 
 interface CountryInfo {
   label: string;

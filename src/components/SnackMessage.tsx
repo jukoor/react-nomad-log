@@ -1,5 +1,5 @@
 import { Alert, Snackbar } from "@mui/material";
-import { useAppDispatch, useAppSelector } from "../hooks/hooks";
+import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 import { setSnackbarOptions } from "../store/appSlice";
 
 export const SnackMessage = () => {

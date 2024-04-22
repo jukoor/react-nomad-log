@@ -2,20 +2,15 @@ import { Routes, Route, BrowserRouter } from "react-router-dom";
 import { Profile } from "./pages/Profile";
 import { Home } from "./pages/Home";
 import { PageLayout } from "./layout/PageLayout";
-import { useEffect } from "react";
 import "./styles/global/App.scss";
 import { Country } from "./pages/Country";
-import { fetchAllCountriesData } from "./services/apiCall";
-import { useAppDispatch } from "./hooks/hooks";
 import { Settings } from "./pages/Settings";
 import { Logout } from "./pages/Logout";
+import { useFetchCountryDataFromApi } from "./hooks/useFetchCountryDataFromApi";
 
 function App() {
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(fetchAllCountriesData());
-  }, []);
+  // Fetch all country data from API on App init
+  useFetchCountryDataFromApi();
 
   return (
     <div className="app">

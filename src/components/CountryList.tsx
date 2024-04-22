@@ -6,7 +6,7 @@ import React from "react";
 import { Typography } from "@mui/material";
 import { CountrySliceType } from "../types/slices/CountrySliceType";
 import { CountryType } from "../types/CountryType3";
-import { useAppSelector } from "../hooks/hooks";
+import { useAppSelector } from "../hooks/reduxHooks";
 
 export const CountryList = () => {
   const [initialCountryData, setInitialCountryData] = useState<CountryType[]>(

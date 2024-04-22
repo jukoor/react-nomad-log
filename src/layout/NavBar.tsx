@@ -16,7 +16,7 @@ import {
   MenuItem,
 } from "@mui/material";
 import { toggleMenuVisibility } from "../store/appSlice";
-import { useAppDispatch, useAppSelector } from "../hooks/hooks";
+import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getAuth, signOut } from "firebase/auth";

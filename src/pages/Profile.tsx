@@ -9,7 +9,7 @@ import { db } from "../services/firebaseConfig";
 import { doc, getDoc } from "firebase/firestore";
 import { UserType } from "../types/UserType";
 import { setLoading, setSelectedUser } from "../store/userSlice";
-import { useAppDispatch } from "../hooks/hooks";
+import { useAppDispatch } from "../hooks/reduxHooks";
 
 export const Profile = () => {
   let { userId } = useParams();

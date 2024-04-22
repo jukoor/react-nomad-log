@@ -40,7 +40,7 @@ import CurrencyExchangeOutlinedIcon from "@mui/icons-material/CurrencyExchangeOu
 
 import styles from "../styles/CountryDetailsOverlay.module.scss";
 import { toggleCountryDetailsOverlay } from "../store/appSlice";
-import { useAppDispatch, useAppSelector } from "../hooks/hooks";
+import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 import CloseIcon from "@mui/icons-material/Close";
 
 interface CountryInfo {
