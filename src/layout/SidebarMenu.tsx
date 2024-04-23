@@ -6,47 +6,25 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import { menuStructure } from "./MenuStructure";
+import { useMenuStructure } from "./MenuStructure";
 import { NavLink } from "react-router-dom";
 import styles from "../styles/SidebarMenu.module.scss";
 import { toggleMenuVisibility } from "../store/appSlice";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
-import LogoutIcon from "@mui/icons-material/Logout";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
+import { Tooltip } from "@mui/material";
+import { SidebarWelcomeMsg } from "./SidebarWelcomeMsg";
 
 export const SidebarMenu = () => {
   const dispatch = useAppDispatch();
   const menuVisibility = useAppSelector((state) => state.App.menuOpen);
-  const user = useAppSelector((state) => state.User.selectedUser);
+  const menuStructure = useMenuStructure();
 
   const drawerWidth = 240;
 
   const handleOnClick = () => {
     dispatch(toggleMenuVisibility());
-  };
-
-  const AvatarBox = () => {
-    const currentHour = new Date().getHours();
-    const welcomeText =
-      currentHour >= 22 || currentHour < 6
-        ? "Good Night"
-        : currentHour < 12
-        ? "Good Morning"
-        : currentHour < 18
-        ? "Good Afternoon"
-        : "Good Evening";
-
-    return (
-      <Box sx={{ padding: "20px" }}>
-        <div className={styles.welcomeText}>
-          <span className={styles.winky}>👋</span> {welcomeText},
-        </div>
-        <div className={styles.name}>
-          {user.nameFirst} {user.nameLast}
-        </div>
-      </Box>
-    );
   };
 
   return (
@@ -66,20 +44,28 @@ export const SidebarMenu = () => {
         }}
         anchor="left"
       >
-        <IconButton
-          color="primary"
-          aria-label="Close Sidebar"
+        <Tooltip
+          sx={{ marginRight: "5px" }}
           title="Close Sidebar"
-          sx={{ alignSelf: "flex-end" }}
-          onClick={handleOnClick}
+          placement="right"
+          arrow
         >
-          <CloseIcon />
-        </IconButton>
-        <Divider />
+          <IconButton
+            color="primary"
+            aria-label="Close Sidebar"
+            sx={{ alignSelf: "flex-end", margin: "5px" }}
+            onClick={handleOnClick}
+          >
+            <CloseIcon />
+          </IconButton>
+        </Tooltip>
+        <Divider sx={{ borderColor: "#ffffff70" }} />
 
-        <AvatarBox />
+        <SidebarWelcomeMsg />
 
-        <List>
+        <Divider sx={{ borderColor: "#ffffff70" }} />
+
+        <List sx={{ marginTop: "30px" }}>
           {menuStructure.map((item) => (
             <ListItem onClick={handleOnClick} key={item.id} disablePadding>
               <NavLink
