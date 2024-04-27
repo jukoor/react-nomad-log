@@ -4,17 +4,10 @@ import { Stack } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { Bio } from "../components/profile/Bio";
 import { CountryLists } from "../components/profile/CountryLists";
-import { useEffect } from "react";
-import { db } from "../services/firebaseConfig";
-import { doc, getDoc } from "firebase/firestore";
-import { UserType } from "../types/UserType";
-import { setLoading, setSelectedUser } from "../store/userSlice";
-import { useAppDispatch } from "../hooks/reduxHooks";
 import { useFetchUserData } from "../hooks/useFetchUserData";
 
 export const Profile = () => {
   let { userId } = useParams();
-  const dispatch = useAppDispatch();
 
   useFetchUserData(userId);
 

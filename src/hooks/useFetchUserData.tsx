@@ -1,4 +1,3 @@
-// src/hooks/useFetchUserData.ts
 import { useEffect } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../services/firebaseConfig";
@@ -6,6 +5,7 @@ import { UserType } from "../types/UserType";
 import { useAppDispatch } from "../hooks/reduxHooks";
 import { setSelectedUser, setLoading } from "../store/userSlice";
 
+// Fetch user data from Firebase db
 export const useFetchUserData = (userId: string | undefined) => {
   const dispatch = useAppDispatch();
 
