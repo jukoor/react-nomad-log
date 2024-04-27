@@ -10,33 +10,13 @@ import { doc, getDoc } from "firebase/firestore";
 import { UserType } from "../types/UserType";
 import { setLoading, setSelectedUser } from "../store/userSlice";
 import { useAppDispatch } from "../hooks/reduxHooks";
+import { useFetchUserData } from "../hooks/useFetchUserData";
 
 export const Profile = () => {
   let { userId } = useParams();
   const dispatch = useAppDispatch();
 
-  // ToDo: extract to customHook
-  useEffect(() => {
-    const getUserDataFromFirestore = async () => {
-      if (userId) {
-        try {
-          const docRef = doc(db, "users", userId);
-          const docSnap = await getDoc(docRef);
-          if (docSnap.exists()) {
-            dispatch(setSelectedUser(docSnap.data() as UserType));
-          } else {
-            console.log("Document does not exist");
-          }
-        } catch (error) {
-          console.log(error);
-        } finally {
-          dispatch(setLoading(false));
-        }
-      }
-    };
-
-    getUserDataFromFirestore();
-  }, []);
+  useFetchUserData(userId);
 
   return (
     <div className={`${styles.module} ${styles.moduleProfile}`}>
