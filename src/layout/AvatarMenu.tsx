@@ -9,8 +9,12 @@ import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
+import InsertEmoticonIcon from "@mui/icons-material/InsertEmoticon";
+
 import { useNavigate } from "react-router-dom";
 import { getAuth, signOut } from "firebase/auth";
+import { useAppSelector } from "../hooks/reduxHooks";
+import { getFirstLettersFromName } from "../utils/appUtils";
 
 export const AvatarMenu = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -18,6 +22,8 @@ export const AvatarMenu = () => {
   const auth = getAuth();
 
   const navigate = useNavigate();
+
+  const userData = useAppSelector((state) => state.User);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -43,7 +49,7 @@ export const AvatarMenu = () => {
   return (
     <>
       <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
-        <Tooltip title="Account settings">
+        <Tooltip title="Profile Menu">
           <IconButton
             onClick={handleClick}
             size="small"
@@ -52,7 +58,11 @@ export const AvatarMenu = () => {
             aria-haspopup="true"
             aria-expanded={open ? "true" : undefined}
           >
-            <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+            <Avatar
+              {...getFirstLettersFromName(
+                `${userData.selectedUser.nameFirst} ${userData.selectedUser.nameLast}`
+              )}
+            />
           </IconButton>
         </Tooltip>
       </Box>
@@ -66,7 +76,10 @@ export const AvatarMenu = () => {
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
         <MenuItem onClick={handleGoProfile}>
-          <Avatar /> Profile
+          <ListItemIcon>
+            <InsertEmoticonIcon fontSize="small" />
+          </ListItemIcon>
+          Profile
         </MenuItem>
         <Divider />
         <MenuItem onClick={handleGoSettings}>
@@ -75,6 +88,7 @@ export const AvatarMenu = () => {
           </ListItemIcon>
           Settings
         </MenuItem>
+        <Divider />
         <MenuItem onClick={handleGoLogout}>
           <ListItemIcon>
             <Logout fontSize="small" />
