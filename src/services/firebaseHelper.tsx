@@ -1,5 +1,6 @@
 import {
   addDoc,
+  setDoc,
   arrayRemove,
   arrayUnion,
   collection,
@@ -14,6 +15,8 @@ import { UserType } from "../types/UserType";
 import { FC, useCallback, useEffect } from "react";
 import firebase from "firebase/compat/app";
 import { setSnackbarOptions } from "../store/appSlice";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { getAuth } from "firebase/auth";
 
 export type UpdateFirebaseFieldProps = {
   list: "countriesVisited" | "countriesBucketList" | "countriesLived";
@@ -143,20 +146,20 @@ export const loadUserFromFirebase = (userId: string) => {
   }, [userId, dispatch]);
 };
 
-// export const addDocToFirebase = (selectedCountry: string) => {
-//   const addDocument = useCallback(async () => {
-//     try {
-//       const docRef = await addDoc(collection(db, "countriesVisited"), {
-//         selectedCountry,
-//       });
-//       console.log("Document written with ID: ", docRef.id);
-//     } catch (e) {
-//       console.error("Error adding document: ", e);
-//     }
-//   }, [selectedCountry]);
+export const addDocToFirebase = (selectedCountry: string) => {
+  const addDocument = useCallback(async () => {
+    try {
+      const docRef = await addDoc(collection(db, "countriesVisited"), {
+        selectedCountry,
+      });
+      console.log("Document written with ID: ", docRef.id);
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  }, [selectedCountry]);
 
-//   return addDocument;
-// };
+  return addDocument;
+};
 
 // useEffect(() => {
 //   console.log(visitedCountriesCount);

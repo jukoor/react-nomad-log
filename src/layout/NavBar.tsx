@@ -26,6 +26,10 @@ export const NavBar = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    console.log(user);
+  }, [user]);
+
+  useEffect(() => {
     setLoading(userData.loading || countryData.loading);
   }, [userData.loading, countryData.loading]);
 

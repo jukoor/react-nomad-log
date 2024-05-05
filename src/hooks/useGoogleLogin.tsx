@@ -6,10 +6,13 @@ import {
   signInWithPopup,
   getAdditionalUserInfo,
 } from "firebase/auth";
+import { useAddFirebaseUser } from "./useAddFirebaseUser";
 
 // Login with Google Auth Provider, dispatch is logged in to redux store
+// If first Login/Signup - create a user document in firestore db to store additional user info
 export const useGoogleLogin = () => {
   const dispatch = useAppDispatch();
+  const { addUserDoc } = useAddFirebaseUser();
 
   const loginWithGoogle = async () => {
     const provider = new GoogleAuthProvider();
@@ -22,7 +25,12 @@ export const useGoogleLogin = () => {
 
       if (isNewUser) {
         console.log("Successfully loggid in:", user.displayName);
-        // Perform actions specific to first-time sign-up
+
+        // On the fist sign up - create a document in firestore to store custom user data
+        if (user) {
+          console.log(user);
+          addUserDoc(user.uid);
+        }
       } else {
         console.log("Successfully loggid in (first time):", user.displayName);
         // Perform actions specific to login
