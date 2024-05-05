@@ -75,7 +75,7 @@ export const Bio = () => {
         )}
 
         <div className={styles.tags}>
-          {userData?.bioTags.map((item: string, index: number) => {
+          {userData?.tags?.map((item: string, index: number) => {
             return (
               <React.Fragment key={index}>
                 {userDataLoading ? (

@@ -1,3 +1,6 @@
+@import "./variables.scss";
+@import "./MUI.overrides.scss";
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -7,27 +10,7 @@
 body {
   font-family: "Raleway", sans-serif !important;
   font-weight: 300;
-  background: #fafafa;
-
-  .MuiDialogActions-root {
-    border-top: 1px solid #d9d9d9;
-    padding: 16px 24px;
-  }
-
-  .MuiDialogTitle-root {
-    border-bottom: 1px solid #d9d9d9;
-  }
-
-  .css-mu0rxf-MuiTypography-root {
-    color: grey;
-  }
-
-  .css-cveggr-MuiListItemIcon-root {
-    min-width: 45px;
-  }
-  .css-sh22l5-MuiButtonBase-root-MuiAccordionSummary-root {
-    padding: 0;
-  }
+  background: $color-body;
 }
 
 div {

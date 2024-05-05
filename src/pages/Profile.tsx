@@ -15,16 +15,14 @@ export const Profile = () => {
     <div className={`${styles.module} ${styles.moduleProfile}`}>
       <div className={styles.gradientHeader}></div>
       <div className={styles.content}>
-        <div className={styles.bio}>
-          <Container>
-            <Stack spacing={2}>
-              <Bio />
-              {/* <ContinentsVisited /> */}
-              <CountryLists />
-              {/* <Trips /> */}
-            </Stack>
-          </Container>
-        </div>
+        <Container>
+          <Stack spacing={2}>
+            <Bio />
+            {/* <ContinentsVisited /> */}
+            <CountryLists />
+            {/* <Trips /> */}
+          </Stack>
+        </Container>
       </div>
     </div>
   );

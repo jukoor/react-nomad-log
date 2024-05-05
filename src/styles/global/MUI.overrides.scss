@@ -1,0 +1,22 @@
+@import "../../styles/global/variables.scss";
+
+body {
+  .MuiDialogActions-root {
+    border-top: 1px solid $color-dialog-border;
+    padding: 16px 24px;
+  }
+
+  .MuiDialogTitle-root {
+    border-bottom: 1px solid $color-dialog-border;
+  }
+
+  .MuiInputLabel-shrink {
+    background: $color-white;
+    padding: 0 10px;
+  }
+
+  .MuiInputLabel-asterisk {
+    font-size: 26px;
+    line-height: 18px;
+  }
+}
