@@ -2,6 +2,7 @@ import { Alert, Snackbar } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 import { setSnackbarOptions } from "../store/appSlice";
 
+// Global Alert Message System, controlled by value in redux store
 export const SnackMessage = () => {
   const snackbarOptions = useAppSelector((state) => state.App.snackbarOptions);
   const dispatch = useAppDispatch();
@@ -9,30 +10,22 @@ export const SnackMessage = () => {
   const handleClose = (
     // @ts-ignore
     event: React.SyntheticEvent | Event,
+    // @ts-ignore
     reason?: string
   ) => {
-    setTimeout(() => {
-      dispatch(setSnackbarOptions({ message: "", severity: "success" }));
-    }, 750);
-
-    if (reason === "clickaway") {
-      setTimeout(() => {
-        dispatch(setSnackbarOptions({ message: "", severity: "success" }));
-      }, 750);
-      return;
-    }
+    dispatch(setSnackbarOptions({ open: false }));
   };
 
   return (
     <Snackbar
-      open={!!snackbarOptions.message}
-      // autoHideDuration={6000}
+      open={snackbarOptions.open}
+      autoHideDuration={6000}
+      anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
       onClose={handleClose}
     >
       <Alert
         onClose={handleClose}
         severity={snackbarOptions.severity}
-        // variant="outlined"
         sx={{ width: "100%" }}
       >
         {snackbarOptions.message}

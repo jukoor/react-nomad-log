@@ -24,7 +24,7 @@ export const useGoogleLogin = () => {
       const isNewUser = getAdditionalUserInfo(result);
 
       if (isNewUser) {
-        console.log("Successfully loggid in:", user.displayName);
+        console.log("Successfully logged in:", user.displayName);
 
         // On the fist sign up - create a document in firestore to store custom user data
         if (user) {

@@ -13,7 +13,8 @@ export type AppSliceInnerType = {
   mapZoomOut: boolean;
   mapProjectionGlobe: boolean | null;
   snackbarOptions: {
+    open: boolean;
     message: string;
-    severity: AlertColor;
+    severity?: AlertColor;
   };
 };

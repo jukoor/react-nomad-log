@@ -14,7 +14,7 @@ export const useAddFirebaseUser = () => {
           nameFirst: "",
           nameLast: "",
           bio: "",
-          bioTags: [],
+          tags: [],
           homeTown: "",
           nationality: "",
           countriesVisited: [],

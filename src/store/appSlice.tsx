@@ -11,7 +11,7 @@ const appSlice = createSlice({
     mapZoomIn: false,
     mapZoomOut: false,
     mapProjectionGlobe: null,
-    snackbarOptions: {},
+    snackbarOptions: { open: false, message: "", severity: "success" },
   } as AppSliceInnerType,
   reducers: {
     setCountrySelectDialogOpen: (state, action) => {

@@ -17,17 +17,23 @@ import {
   FormHelperText,
 } from "@mui/material";
 import { useState } from "react";
+import { useUpdateUserDocument } from "../hooks/useUpdateUserDocument";
+import { UserType } from "../types/UserType";
 
 export const SettingsForm = () => {
   const [formErrors, setFormErrors] = useState<{ [key: string]: string }>({});
 
+  const { updateUserDocument } = useUpdateUserDocument();
+
+  // On Submit: check required fields (validation), post updated form values to firebase store
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const formValues = Object.fromEntries(data.entries());
 
+    console.log(formValues);
+
     // Initialize errors object
-    // ToDo: extract to seperate function validate()
     const newErrors: { [key: string]: string } = {};
 
     // Validate required fields
@@ -43,8 +49,9 @@ export const SettingsForm = () => {
 
     // If there are no errors, proceed with form submission
     if (Object.keys(newErrors).length === 0) {
-      console.log(formValues);
-      // Here you can handle form submission
+      // Form submission
+      // Update Userdata in Firebase Store
+      updateUserDocument(formValues as unknown as UserType);
     } else {
       console.log("Validation Errors present");
     }
@@ -137,12 +144,13 @@ export const SettingsForm = () => {
               </Grid>
               <Grid item xs={12}>
                 <FormControl sx={{ m: 0, width: "100%" }}>
-                  <InputLabel id="tags" shrink>
+                  <InputLabel htmlFor="tags" shrink>
                     Tags
                   </InputLabel>
                   <Select
-                    labelId="tags"
                     id="tags"
+                    name="tags"
+                    label="tags"
                     placeholder="Your Bio Tags. Whats your travel style? "
                     multiple
                     value={personName}
@@ -210,7 +218,7 @@ export const SettingsForm = () => {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 3, mb: 2, fontWeight: "bold" }}
             >
               Save Changes
             </Button>
