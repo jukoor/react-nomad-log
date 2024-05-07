@@ -4,7 +4,7 @@ import { Stack } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { Bio } from "../components/profile/Bio";
 import { CountryLists } from "../components/profile/CountryLists";
-import { useFetchUserData } from "../hooks/useFetchUserData";
+import { useFetchUserData } from "../hooks/useFetchUserdata";
 
 export const Profile = () => {
   let { userId } = useParams();

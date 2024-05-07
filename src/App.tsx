@@ -7,10 +7,13 @@ import { Country } from "./pages/Country";
 import { Settings } from "./pages/Settings";
 import { Logout } from "./pages/Logout";
 import { useFetchCountryDataFromApi } from "./hooks/useFetchCountryDataFromApi";
+import { useFetchUserData } from "./hooks/useFetchUserdata";
 
 function App() {
   // Fetch all country data from API on App init
   useFetchCountryDataFromApi();
+  // Fetch user data from Firestore DB
+  useFetchUserData();
 
   return (
     <div className="app">

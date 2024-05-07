@@ -15,7 +15,7 @@ export const userSlice = createSlice({
       nameFirst: "",
       nameLast: "",
       bio: "",
-      bioTags: [],
+      tags: [],
       homeTown: "",
       nationality: "",
       countriesVisited: [],

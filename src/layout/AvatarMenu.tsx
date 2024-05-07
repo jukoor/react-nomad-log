@@ -32,6 +32,7 @@ export const AvatarMenu = () => {
     setAnchorEl(null);
   };
 
+  // ToDo: replace with real uid
   const handleGoProfile = () => {
     setAnchorEl(null);
     navigate("/profile/8pVS1cDjBszgEUE0aug8");
@@ -58,11 +59,11 @@ export const AvatarMenu = () => {
             aria-haspopup="true"
             aria-expanded={open ? "true" : undefined}
           >
-            <Avatar
-              {...getFirstLettersFromName(
+            <Avatar>
+              {getFirstLettersFromName(
                 `${userData.selectedUser.nameFirst} ${userData.selectedUser.nameLast}`
               )}
-            />
+            </Avatar>
           </IconButton>
         </Tooltip>
       </Box>
