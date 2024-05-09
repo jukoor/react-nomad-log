@@ -29,10 +29,6 @@ export const NavBar = () => {
     setLoading(userData.loading || countryData.loading);
   }, [userData.loading, countryData.loading]);
 
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
-
   const handleOnClick = () => {
     dispatch(toggleMenuVisibility());
   };

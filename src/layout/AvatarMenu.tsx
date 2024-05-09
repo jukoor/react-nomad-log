@@ -15,11 +15,14 @@ import { useNavigate } from "react-router-dom";
 import { getAuth, signOut } from "firebase/auth";
 import { useAppSelector } from "../hooks/reduxHooks";
 import { getFirstLettersFromName } from "../utils/appUtils";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 export const AvatarMenu = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const auth = getAuth();
+
+  const [user] = useAuthState(auth);
 
   const navigate = useNavigate();
 
@@ -35,7 +38,9 @@ export const AvatarMenu = () => {
   // ToDo: replace with real uid
   const handleGoProfile = () => {
     setAnchorEl(null);
-    navigate("/profile/8pVS1cDjBszgEUE0aug8");
+    if (user) {
+      navigate(`/profile/${user.uid}`);
+    }
   };
 
   const handleGoSettings = () => {
