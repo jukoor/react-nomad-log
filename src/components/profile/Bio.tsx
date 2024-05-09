@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 
 import styles from "../../styles/Bio.module.scss";
-import { getFirstLettersFromName } from "../../utils/appUtils";
+import { randomColorStringAvatar } from "../../utils/appUtils";
 import { useAppSelector } from "../../hooks/reduxHooks";
 import React from "react";
 
@@ -32,11 +32,11 @@ export const Bio = () => {
           {userDataLoading ? (
             <Skeleton variant="circular" width={40} height={40} />
           ) : (
-            <Avatar>
-              {getFirstLettersFromName(
+            <Avatar
+              {...randomColorStringAvatar(
                 `${userData.nameFirst} ${userData.nameLast}`
               )}
-            </Avatar>
+            ></Avatar>
           )}
 
           {userDataLoading ? (
