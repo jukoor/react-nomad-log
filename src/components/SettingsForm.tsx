@@ -18,11 +18,15 @@ import {
 import { useUpdateUserDocument } from "../hooks/useUpdateUserDocument";
 import { UserType } from "../types/UserType";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import { useAppSelector } from "../hooks/reduxHooks";
+import { useEffect } from "react";
 
 export const SettingsForm = () => {
   const { updateUserDocument } = useUpdateUserDocument();
 
-  const formDefaultValues = {
+  const userData = useAppSelector((state) => state.User.selectedUser);
+
+  const formDefaultValues: UserType = {
     uid: "",
     nameFirst: "",
     nameLast: "",
@@ -35,13 +39,29 @@ export const SettingsForm = () => {
     countriesLived: [],
   };
 
+  // ToDo: store and fetch from firebase
+  const tags = [
+    "Backpacking",
+    "All-Inclusive Hotel",
+    "Lazy Beach Time",
+    "Sightseeing",
+  ];
+
   const {
     control,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<UserType>({
     defaultValues: formDefaultValues,
   });
+
+  // Reset user data values from firebase into form fields
+  useEffect(() => {
+    if (userData) {
+      reset(userData);
+    }
+  }, [userData]);
 
   // On submit update the users profile data in firestore db
   const onSubmit: SubmitHandler<UserType> = (data) => {
@@ -52,20 +72,12 @@ export const SettingsForm = () => {
     updateUserDocument(formData);
   };
 
-  // ToDo: store and fetch from firebase
-  const tags = [
-    "Backpacking",
-    "All-Inclusive Hotel",
-    "Lazy Beach Time",
-    "Sightseeing",
-  ];
-
   return (
     <Container component="main" sx={{ marginTop: "50px" }}>
       <Card sx={{ minWidth: 275 }}>
         <CardContent>
-          <Typography variant="h3" sx={{ mb: 5 }}>
-            🤠 Your Profile
+          <Typography variant="h4" sx={{ mb: 5 }}>
+            Update Your Profile
           </Typography>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={4}>
