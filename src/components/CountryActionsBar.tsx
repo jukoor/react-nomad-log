@@ -85,7 +85,7 @@ export const CountryActionsBar = () => {
   const MapButtons = () => {
     return (
       <div className={styles.mapActions}>
-        {userData.countriesVisited.includes(selectedCountry?.cca2 || "") ? (
+        {userData.countriesVisited?.includes(selectedCountry?.cca2 || "") ? (
           <Button
             onClick={() => {
               toggleCountryList("remove", "visited");
@@ -106,7 +106,7 @@ export const CountryActionsBar = () => {
             Visited
           </Button>
         )}
-        {userData.countriesBucketList.includes(selectedCountry?.cca2 || "") ? (
+        {userData.countriesBucketList?.includes(selectedCountry?.cca2 || "") ? (
           <Button
             onClick={() => {
               toggleCountryList("remove", "bucketList");
@@ -156,7 +156,7 @@ export const CountryActionsBar = () => {
               </div>
               <div>
                 <Typography variant="h6" component="span">
-                  {selectedCountry?.flag} {selectedCountry?.name.common}
+                  {selectedCountry?.flag} {selectedCountry?.name.official}
                 </Typography>
               </div>
               <div>

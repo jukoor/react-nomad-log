@@ -324,9 +324,7 @@ export const CountryDetailsOverlay = () => {
         <div className={styles.header}>
           <Typography variant="h5" sx={{ display: "flex" }}>
             <span className={styles.headerEmoji}>{selectedCountry?.flag}</span>
-            <span className={styles.title}>
-              {selectedCountry?.name.official}
-            </span>
+            <span className={styles.title}>{selectedCountry?.name.common}</span>
           </Typography>
           <Tooltip
             sx={{ marginRight: "5px" }}
@@ -357,7 +355,7 @@ export const CountryDetailsOverlay = () => {
       <Dialog
         open={openDialog}
         onClose={handleCloseDialog}
-        sx={{ "& .MuiDialog-paper": { width: "60%", height: "100%" } }}
+        sx={{ "& .MuiDialog-paper": { width: "60%", height: "auto" } }}
       >
         <DialogTitle>
           <span>

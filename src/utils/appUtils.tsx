@@ -1,12 +1,30 @@
 // Return first letter of first and last name, empty string if name is empty
-export const getFirstLettersFromName = (name: string) => {
-  if (name.trim() === "") {
-    return "";
+function stringToColor(string: string) {
+  let hash = 0;
+  let i;
+
+  /* eslint-disable no-bitwise */
+  for (i = 0; i < string.length; i += 1) {
+    hash = string.charCodeAt(i) + ((hash << 5) - hash);
   }
-  const nameParts = name.split(" ");
-  let initials = nameParts[0][0];
-  if (nameParts.length > 1 && nameParts[1].trim() !== "") {
-    initials += nameParts[1][0];
+
+  let color = "#";
+
+  for (i = 0; i < 3; i += 1) {
+    const value = (hash >> (i * 8)) & 0xff;
+    color += `00${value.toString(16)}`.slice(-2);
   }
-  return initials;
-};
+  /* eslint-enable no-bitwise */
+
+  return color;
+}
+
+// returns a prop object for the user avatar with their initials and a unique color for their name bg
+export function randomColorStringAvatar(name: string) {
+  return {
+    sx: {
+      bgcolor: stringToColor(name),
+    },
+    children: `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`,
+  };
+}

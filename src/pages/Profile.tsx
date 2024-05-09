@@ -16,7 +16,7 @@ export const Profile = () => {
       <div className={styles.gradientHeader}></div>
       <div className={styles.content}>
         <Container>
-          <Stack spacing={2}>
+          <Stack spacing={2} sx={{ pb: 10 }}>
             <Bio />
             {/* <ContinentsVisited /> */}
             <CountryLists />

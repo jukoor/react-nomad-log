@@ -3,7 +3,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { getAuth } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../services/firebaseConfig";
-import { setSelectedUser } from "../store/userSlice";
+import { setLoading, setSelectedUser } from "../store/userSlice";
 import { UserType } from "../types/UserType";
 import { useAppDispatch } from "./reduxHooks";
 
@@ -29,6 +29,7 @@ export const useFetchUserData = (uidFromUrl?: string) => {
           if (userDocSnap.exists()) {
             console.log("User data:", userDocSnap.data());
             dispatch(setSelectedUser(userDocSnap.data() as UserType));
+            dispatch(setLoading(false));
           } else {
             console.log("No such document!");
           }

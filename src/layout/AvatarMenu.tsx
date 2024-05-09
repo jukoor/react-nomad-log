@@ -14,7 +14,7 @@ import InsertEmoticonIcon from "@mui/icons-material/InsertEmoticon";
 import { useNavigate } from "react-router-dom";
 import { getAuth, signOut } from "firebase/auth";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
-import { getFirstLettersFromName } from "../utils/appUtils";
+import { randomColorStringAvatar } from "../utils/appUtils";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { setUserLoggedIn } from "../store/userSlice";
 import { useEffect } from "react";
@@ -71,11 +71,11 @@ export const AvatarMenu = () => {
             aria-haspopup="true"
             aria-expanded={open ? "true" : undefined}
           >
-            <Avatar>
-              {getFirstLettersFromName(
+            <Avatar
+              {...randomColorStringAvatar(
                 `${userData.selectedUser.nameFirst} ${userData.selectedUser.nameLast}`
               )}
-            </Avatar>
+            />
           </IconButton>
         </Tooltip>
       </Box>
