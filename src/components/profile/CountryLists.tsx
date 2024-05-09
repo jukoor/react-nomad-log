@@ -21,7 +21,6 @@ import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import { setSelectedCountry } from "../../store/countrySlice";
 import { toggleCountryDetailsOverlay } from "../../store/appSlice";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import { useUpdateFirebaseField } from "../../services/firebaseHelper";
 import { UserType } from "../../types/UserType";
 import React from "react";
 
@@ -115,12 +114,12 @@ export const CountryLists = () => {
     //   return null;
     // };
 
-    const updateField = useUpdateFirebaseField({
-      list: list,
-      action: "remove",
-      userData: userData,
-      selectedCountry: undefined, // Initially undefined, will be set on click
-    });
+    // const updateField = useUpdateFirebaseField({
+    //   list: list,
+    //   action: "remove",
+    //   userData: userData,
+    //   selectedCountry: undefined, // Initially undefined, will be set on click
+    // });
 
     // Example usage within a button click handler
     //  const handleClick = (selectedCountryName: string) => {

@@ -13,19 +13,21 @@ import InsertEmoticonIcon from "@mui/icons-material/InsertEmoticon";
 
 import { useNavigate } from "react-router-dom";
 import { getAuth, signOut } from "firebase/auth";
-import { useAppSelector } from "../hooks/reduxHooks";
+import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 import { getFirstLettersFromName } from "../utils/appUtils";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { setUserLoggedIn } from "../store/userSlice";
+import { useEffect } from "react";
 
 export const AvatarMenu = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+
   const auth = getAuth();
 
   const [user] = useAuthState(auth);
-
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
   const userData = useAppSelector((state) => state.User);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -34,6 +36,10 @@ export const AvatarMenu = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
 
   // ToDo: replace with real uid
   const handleGoProfile = () => {
@@ -51,6 +57,7 @@ export const AvatarMenu = () => {
   const handleGoLogout = () => {
     setAnchorEl(null);
     signOut(auth);
+    dispatch(setUserLoggedIn(false));
   };
   return (
     <>

@@ -39,28 +39,28 @@ export const userSlice = createSlice({
     addCountryVisited: (state, action) => {
       const countryToAdd = action.payload as string;
       state.selectedUser.countriesVisited = [
-        ...state.selectedUser.countriesVisited,
+        ...(state.selectedUser.countriesVisited || []),
         countryToAdd,
       ];
     },
     removeCountryVisited: (state, action) => {
       const countryToRemove = action.payload as string;
       state.selectedUser.countriesVisited =
-        state.selectedUser.countriesVisited.filter(
+        state.selectedUser.countriesVisited?.filter(
           (country) => country !== countryToRemove
         );
     },
     addCountryBucketList: (state, action) => {
       const countryToAdd = action.payload as string;
       state.selectedUser.countriesBucketList = [
-        ...state.selectedUser.countriesBucketList,
+        ...(state.selectedUser.countriesBucketList || []),
         countryToAdd,
       ];
     },
     removeCountryBucketList: (state, action) => {
       const countryToRemove = action.payload as string;
       state.selectedUser.countriesBucketList =
-        state.selectedUser.countriesBucketList.filter(
+        state.selectedUser.countriesBucketList?.filter(
           (country) => country !== countryToRemove
         );
     },

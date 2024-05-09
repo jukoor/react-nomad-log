@@ -17,12 +17,12 @@ export const useGoogleLogin = () => {
   const loginWithGoogle = async () => {
     const provider = new GoogleAuthProvider();
     const auth = getAuth();
-    console.log("ok");
+
     try {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
       const isNewUser = getAdditionalUserInfo(result);
-
+      console.log(isNewUser);
       if (isNewUser) {
         console.log("Successfully logged in:", user.displayName);
 

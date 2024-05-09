@@ -5,6 +5,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { UserType } from "../types/UserType";
 import { useAppDispatch } from "./reduxHooks";
 import { setSnackbarOptions } from "../store/appSlice";
+import { setSelectedUser } from "../store/userSlice";
 
 export const useUpdateUserDocument = () => {
   const [loading, setLoading] = useState(false);
@@ -25,6 +26,10 @@ export const useUpdateUserDocument = () => {
           await updateDoc(userDocRef, formValues);
           setLoading(false);
           console.log("User document updated successfully");
+          // update User data in Redux store
+          dispatch(setSelectedUser(formValues));
+
+          // show success snackbar
           dispatch(
             setSnackbarOptions({
               open: true,

@@ -26,48 +26,48 @@ export type UpdateFirebaseFieldProps = {
 };
 
 // custom hook to update firebase field
-export const useUpdateFirebaseField = ({
-  list,
-  action,
-  userData,
-  selectedCountry,
-}: UpdateFirebaseFieldProps): (() => void) => {
-  const dispatch = useAppDispatch();
+// export const useUpdateFirebaseField = ({
+//   list,
+//   action,
+//   userData,
+//   selectedCountry,
+// }: UpdateFirebaseFieldProps): (() => void) => {
+//   const dispatch = useAppDispatch();
 
-  const updateField = useCallback(() => {
-    console.log("now");
-    if (userData && selectedCountry) {
-      const operation = action === "add" ? arrayUnion : arrayRemove;
-      const messageSuccess =
-        action === "add" ? "successfully added." : "successfully removed.";
-      const messageError =
-        action === "add" ? "could not be added." : "could not be removed.";
-      const usersColRef = doc(db, "users", userData.uid);
+//   const updateField = useCallback(() => {
+//     console.log("now");
+//     if (userData && selectedCountry) {
+//       const operation = action === "add" ? arrayUnion : arrayRemove;
+//       const messageSuccess =
+//         action === "add" ? "successfully added." : "successfully removed.";
+//       const messageError =
+//         action === "add" ? "could not be added." : "could not be removed.";
+//       const usersColRef = doc(db, "users", userData.uid);
 
-      updateDoc(usersColRef, {
-        [list]: operation(selectedCountry?.cca2),
-      })
-        .then(() => {
-          dispatch(
-            setSnackbarOptions({
-              message: `${selectedCountry?.flag}  ${selectedCountry?.name.common} ${messageSuccess}`,
-              severity: "success",
-            })
-          );
-        })
-        .catch(() => {
-          dispatch(
-            setSnackbarOptions({
-              message: `${selectedCountry?.flag}  ${selectedCountry?.name.common} ${messageError}`,
-              severity: "error",
-            })
-          );
-        });
-    }
-  }, [list, action, userData, selectedCountry]);
+//       updateDoc(usersColRef, {
+//         [list]: operation(selectedCountry?.cca2),
+//       })
+//         .then(() => {
+//           dispatch(
+//             setSnackbarOptions({
+//               message: `${selectedCountry?.flag}  ${selectedCountry?.name.common} ${messageSuccess}`,
+//               severity: "success",
+//             })
+//           );
+//         })
+//         .catch(() => {
+//           dispatch(
+//             setSnackbarOptions({
+//               message: `${selectedCountry?.flag}  ${selectedCountry?.name.common} ${messageError}`,
+//               severity: "error",
+//             })
+//           );
+//         });
+//     }
+//   }, [list, action, userData, selectedCountry]);
 
-  return updateField;
-};
+//   return updateField;
+// };
 
 // export default const useUpdateFirebaseField: FC<UpdateFirebaseFieldProps> = ({
 //   list,
@@ -124,6 +124,7 @@ export const loadUserFromFirebase = (userId: string) => {
 
   useEffect(() => {
     const loadUserData = async () => {
+      console.log("true");
       dispatch(setLoading(true)); // Set loading state to true before fetching data
       if (userId) {
         try {

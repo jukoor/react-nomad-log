@@ -20,6 +20,7 @@ export const useFetchUserData = (uidFromUrl?: string) => {
     const uidToUse = uidFromUrl ? uidFromUrl : user?.uid;
 
     if (uidToUse) {
+      console.log(uidToUse);
       const fetchUserData = async () => {
         try {
           const userDocRef = doc(db, "users", uidToUse);

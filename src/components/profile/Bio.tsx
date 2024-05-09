@@ -32,12 +32,11 @@ export const Bio = () => {
           {userDataLoading ? (
             <Skeleton variant="circular" width={40} height={40} />
           ) : (
-            <Avatar
-              className={styles.avatar}
-              {...getFirstLettersFromName(
-                `${userData?.nameFirst} ${userData?.nameLast}`
+            <Avatar>
+              {getFirstLettersFromName(
+                `${userData.nameFirst} ${userData.nameLast}`
               )}
-            />
+            </Avatar>
           )}
 
           {userDataLoading ? (
