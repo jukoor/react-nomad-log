@@ -1,5 +1,4 @@
 import {
-  Badge,
   Box,
   ButtonGroup,
   Card,
@@ -21,7 +20,6 @@ import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import { setSelectedCountry } from "../../store/countrySlice";
 import { toggleCountryDetailsOverlay } from "../../store/appSlice";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import { UserType } from "../../types/UserType";
 import React from "react";
 
 interface TabPanelProps {
@@ -91,12 +89,12 @@ export const CountryLists = () => {
       currentPage * itemsPerPage
     );
 
-    type UpdateFirebaseFieldProps = {
-      list: "countriesVisited" | "countriesBucketList" | "countriesLived";
-      action: "add" | "remove";
-      userDataObj: UserType | undefined;
-      selectedCountry: any;
-    };
+    // type UpdateFirebaseFieldProps = {
+    //   list: "countriesVisited" | "countriesBucketList" | "countriesLived";
+    //   action: "add" | "remove";
+    //   userDataObj: UserType | undefined;
+    //   selectedCountry: any;
+    // };
 
     // const handleRemoveFromList: FC<UpdateFirebaseFieldProps> = ({
     //   list,

@@ -17,7 +17,6 @@ import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 import { randomColorStringAvatar } from "../utils/appUtils";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { setUserLoggedIn } from "../store/userSlice";
-import { useEffect } from "react";
 
 export const AvatarMenu = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -36,10 +35,6 @@ export const AvatarMenu = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
 
   // ToDo: replace with real uid
   const handleGoProfile = () => {

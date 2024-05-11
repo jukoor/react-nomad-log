@@ -1,7 +1,7 @@
 import { arrayRemove, arrayUnion, doc, updateDoc } from "firebase/firestore";
 import { useCallback } from "react";
 import { db } from "../services/firebaseConfig";
-import { setSnackbarOptions, setCountryActionsBar } from "../store/appSlice";
+import { setSnackbarOptions } from "../store/appSlice";
 import { getAuth } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useAppDispatch, useAppSelector } from "./reduxHooks";

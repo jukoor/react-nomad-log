@@ -4,9 +4,8 @@ import TextField from "@mui/material/TextField";
 
 import React from "react";
 import { Typography } from "@mui/material";
-import { CountrySliceType } from "../types/slices/CountrySliceType";
-import { CountryType } from "../types/CountryType3";
 import { useAppSelector } from "../hooks/reduxHooks";
+import { CountryType } from "../types/CountryType";
 
 export const CountryList = () => {
   const [initialCountryData, setInitialCountryData] = useState<CountryType[]>(
@@ -45,7 +44,7 @@ export const CountryList = () => {
   const groupedCountries = useMemo(() => {
     const dict: Record<string, CountryType[]> = {};
     filteredData.forEach((country) => {
-      country.continents.forEach((continent) => {
+      country.continents.forEach((continent: any) => {
         if (!dict[continent]) {
           dict[continent] = [];
         }

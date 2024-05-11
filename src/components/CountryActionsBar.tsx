@@ -11,6 +11,7 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import FormatColorFillIcon from "@mui/icons-material/FormatColorFill";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { useToggleCountryInList } from "../hooks/useToggleCountryInList";
+import { CountryCca2Type } from "../types/CountryCca2Type";
 
 export const CountryActionsBar = () => {
   const dispatch = useAppDispatch();
@@ -33,7 +34,9 @@ export const CountryActionsBar = () => {
   const MapButtons = () => {
     return (
       <div className={styles.mapActions}>
-        {userData.countriesVisited?.includes(selectedCountry?.cca2 || "") ? (
+        {userData.countriesVisited?.includes(
+          (selectedCountry?.cca2 as CountryCca2Type) || ""
+        ) ? (
           <Button
             onClick={() => {
               toggleCountryInList("remove", "visited");
@@ -54,7 +57,9 @@ export const CountryActionsBar = () => {
             Visited
           </Button>
         )}
-        {userData.countriesBucketList?.includes(selectedCountry?.cca2 || "") ? (
+        {userData.countriesBucketList?.includes(
+          (selectedCountry?.cca2 as CountryCca2Type) || ""
+        ) ? (
           <Button
             onClick={() => {
               toggleCountryInList("remove", "bucketList");

@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { UserType } from "../types/UserType";
-import { CountryType } from "../types/CountryType";
 import { CountryCca2Type } from "../types/CountryCca2Type";
 
 export type UserState = {
