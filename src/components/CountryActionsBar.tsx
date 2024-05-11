@@ -1,9 +1,6 @@
 import { Button, Slide, Typography } from "@mui/material";
-import { arrayUnion, arrayRemove, doc, updateDoc } from "firebase/firestore";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
-import { db } from "../services/firebaseConfig";
 import {
-  setSnackbarOptions,
   setCountryActionsBar,
   toggleCountryDetailsOverlay,
 } from "../store/appSlice";
@@ -13,9 +10,12 @@ import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import FormatColorFillIcon from "@mui/icons-material/FormatColorFill";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import { useToggleCountryInList } from "../hooks/useToggleCountryInList";
 
 export const CountryActionsBar = () => {
   const dispatch = useAppDispatch();
+
+  const { toggleCountryInList } = useToggleCountryInList();
 
   const userData = useAppSelector((state) => state.User.selectedUser);
   const selectedCountry = useAppSelector(
@@ -30,65 +30,13 @@ export const CountryActionsBar = () => {
     return () => {};
   }, []);
 
-  type ActionType = "add" | "remove";
-  type ListType = "visited" | "bucketList";
-
-  // Toggles (add/remove) Country to visited, lived or bucket list
-  const toggleCountryList = (action: ActionType, listType: ListType) => {
-    const lists: Record<ListType, { firebaseField: string }> = {
-      visited: {
-        firebaseField: "countriesVisited",
-      },
-      bucketList: {
-        firebaseField: "bucketList",
-      },
-    };
-
-    const operation = action === "add" ? arrayUnion : arrayRemove;
-    const messageSuccess =
-      action === "add" ? "successfully added." : "successfully removed.";
-    const messageError =
-      action === "add" ? "could not be added." : "could not be removed.";
-
-    const usersColRef = doc(db, "users", userData.uid);
-    updateDoc(usersColRef, {
-      [lists[listType].firebaseField]: operation(selectedCountry?.cca2),
-    })
-      // @ts-ignore
-      .then((response) => {
-        dispatch(
-          setSnackbarOptions({
-            message: `${selectedCountry?.flag}${"  "}${
-              selectedCountry?.name.common
-            } ${messageSuccess}`,
-            severity: "success",
-          })
-        );
-      }) // @ts-ignore
-      .catch((error) => {
-        dispatch(
-          setSnackbarOptions({
-            message: `${selectedCountry?.flag}${"  "}${
-              selectedCountry?.name.common
-            } ${messageError}`,
-            severity: "error",
-          })
-        );
-      })
-      .finally(() => {
-        console.log("done");
-      });
-
-    dispatch(setCountryActionsBar(true));
-  };
-
   const MapButtons = () => {
     return (
       <div className={styles.mapActions}>
         {userData.countriesVisited?.includes(selectedCountry?.cca2 || "") ? (
           <Button
             onClick={() => {
-              toggleCountryList("remove", "visited");
+              toggleCountryInList("remove", "visited");
             }}
             variant="contained"
             startIcon={<RemoveCircleOutlineIcon />}
@@ -98,7 +46,7 @@ export const CountryActionsBar = () => {
         ) : (
           <Button
             onClick={() => {
-              toggleCountryList("add", "visited");
+              toggleCountryInList("add", "visited");
             }}
             variant="contained"
             startIcon={<AddCircleOutlineIcon />}
@@ -109,7 +57,7 @@ export const CountryActionsBar = () => {
         {userData.countriesBucketList?.includes(selectedCountry?.cca2 || "") ? (
           <Button
             onClick={() => {
-              toggleCountryList("remove", "bucketList");
+              toggleCountryInList("remove", "bucketList");
             }}
             variant="outlined"
             startIcon={<FormatColorFillIcon />}
@@ -119,7 +67,7 @@ export const CountryActionsBar = () => {
         ) : (
           <Button
             onClick={() => {
-              toggleCountryList("add", "bucketList");
+              toggleCountryInList("add", "bucketList");
             }}
             variant="outlined"
             startIcon={<FormatColorFillIcon />}

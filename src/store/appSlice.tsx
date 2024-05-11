@@ -4,7 +4,6 @@ import { AppSliceInnerType } from "../types/slices/AppSliceType";
 const appSlice = createSlice({
   name: "app",
   initialState: {
-    countrySelectDialogIsOpen: false,
     menuOpen: false,
     countryDetailsOverlayOpen: false,
     countryActionsBarOpen: false,
@@ -14,9 +13,6 @@ const appSlice = createSlice({
     snackbarOptions: { open: false, message: "", severity: "success" },
   } as AppSliceInnerType,
   reducers: {
-    setCountrySelectDialogOpen: (state, action) => {
-      state.countrySelectDialogIsOpen = action.payload;
-    },
     toggleMenuVisibility: (state) => {
       state.menuOpen = !state.menuOpen;
     },
@@ -46,7 +42,6 @@ const appSlice = createSlice({
 });
 
 export const {
-  setCountrySelectDialogOpen,
   toggleMenuVisibility,
   toggleCountryDetailsOverlay,
   setCountryActionsBar,

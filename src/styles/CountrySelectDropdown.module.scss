@@ -1,12 +1,12 @@
 .countrySearch {
   :global {
     .MuiFormLabel-root {
+      // ToDO: variables
       color: #434343;
     }
-    .MuiOutlinedInput-notchedOutline {
-      border: 0;
-    }
+
     .MuiInputBase-root {
+      // ToDO: variables
       background: rgba(255, 255, 255, 0.8);
     }
   }

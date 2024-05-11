@@ -1,3 +1,5 @@
+import { CountryCca2Type } from "./CountryCca2Type";
+
 export type UserType = {
   uid?: string;
   nameFirst: string;
@@ -6,7 +8,7 @@ export type UserType = {
   tags?: string[];
   homeTown?: string;
   nationality: string;
-  countriesVisited?: string[];
-  countriesBucketList?: string[];
-  countriesLived?: string[];
+  countriesVisited?: CountryCca2Type[];
+  countriesBucketList?: CountryCca2Type[];
+  countriesLived?: CountryCca2Type[];
 };

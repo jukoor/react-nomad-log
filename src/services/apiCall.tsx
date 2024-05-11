@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-/* Fetch All Country Data */
+/* Fetch All Country Data from restcountries.com API */
 export const fetchAllCountriesData = createAsyncThunk(
   "countries/fetchCountries",
   async () => {

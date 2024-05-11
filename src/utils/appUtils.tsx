@@ -21,6 +21,16 @@ function stringToColor(string: string) {
 
 // returns a prop object for the user avatar with their initials and a unique color for their name bg
 export function randomColorStringAvatar(name: string) {
+  if (!name || name.trim() === "") {
+    // Default/Fallback styles
+    return {
+      sx: {
+        bgcolor: "#bebebe", // Default color
+      },
+      children: "",
+    };
+  }
+
   return {
     sx: {
       bgcolor: stringToColor(name),

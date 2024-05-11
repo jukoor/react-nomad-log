@@ -1,4 +1,3 @@
-import { CountryShortType } from "../CountryShortType";
 import { CountryType } from "../CountryType";
 
 export type CountrySliceType = {

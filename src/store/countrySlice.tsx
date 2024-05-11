@@ -21,10 +21,12 @@ export const countrySlice = createSlice({
     builder
       .addCase(fetchAllCountriesData.pending, (state) => {
         state.loading = true;
-        // console.log("loading");
       })
       .addCase(fetchAllCountriesData.fulfilled, (state, action) => {
         state.countries = action.payload;
+        const cca2Codes = state.countries.map((country) => country.cca2);
+        console.log(cca2Codes);
+
         state.loading = false;
         console.log("Country API fully fetched");
       })

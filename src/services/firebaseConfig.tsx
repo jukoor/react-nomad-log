@@ -1,4 +1,3 @@
-import firebase from "firebase/app";
 import { initializeApp } from "firebase/app";
 
 //import "firebase/database"; // If using Firebase database

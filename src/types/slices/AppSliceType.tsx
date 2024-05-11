@@ -5,7 +5,6 @@ export type AppSliceType = {
 };
 
 export type AppSliceInnerType = {
-  countrySelectDialogIsOpen: boolean;
   menuOpen: boolean;
   countryDetailsOverlayOpen: boolean;
   countryActionsBarOpen: boolean;

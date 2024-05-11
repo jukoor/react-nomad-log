@@ -3,7 +3,6 @@ import { Profile } from "./pages/Profile";
 import { Home } from "./pages/Home";
 import { PageLayout } from "./layout/PageLayout";
 import "./styles/global/App.scss";
-import { Country } from "./pages/Country";
 import { Settings } from "./pages/Settings";
 import { Logout } from "./pages/Logout";
 import { useFetchCountryDataFromApi } from "./hooks/useFetchCountryDataFromApi";
@@ -23,7 +22,6 @@ function App() {
             <Route path="/" element={<Home />}></Route>
             <Route path="profile/:userId" element={<Profile />} />
             <Route path="settings" element={<Settings />} />
-            <Route path="country/:countryCode" element={<Country />} />
             <Route path="logout" element={<Logout />} />
           </Routes>
         </PageLayout>

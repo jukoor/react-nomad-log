@@ -1,5 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { UserType } from "../types/UserType";
+import { CountryType } from "../types/CountryType";
+import { CountryCca2Type } from "../types/CountryCca2Type";
 
 export type UserState = {
   selectedUser: UserType;
@@ -37,28 +39,28 @@ export const userSlice = createSlice({
       };
     },
     addCountryVisited: (state, action) => {
-      const countryToAdd = action.payload as string;
+      const countryToAdd = action.payload as CountryCca2Type;
       state.selectedUser.countriesVisited = [
         ...(state.selectedUser.countriesVisited || []),
         countryToAdd,
       ];
     },
     removeCountryVisited: (state, action) => {
-      const countryToRemove = action.payload as string;
+      const countryToRemove = action.payload as CountryCca2Type;
       state.selectedUser.countriesVisited =
         state.selectedUser.countriesVisited?.filter(
           (country) => country !== countryToRemove
         );
     },
     addCountryBucketList: (state, action) => {
-      const countryToAdd = action.payload as string;
+      const countryToAdd = action.payload as CountryCca2Type;
       state.selectedUser.countriesBucketList = [
         ...(state.selectedUser.countriesBucketList || []),
         countryToAdd,
       ];
     },
     removeCountryBucketList: (state, action) => {
-      const countryToRemove = action.payload as string;
+      const countryToRemove = action.payload as CountryCca2Type;
       state.selectedUser.countriesBucketList =
         state.selectedUser.countriesBucketList?.filter(
           (country) => country !== countryToRemove
