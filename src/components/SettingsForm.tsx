@@ -14,6 +14,7 @@ import {
   OutlinedInput,
   Select,
   FormHelperText,
+  Alert,
 } from "@mui/material";
 import { useUpdateUserDocument } from "../hooks/useUpdateUserDocument";
 import { UserType } from "../types/UserType";
@@ -270,8 +271,21 @@ export const SettingsForm = () => {
                   </FormControl>
                 </Grid>
 
-                <Grid item xs={12} sm={6}>
-                  <CountrySelectDropdown />
+                <Grid item xs={12}>
+                  <Alert variant="filled" severity="info">
+                    Select all the countries that you have (1) visited, (2) that
+                    are on your Bucket List and (3) those you lived in.
+                  </Alert>
+                </Grid>
+
+                <Grid item xs={12} sm={4}>
+                  <CountrySelectDropdown fieldType="Visited" />
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <CountrySelectDropdown fieldType="Lived" />
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <CountrySelectDropdown fieldType="BucketList" />
                 </Grid>
               </Grid>
               <Button
