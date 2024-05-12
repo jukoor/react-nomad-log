@@ -1,6 +1,7 @@
 import {
   Autocomplete,
   Box,
+  Chip,
   FormControl,
   InputLabel,
   TextField,
@@ -10,7 +11,7 @@ import { useAppSelector } from "../hooks/reduxHooks";
 import { Controller, useFormContext } from "react-hook-form";
 import { UserType } from "../types/UserType";
 import { CountryCca2Type } from "../types/CountryCca2Type";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 interface CountrySelectDropdownProps {
   fieldType: "Visited" | "Lived" | "BucketList";
@@ -25,6 +26,14 @@ export const CountrySelectDropdown = ({
   // Returns array of only the cca2 (used as uid) code of each country to use it as value
   const transformedValue = countryList.map((code) => code.cca2).sort();
 
+  const [selectedCount, setSelectedCount] = useState(0);
+  const countriesListValue = watch(`countries${fieldType}`);
+
+  // Set selected options length
+  useEffect(() => {
+    if (countriesListValue) setSelectedCount(countriesListValue.length);
+  }, [countriesListValue]);
+
   // Return name and flag of country to display in autocomplete list
   const returnCountryDisplayValues = (option: CountryCca2Type) => {
     const country = countryList.find((country) => country.cca2 === option);
@@ -32,17 +41,14 @@ export const CountrySelectDropdown = ({
     return `${country?.flag} ${country?.name.common}`;
   };
 
-  useEffect(() => {
-    console.log(watch(`countries${fieldType}`));
-  }, [watch(`countries${fieldType}`)]);
-
   return (
     <>
       {countryList && (
         <>
           <FormControl fullWidth={true}>
             <InputLabel htmlFor={`countries${fieldType}`} shrink>
-              {`${fieldType.charAt(0).toUpperCase() + fieldType.slice(1)}`}
+              {`${fieldType.charAt(0).toUpperCase() + fieldType.slice(1)} `}
+              <span className={styles.badgeCustom}>{selectedCount}</span>
             </InputLabel>
 
             <Controller
@@ -55,9 +61,10 @@ export const CountrySelectDropdown = ({
                   options={transformedValue}
                   autoHighlight
                   multiple
-                  limitTags={2}
                   fullWidth
-                  onChange={(newValue) => {
+                  // @ts-ignore
+                  onChange={(event, newValue) => {
+                    console.log(newValue);
                     // If newValue is undefined (no selection), set it to an empty array
                     onChange(Array.isArray(newValue) ? newValue : []);
                   }}
@@ -71,6 +78,21 @@ export const CountrySelectDropdown = ({
                       {returnCountryDisplayValues(option as CountryCca2Type)}
                     </Box>
                   )}
+                  renderTags={(value, getTagProps) =>
+                    value.map((option, index) => {
+                      // Use returnCountryDisplayValues to format the display of each selected value
+                      const displayValue = returnCountryDisplayValues(
+                        option as CountryCca2Type
+                      );
+                      return (
+                        <Chip
+                          variant="outlined"
+                          label={displayValue}
+                          {...getTagProps({ index })}
+                        />
+                      );
+                    })
+                  }
                   renderInput={(params) => (
                     <TextField
                       {...params}
@@ -81,6 +103,11 @@ export const CountrySelectDropdown = ({
                       }}
                     />
                   )}
+                  ListboxProps={{
+                    style: {
+                      maxHeight: "250px",
+                    },
+                  }}
                 />
               )}
             />

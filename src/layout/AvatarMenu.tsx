@@ -49,11 +49,16 @@ export const AvatarMenu = () => {
     navigate("/settings");
   };
 
+  // Logout of Google Auth
   const handleGoLogout = () => {
     setAnchorEl(null);
     signOut(auth);
     dispatch(setUserLoggedIn(false));
   };
+
+  const isProfileActive = location.pathname.includes(`/profile/${user?.uid}`);
+  const isSettingsActive = location.pathname === "/settings";
+
   return (
     <>
       <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
@@ -83,14 +88,20 @@ export const AvatarMenu = () => {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem onClick={handleGoProfile}>
+        <MenuItem
+          onClick={handleGoProfile}
+          style={isProfileActive ? { textDecoration: "underline" } : {}}
+        >
           <ListItemIcon>
             <InsertEmoticonIcon fontSize="small" />
           </ListItemIcon>
           Profile
         </MenuItem>
         <Divider />
-        <MenuItem onClick={handleGoSettings}>
+        <MenuItem
+          onClick={handleGoSettings}
+          style={isSettingsActive ? { textDecoration: "underline" } : {}}
+        >
           <ListItemIcon>
             <Settings fontSize="small" />
           </ListItemIcon>

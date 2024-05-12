@@ -11,3 +11,20 @@
     }
   }
 }
+
+.badgeCustom {
+  border-radius: 15px;
+  background: #4b4b4b;
+  min-width: 24px;
+  color: #ffd3db;
+  display: inline-flex;
+  justify-content: center;
+  height: 21px;
+  font-weight: bold;
+  position: relative;
+  line-height: 19px;
+  font-size: 14px;
+  bottom: 3px;
+  left: 2px;
+  padding: 0px 11px;
+}

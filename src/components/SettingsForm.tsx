@@ -278,24 +278,31 @@ export const SettingsForm = () => {
                   </Alert>
                 </Grid>
 
-                <Grid item xs={12} sm={4}>
+                <Grid item xs={12}>
                   <CountrySelectDropdown fieldType="Visited" />
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                <Grid item xs={12}>
                   <CountrySelectDropdown fieldType="Lived" />
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                <Grid item xs={12}>
                   <CountrySelectDropdown fieldType="BucketList" />
                 </Grid>
               </Grid>
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2, fontWeight: "bold" }}
+              <Grid
+                sx={{ mt: 5 }}
+                container
+                spacing={4}
+                justifyContent="center"
               >
-                Save Changes
-              </Button>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="success"
+                  sx={{ mt: 3, mb: 2, fontWeight: "bold" }}
+                >
+                  Save Changes
+                </Button>
+              </Grid>
             </form>
           </FormProvider>
         </CardContent>
