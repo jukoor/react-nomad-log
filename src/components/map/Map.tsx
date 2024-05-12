@@ -10,16 +10,16 @@ import { useEffect, useLayoutEffect, useRef } from "react";
 import {
   setSelectedCountry,
   clearSelectedCountry,
-} from "../store/countrySlice";
-import { getCountryData, getEmojiFlag } from "../utils/countryDataUtils";
-import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
-import styles from "../styles/Map.module.scss";
+} from "../../store/countrySlice";
+import { getCountryData, getEmojiFlag } from "../../utils/countryDataUtils";
+import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
+import styles from "../../styles/Map.module.scss";
 import {
   setCountryActionsBar,
   setMapZoomIn,
   setMapZoomOut,
   toggleMapProjection,
-} from "../store/appSlice";
+} from "../../store/appSlice";
 import { Box, IconButton, Tooltip } from "@mui/material";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import RemoveOutlinedIcon from "@mui/icons-material/RemoveOutlined";

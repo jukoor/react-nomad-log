@@ -1,4 +1,4 @@
-// Return first letter of first and last name, empty string if name is empty
+// Returns a custom color depending on the user name
 function stringToColor(string: string) {
   let hash = 0;
   let i;

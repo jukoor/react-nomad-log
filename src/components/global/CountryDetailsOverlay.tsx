@@ -38,9 +38,9 @@ import CropFreeOutlinedIcon from "@mui/icons-material/CropFreeOutlined";
 import TourOutlinedIcon from "@mui/icons-material/TourOutlined";
 import CurrencyExchangeOutlinedIcon from "@mui/icons-material/CurrencyExchangeOutlined";
 
-import styles from "../styles/CountryDetailsOverlay.module.scss";
-import { toggleCountryDetailsOverlay } from "../store/appSlice";
-import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
+import styles from "../../styles/CountryDetailsOverlay.module.scss";
+import { toggleCountryDetailsOverlay } from "../../store/appSlice";
+import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import CloseIcon from "@mui/icons-material/Close";
 
 interface CountryInfo {

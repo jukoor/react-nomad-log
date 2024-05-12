@@ -1,4 +1,4 @@
-import { SettingsForm } from "../components/SettingsForm";
+import { SettingsForm } from "../components/settings/SettingsForm";
 import styles from "../styles/Profile.module.scss";
 
 export const Settings = () => {

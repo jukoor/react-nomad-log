@@ -6,11 +6,11 @@ import {
   InputLabel,
   TextField,
 } from "@mui/material";
-import styles from "../styles/CountrySelectDropdown.module.scss";
-import { useAppSelector } from "../hooks/reduxHooks";
+import styles from "../../styles/CountrySelectDropdown.module.scss";
+import { useAppSelector } from "../../hooks/reduxHooks";
 import { Controller, useFormContext } from "react-hook-form";
-import { UserType } from "../types/UserType";
-import { CountryCca2Type } from "../types/CountryCca2Type";
+import { UserType } from "../../types/UserType";
+import { CountryCca2Type } from "../../types/CountryCca2Type";
 import { useEffect, useState } from "react";
 
 interface CountrySelectDropdownProps {

@@ -1,6 +1,6 @@
 import { Alert, Snackbar } from "@mui/material";
-import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
-import { setSnackbarOptions } from "../store/appSlice";
+import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
+import { setSnackbarOptions } from "../../store/appSlice";
 
 // Global Alert Message System, controlled by value in redux store
 export const SnackMessage = () => {

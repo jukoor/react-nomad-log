@@ -11,7 +11,7 @@ import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 import { useEffect, useState } from "react";
 import { getAuth } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
-import Login from "../components/Login";
+import Login from "../components/global/Login";
 
 import { AvatarMenu } from "./AvatarMenu";
 

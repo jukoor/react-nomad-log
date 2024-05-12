@@ -16,15 +16,15 @@ import {
   FormHelperText,
   Alert,
 } from "@mui/material";
-import { useUpdateUserDocument } from "../hooks/useUpdateUserDocument";
-import { UserType } from "../types/UserType";
+import { useUpdateUserDocument } from "../../hooks/useUpdateUserDocument";
+import { UserType } from "../../types/UserType";
 import {
   useForm,
   SubmitHandler,
   Controller,
   FormProvider,
 } from "react-hook-form";
-import { useAppSelector } from "../hooks/reduxHooks";
+import { useAppSelector } from "../../hooks/reduxHooks";
 import { useEffect } from "react";
 import { CountrySelectDropdown } from "./CountrySelectDropdown";
 

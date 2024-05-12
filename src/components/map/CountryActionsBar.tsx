@@ -1,17 +1,17 @@
 import { Button, Slide, Typography } from "@mui/material";
-import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
+import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import {
   setCountryActionsBar,
   toggleCountryDetailsOverlay,
-} from "../store/appSlice";
+} from "../../store/appSlice";
 import { useEffect, useState } from "react";
-import styles from "../styles/CountryActionBar.module.scss";
+import styles from "../../styles/CountryActionBar.module.scss";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import FormatColorFillIcon from "@mui/icons-material/FormatColorFill";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import { useToggleCountryInList } from "../hooks/useToggleCountryInList";
-import { CountryCca2Type } from "../types/CountryCca2Type";
+import { useToggleCountryInList } from "../../hooks/useToggleCountryInList";
+import { CountryCca2Type } from "../../types/CountryCca2Type";
 
 export const CountryActionsBar = () => {
   const dispatch = useAppDispatch();

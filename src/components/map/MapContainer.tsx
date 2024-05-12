@@ -1,4 +1,4 @@
-import styles from "../styles/Map.module.scss";
+import styles from "../../styles/Map.module.scss";
 import "firebase/database";
 import { Map } from "./Map";
 import { CountryActionsBar } from "./CountryActionsBar";
