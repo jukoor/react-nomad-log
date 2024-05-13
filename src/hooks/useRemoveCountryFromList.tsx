@@ -6,29 +6,34 @@ import { UserType } from "../types/UserType";
 import { useAppDispatch } from "./reduxHooks";
 import { setSnackbarOptions } from "../store/appSlice";
 import { setSelectedUser } from "../store/userSlice";
+import { CountryCca2Type } from "../types/CountryCca2Type";
 
 // Updates User Profile in firebase storage, needs the full UserType object with values
-export const useUpdateUserDocument = () => {
+export const useRemoveCountryFromList = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
   const auth = getAuth();
   const [user] = useAuthState(auth);
   const dispatch = useAppDispatch();
 
-  const updateUserDocument = useCallback(
-    async (formValues: UserType) => {
+  const updateCountryList = useCallback(
+    async (
+      list: "countriesVisited" | "countriesLived" | "countriesBucketList",
+      values: CountryCca2Type[]
+    ) => {
       if (user) {
-        console.log(formValues);
+        console.log(list);
         setLoading(true);
         const db = getFirestore();
         const userDocRef = doc(db, "users", user.uid);
-
+        console.log(userDocRef);
         try {
-          await updateDoc(userDocRef, formValues);
+          //   await updateDoc(userDocRef, { [list]: values });
+          await updateDoc(userDocRef, { [list]: values });
           setLoading(false);
           console.log("User document updated successfully");
           // update User data in Redux store
-          dispatch(setSelectedUser(formValues));
+          //   dispatch(setSelectedUser(formValues));
 
           // show success snackbar
           dispatch(
@@ -55,5 +60,5 @@ export const useUpdateUserDocument = () => {
     [user]
   );
 
-  return { updateUserDocument, loading, error };
+  return { updateCountryList, loading, error };
 };

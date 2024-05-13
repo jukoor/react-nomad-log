@@ -5,10 +5,9 @@ body {
   }
 
   .listItem {
-    // counter-increment: my-awesome-counter;
     box-shadow: 0.25rem 0.25rem 0.6rem rgba(0, 0, 0, 0.05),
       0 0.5rem 1.125rem rgba(75, 0, 0, 0.05);
-    border-radius: 15px;
+    border-radius: 25px;
     background: #fff;
     margin-bottom: 15px;
     padding-left: 65px;
@@ -17,7 +16,7 @@ body {
     font-weight: 400;
 
     &::before {
-      content: counter(my-awesome-counter) ". ";
+      content: counter(my-awesome-counter);
       counter-increment: my-awesome-counter;
       color: #1f2937;
       font-weight: bold;
@@ -25,18 +24,18 @@ body {
       z-index: 2;
       font-size: 16px;
       top: 11px;
-      width: 40px;
-      left: 5px;
+      width: 34px;
+      left: 4px;
       text-align: center;
     }
 
     &::after {
       content: "";
       background: linear-gradient(135deg, #83e4e2 0%, #a2ed56 100%);
-      border-radius: 10px 10px 0 10px;
+      border-radius: 50%;
       left: 5px;
       top: 5px;
-      width: 40px;
+      width: 30px;
       height: 30px;
       overflow: hidden;
       position: absolute;

@@ -21,6 +21,9 @@ import { setSelectedCountry } from "../../store/countrySlice";
 import { toggleCountryDetailsOverlay } from "../../store/appSlice";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import React from "react";
+import { useRemoveCountryFromList } from "../../hooks/useRemoveCountryFromList";
+import { CountryCca2Type } from "../../types/CountryCca2Type";
+import { setSelectedUser } from "../../store/userSlice";
 
 interface TabPanelProps {
   children: React.ReactNode;
@@ -35,13 +38,17 @@ export const CountryLists = () => {
   const userData = useAppSelector((state) => state.User.selectedUser);
   const userDataLoading = useAppSelector((state) => state.User.loading);
 
+  const { updateCountryList } = useRemoveCountryFromList();
+
   const [value, setValue] = useState(0);
+
   // @ts-ignore
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
     // console.log(newValue);
   };
 
+  // ToDo: Put in own Component
   function CustomTabPanel(props: TabPanelProps) {
     const { children, value, index, ...other } = props;
 
@@ -73,6 +80,8 @@ export const CountryLists = () => {
   const CountryList = ({ list }: CountryListProps) => {
     const itemsPerPage = 10;
     const [currentPage, setCurrentPage] = useState(1);
+    const { updateCountryList } = useRemoveCountryFromList();
+
     const countryList = userData?.[list] ?? [];
 
     const handleChangePage = (
@@ -89,43 +98,33 @@ export const CountryLists = () => {
       currentPage * itemsPerPage
     );
 
-    // type UpdateFirebaseFieldProps = {
-    //   list: "countriesVisited" | "countriesBucketList" | "countriesLived";
-    //   action: "add" | "remove";
-    //   userDataObj: UserType | undefined;
-    //   selectedCountry: any;
-    // };
+    // Remove country from one of the 3 lists from firebase and redux store
+    const handleRemoveCountry = async (country: CountryCca2Type) => {
+      try {
+        // Remove country from list of countries
+        const filteredCountriesVisited = userData.countriesVisited?.filter(
+          (country2) => country2 !== country
+        );
 
-    // const handleRemoveFromList: FC<UpdateFirebaseFieldProps> = ({
-    //   list,
-    //   action,
-    //   userDataObj,
-    //   selectedCountry,
-    // }) => {
-    //   updateFirebaseField({
-    //     list: list,
-    //     action: action,
-    //     userDataObj: userDataObj,
-    //     selectedCountry: selectedCountry,
-    //   });
+        // Update Firebase Store with new values
+        if (filteredCountriesVisited) {
+          await updateCountryList(
+            list,
+            filteredCountriesVisited as CountryCca2Type[]
+          );
 
-    //   return null;
-    // };
-
-    // const updateField = useUpdateFirebaseField({
-    //   list: list,
-    //   action: "remove",
-    //   userData: userData,
-    //   selectedCountry: undefined, // Initially undefined, will be set on click
-    // });
-
-    // Example usage within a button click handler
-    //  const handleClick = (selectedCountryName: string) => {
-    //   updateField({
-    //     ...updateField
-    //   });
-    //   updateField()
-    //  };
+          // Set new list of countries to store, exluciding the selected country
+          dispatch(
+            setSelectedUser({
+              ...userData,
+              countriesVisited: filteredCountriesVisited,
+            })
+          );
+        }
+      } catch (err) {
+        console.error("Failed to remove country:", err);
+      }
+    };
 
     return (
       <List className={styles.orderedList}>
@@ -160,7 +159,7 @@ export const CountryLists = () => {
                       </IconButton>
                       <IconButton
                         sx={{ marginRight: "5px" }}
-                        // onClick={() => handleClick(singleCountry.cca2)}
+                        onClick={() => handleRemoveCountry(singleCountry.cca2)}
                       >
                         <RemoveCircleOutlineIcon />
                       </IconButton>
@@ -175,12 +174,17 @@ export const CountryLists = () => {
           );
         })}
         {!userDataLoading && (
-          <Pagination
-            count={totalPages}
-            page={currentPage}
-            onChange={handleChangePage}
-            sx={{ marginTop: 2 }}
-          />
+          <>
+            <Typography variant="body2" sx={{ marginBottom: 2 }}>
+              Total Countries: {paginatedCountryList.length}
+            </Typography>
+            <Pagination
+              count={totalPages}
+              page={currentPage}
+              onChange={handleChangePage}
+              sx={{ marginTop: 2 }}
+            />
+          </>
         )}
       </List>
     );
@@ -219,16 +223,12 @@ export const CountryLists = () => {
                     onChange={handleChange}
                     aria-label="Lists of countries visited, bucket list countries and countries lived in."
                   >
-                    {/*
-             badgeContent={userData?.countriesVisited.length}
-            badgeContent={3}
-            color="primary"
-          > */}
                     <Tab label="Visited" {...a11yProps(0)} />
                     <Tab label="Bucket List" {...a11yProps(1)} />
                     <Tab label="Lived in" {...a11yProps(2)} />
                   </Tabs>
                 )}
+                <span></span>
               </Box>
 
               <CustomTabPanel value={value} index={0}>
