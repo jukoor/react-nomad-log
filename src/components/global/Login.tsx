@@ -4,7 +4,11 @@ import { useGoogleLogin } from "../../hooks/useGoogleLogin";
 export const Login = () => {
   const { loginWithGoogle } = useGoogleLogin();
 
-  return <Button onClick={loginWithGoogle}>Sign in with Google</Button>;
+  return (
+    <Button variant="contained" color="secondary" onClick={loginWithGoogle}>
+      Sign in
+    </Button>
+  );
 };
 
 export default Login;

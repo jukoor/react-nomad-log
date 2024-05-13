@@ -2,10 +2,8 @@ import { getAuth } from "firebase/auth";
 import { getFirestore, doc, updateDoc } from "firebase/firestore";
 import { useState, useCallback } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { UserType } from "../types/UserType";
 import { useAppDispatch } from "./reduxHooks";
 import { setSnackbarOptions } from "../store/appSlice";
-import { setSelectedUser } from "../store/userSlice";
 import { CountryCca2Type } from "../types/CountryCca2Type";
 
 // Updates User Profile in firebase storage, needs the full UserType object with values
@@ -22,24 +20,19 @@ export const useRemoveCountryFromList = () => {
       values: CountryCca2Type[]
     ) => {
       if (user) {
-        console.log(list);
         setLoading(true);
         const db = getFirestore();
         const userDocRef = doc(db, "users", user.uid);
-        console.log(userDocRef);
         try {
-          //   await updateDoc(userDocRef, { [list]: values });
           await updateDoc(userDocRef, { [list]: values });
           setLoading(false);
-          console.log("User document updated successfully");
-          // update User data in Redux store
-          //   dispatch(setSelectedUser(formValues));
+          console.log("User updated successfully");
 
           // show success snackbar
           dispatch(
             setSnackbarOptions({
               open: true,
-              message: "Profile updated successfully.",
+              message: "List item successfully removed.",
               severity: "success",
             })
           );
@@ -49,7 +42,7 @@ export const useRemoveCountryFromList = () => {
           dispatch(
             setSnackbarOptions({
               open: true,
-              message: "Profile could not be updated. Please retry later.",
+              message: "List could not be updated. Please retry later.",
               severity: "error",
             })
           );

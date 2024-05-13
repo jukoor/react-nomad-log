@@ -20,14 +20,12 @@ export const useFetchUserData = (uidFromUrl?: string) => {
     const uidToUse = uidFromUrl ? uidFromUrl : user?.uid;
 
     if (uidToUse) {
-      console.log(uidToUse);
       const fetchUserData = async () => {
         try {
           const userDocRef = doc(db, "users", uidToUse);
           const userDocSnap = await getDoc(userDocRef);
 
           if (userDocSnap.exists()) {
-            console.log("User data:", userDocSnap.data());
             dispatch(setSelectedUser(userDocSnap.data() as UserType));
             dispatch(setLoading(false));
           } else {

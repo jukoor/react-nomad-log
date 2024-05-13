@@ -11,28 +11,28 @@ export const useMenuStructure = () => {
   const auth = getAuth();
   const [user] = useAuthState(auth);
 
-  const menuStructure: MenuStructureType[] = [
-    {
-      id: 0,
-      target: "/",
-      text: "Map",
-      icon: <MapOutlinedIcon />,
-    },
-    {
-      id: 1,
-      target: "profile/8pVS1cDjBszgEUE0aug8",
-      text: "Profile",
-      icon: <InsertEmoticonIcon />,
-    },
-    {
-      id: 2,
-      target: "/settings",
-      text: "Settings",
-      icon: <ToggleOnOutlinedIcon />,
-    },
-    // Conditionally rendered, only when logged in
-    ...(user !== null
+  // Return menu structure seperately for logged in and logged out state
+  const menuStructure: MenuStructureType[] =
+    user !== null
       ? [
+          {
+            id: 0,
+            target: "/",
+            text: "Map",
+            icon: <MapOutlinedIcon />,
+          },
+          {
+            id: 1,
+            target: `profile/${user?.uid}`,
+            text: "Profile",
+            icon: <InsertEmoticonIcon />,
+          },
+          {
+            id: 2,
+            target: "/settings",
+            text: "Settings",
+            icon: <ToggleOnOutlinedIcon />,
+          },
           {
             id: 3,
             target: "/logout",
@@ -40,8 +40,14 @@ export const useMenuStructure = () => {
             icon: <LogoutIcon />,
           },
         ]
-      : []),
-  ];
+      : [
+          {
+            id: 0,
+            target: "/",
+            text: "Map",
+            icon: <MapOutlinedIcon />,
+          },
+        ];
 
   return menuStructure;
 };

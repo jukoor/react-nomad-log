@@ -38,8 +38,6 @@ export const CountryLists = () => {
   const userData = useAppSelector((state) => state.User.selectedUser);
   const userDataLoading = useAppSelector((state) => state.User.loading);
 
-  const { updateCountryList } = useRemoveCountryFromList();
-
   const [value, setValue] = useState(0);
 
   // @ts-ignore

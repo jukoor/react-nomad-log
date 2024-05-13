@@ -13,26 +13,38 @@ import { toggleMenuVisibility } from "../store/appSlice";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import { Tooltip } from "@mui/material";
+import { Button, Tooltip } from "@mui/material";
 import { SidebarWelcomeMsg } from "./SidebarWelcomeMsg";
+import { getAuth } from "firebase/auth";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useGoogleLogin } from "../hooks/useGoogleLogin";
+import { useEffect } from "react";
 
 export const SidebarMenu = () => {
   const dispatch = useAppDispatch();
   const menuVisibility = useAppSelector((state) => state.App.menuOpen);
   const menuStructure = useMenuStructure();
 
+  const auth = getAuth();
+  const [user] = useAuthState(auth);
+  const { loginWithGoogle } = useGoogleLogin();
+
   const drawerWidth = 240;
 
-  const handleOnClick = () => {
+  const handleCloseDrawer = () => {
     dispatch(toggleMenuVisibility());
   };
+
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
 
   return (
     <Box sx={{ display: "flex" }}>
       <Drawer
         className={styles.sidebar}
         open={menuVisibility}
-        onClose={handleOnClick}
+        onClose={handleCloseDrawer}
         sx={{
           width: drawerWidth,
           flexShrink: 0,
@@ -54,11 +66,12 @@ export const SidebarMenu = () => {
             color="primary"
             aria-label="Close Sidebar"
             sx={{ alignSelf: "flex-end", margin: "5px" }}
-            onClick={handleOnClick}
+            onClick={handleCloseDrawer}
           >
             <CloseIcon />
           </IconButton>
         </Tooltip>
+
         <Divider sx={{ borderColor: "#ffffff70" }} />
 
         <SidebarWelcomeMsg />
@@ -67,7 +80,7 @@ export const SidebarMenu = () => {
 
         <List sx={{ marginTop: "30px" }}>
           {menuStructure.map((item) => (
-            <ListItem onClick={handleOnClick} key={item.id} disablePadding>
+            <ListItem onClick={handleCloseDrawer} key={item.id} disablePadding>
               <NavLink
                 to={item.target}
                 className={({ isActive }) =>
@@ -86,6 +99,16 @@ export const SidebarMenu = () => {
             </ListItem>
           ))}
         </List>
+        {user == null && (
+          <Button
+            className="signInBtn"
+            variant="contained"
+            color="secondary"
+            onClick={loginWithGoogle}
+          >
+            Sign in
+          </Button>
+        )}
       </Drawer>
     </Box>
   );
