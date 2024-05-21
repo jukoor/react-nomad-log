@@ -1,6 +1,14 @@
 import { createTheme } from "@mui/material";
 
 export const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#1f2937",
+    },
+    secondary: {
+      main: "#f2a9ff",
+    },
+  },
   typography: {
     fontFamily: ["Raleway", '"Helvetica Neue"', "Arial", "sans-serif"].join(
       ","

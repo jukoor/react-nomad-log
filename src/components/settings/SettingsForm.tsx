@@ -2,7 +2,6 @@ import {
   Container,
   Grid,
   TextField,
-  Button,
   Box,
   Typography,
   CardContent,
@@ -15,6 +14,8 @@ import {
   Select,
   FormHelperText,
   Alert,
+  CircularProgress,
+  Button,
 } from "@mui/material";
 import { useUpdateUserDocument } from "../../hooks/useUpdateUserDocument";
 import { UserType } from "../../types/UserType";
@@ -25,12 +26,13 @@ import {
   FormProvider,
 } from "react-hook-form";
 import { useAppSelector } from "../../hooks/reduxHooks";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { CountrySelectDropdown } from "./CountrySelectDropdown";
 
 export const SettingsForm = () => {
   const { updateUserDocument } = useUpdateUserDocument();
 
+  const [loading, setLoading] = useState(false);
   const userData = useAppSelector((state) => state.User.selectedUser);
 
   const formDefaultValues: UserType = {
@@ -74,8 +76,13 @@ export const SettingsForm = () => {
   }, [userData]);
 
   // On submit update the users profile data in firestore db
-  const onSubmit: SubmitHandler<UserType> = (data) => {
+  const onSubmit: SubmitHandler<UserType> = async (data) => {
     console.log(data);
+
+    // Set loading spinner for 5 seconds
+    setLoading(true);
+    await new Promise((resolve) => setTimeout(resolve, 5000));
+    setLoading(false);
 
     const formData = data as UserType;
 
@@ -295,12 +302,13 @@ export const SettingsForm = () => {
                 justifyContent="center"
               >
                 <Button
-                  type="submit"
                   variant="contained"
-                  color="success"
-                  sx={{ mt: 3, mb: 2, fontWeight: "bold" }}
+                  color="secondary"
+                  disabled={loading}
+                  type="submit"
+                  endIcon={loading ? <CircularProgress size={24} /> : null}
                 >
-                  Save Changes
+                  {loading ? "Loading..." : "Save Changes"}
                 </Button>
               </Grid>
             </form>

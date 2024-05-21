@@ -3,7 +3,7 @@ import { setUserLoggedIn } from "../store/userSlice";
 import {
   GoogleAuthProvider,
   getAuth,
-  signInWithPopup,
+  signInWithRedirect,
   getAdditionalUserInfo,
 } from "firebase/auth";
 import { useAddFirebaseUser } from "./useAddFirebaseUser";
@@ -19,24 +19,35 @@ export const useGoogleLogin = () => {
     const auth = getAuth();
 
     try {
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
-      const isNewUser = getAdditionalUserInfo(result);
-      console.log(isNewUser);
-      if (isNewUser) {
-        console.log("Successfully logged in:", user.displayName);
+      // Use signInWithRedirect instead of signInWithPopup
+      const result = await signInWithRedirect(auth, provider);
+      console.log(result);
+      // After successful sign-in, handle the redirect response
+      window.addEventListener("load", () => {
+        // const result = auth.currentUser;
+        console.log(result);
+        if (result) {
+          const isNewUser = getAdditionalUserInfo(result); // Assuming getAdditionalUserInfo accepts a User object wrapped in a UserCredential-like structure
+          console.log(isNewUser);
+          if (isNewUser) {
+            // console.log("Successfully logged in:", result.displayName);
 
-        // On the fist sign up - create a document in firestore to store custom user data
-        if (user) {
-          console.log(user);
-          addUserDoc(user.uid);
+            // On the first sign up - create a document in firestore to store custom user data
+            if (result) {
+              console.log(result);
+              // addUserDoc(result.uid);
+            }
+          } else {
+            // console.log(
+            //   "Successfully logged in (first time):",
+            //   result.displayName
+            // );
+            // Perform actions specific to login
+          }
+
+          dispatch(setUserLoggedIn(true));
         }
-      } else {
-        console.log("Successfully loggid in (first time):", user.displayName);
-        // Perform actions specific to login
-      }
-
-      dispatch(setUserLoggedIn(true));
+      });
     } catch (error) {
       if (error instanceof Error) {
         console.error("Error logging in:", error.message);
