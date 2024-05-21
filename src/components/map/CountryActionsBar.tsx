@@ -12,6 +12,7 @@ import FormatColorFillIcon from "@mui/icons-material/FormatColorFill";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { useToggleCountryInList } from "../../hooks/useToggleCountryInList";
 import { CountryCca2Type } from "../../types/CountryCca2Type";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 
 export const CountryActionsBar = () => {
   const dispatch = useAppDispatch();
@@ -103,7 +104,11 @@ export const CountryActionsBar = () => {
           >
             <div className={styles.countryActionsBar}>
               <div>
-                <Button onClick={() => dispatch(setCountryActionsBar(true))}>
+                <Button
+                  onClick={() => dispatch(setCountryActionsBar(true))}
+                  variant="outlined"
+                  startIcon={<ArrowBackIosIcon />}
+                >
                   Back to Map
                 </Button>
               </div>

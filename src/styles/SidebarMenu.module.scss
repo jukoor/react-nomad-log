@@ -1,22 +1,24 @@
 @import "./global/variables.scss";
 
-.link {
-  width: 100%;
-  text-decoration: none;
-  color: $color-white;
-  transition: background-color 0.3s ease-out;
-  &:hover {
-    background-color: $color-sidebarlink;
+.sidebar {
+  .link {
+    width: 100%;
+    text-decoration: none;
+    color: $color-white;
+    transition: background-color 0.3s ease-out;
+    &:hover {
+      background-color: $color-sidebarlink;
+    }
+    &.active {
+      background-color: $color-sidebarlink;
+    }
   }
-  &.active {
-    background-color: $color-sidebarlink;
-  }
-}
 
-.signInBtn {
-  margin-top: auto;
-  position: relative;
-  bottom: 10px;
-  width: 90%;
-  left: 6%;
+  .signInBtn {
+    margin-top: auto;
+    position: relative;
+    bottom: 10px;
+    width: 90%;
+    left: 6%;
+  }
 }

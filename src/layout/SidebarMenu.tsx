@@ -18,7 +18,6 @@ import { SidebarWelcomeMsg } from "./SidebarWelcomeMsg";
 import { getAuth } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useGoogleLogin } from "../hooks/useGoogleLogin";
-import { useEffect } from "react";
 
 export const SidebarMenu = () => {
   const dispatch = useAppDispatch();
@@ -34,10 +33,6 @@ export const SidebarMenu = () => {
   const handleCloseDrawer = () => {
     dispatch(toggleMenuVisibility());
   };
-
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -74,9 +69,13 @@ export const SidebarMenu = () => {
 
         <Divider sx={{ borderColor: "#ffffff70" }} />
 
-        <SidebarWelcomeMsg />
-
-        <Divider sx={{ borderColor: "#ffffff70" }} />
+        {/* Show welcome Message when user is logged in */}
+        {user && (
+          <>
+            <SidebarWelcomeMsg />
+            <Divider sx={{ borderColor: "#ffffff70" }} />
+          </>
+        )}
 
         <List sx={{ marginTop: "30px" }}>
           {menuStructure.map((item) => (
@@ -101,7 +100,7 @@ export const SidebarMenu = () => {
         </List>
         {user == null && (
           <Button
-            className="signInBtn"
+            className={styles.signInBtn}
             variant="contained"
             color="secondary"
             onClick={loginWithGoogle}
