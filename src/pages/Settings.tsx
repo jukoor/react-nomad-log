@@ -6,9 +6,7 @@ export const Settings = () => {
   return (
     <div className={`${styles.module} ${styles.moduleSettings}`}>
       <GradientHeader />
-      <div className={styles.content}>
-        <SettingsForm />
-      </div>
+      <SettingsForm />
     </div>
   );
 };

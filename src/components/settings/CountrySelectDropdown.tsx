@@ -15,10 +15,12 @@ import { useEffect, useState } from "react";
 
 interface CountrySelectDropdownProps {
   fieldType: "Visited" | "Lived" | "BucketList";
+  disabled?: boolean;
 }
 
 export const CountrySelectDropdown = ({
   fieldType,
+  disabled,
 }: CountrySelectDropdownProps) => {
   const countryList = useAppSelector((state) => state.Country.countries);
   const { control, watch } = useFormContext<UserType>();
@@ -62,6 +64,7 @@ export const CountrySelectDropdown = ({
                   autoHighlight
                   multiple
                   fullWidth
+                  disabled={!!disabled}
                   // @ts-ignore
                   onChange={(event, newValue) => {
                     console.log(newValue);
