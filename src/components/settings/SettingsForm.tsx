@@ -48,7 +48,6 @@ export const SettingsForm = () => {
     countriesLived: [],
   };
 
-  // ToDo: store and fetch from firebase
   const tags = [
     "🎒 Backpacking",
     "🏨 All-Inclusive Hotel",

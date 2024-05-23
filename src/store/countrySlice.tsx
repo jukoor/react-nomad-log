@@ -5,7 +5,7 @@ import { fetchAllCountriesData } from "../services/apiCall";
 export const countrySlice = createSlice({
   name: "countries",
   initialState: {
-    countries: [], // ToDo type
+    countries: [],
     selectedCountry: null,
     loading: false,
   } as CountrySliceInnerType,
@@ -33,7 +33,6 @@ export const countrySlice = createSlice({
   },
 });
 
-// Action creators are generated for each case reducer function
 export const { setSelectedCountry, clearSelectedCountry } =
   countrySlice.actions;
 

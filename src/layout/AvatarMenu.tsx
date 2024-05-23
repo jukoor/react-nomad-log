@@ -32,11 +32,11 @@ export const AvatarMenu = () => {
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
 
-  // ToDo: replace with real uid
   const handleGoProfile = () => {
     setAnchorEl(null);
     if (user) {
