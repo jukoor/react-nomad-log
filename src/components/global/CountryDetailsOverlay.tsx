@@ -84,8 +84,6 @@ export const CountryDetailsOverlay = () => {
     }
   }, [selectedCountry]);
 
-  // Todo: Flag, Currencies
-
   const TimezoneCollapse = ({ timezones }: TimezoneCollapseProps) => {
     return (
       <>
@@ -95,15 +93,24 @@ export const CountryDetailsOverlay = () => {
               expandIcon={<ExpandMoreIcon />}
               aria-controls="panel1-content"
               id="panel1-header"
+              sx={{ padding: 0, minHeight: "30px" }}
             >
               {timezones[0]}{" "}
               {timezones.length > 1 ? `(+${timezones.length - 1})` : ""}
             </AccordionSummary>
-            <AccordionDetails>
+            <AccordionDetails className="bla">
               {timezones.map(
                 (zone, index) =>
                   index > 0 && (
-                    <Typography key={index} variant="body1">
+                    <Typography
+                      key={index}
+                      variant="body1"
+                      sx={{
+                        fontWeight: 400,
+                        fontSize: "0.875rem",
+                        lineHeight: "1.43",
+                      }}
+                    >
                       {zone}
                     </Typography>
                   )
@@ -123,10 +130,10 @@ export const CountryDetailsOverlay = () => {
     let laneIcon;
 
     if (lane === "right") {
-      tooltipContent = "Right-hand traffic, as in 69% of countries worldwide.";
+      tooltipContent = "Right-hand traffic.";
       laneIcon = <SwitchLeftIcon />;
     } else {
-      tooltipContent = "Left-hand traffic, as in 31% of countries worldwide.";
+      tooltipContent = "Left-hand traffic.";
       laneIcon = <SwitchRightIcon />;
     }
 
