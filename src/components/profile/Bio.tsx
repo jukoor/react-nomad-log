@@ -19,8 +19,14 @@ export const Bio = () => {
   const userDataLoading = useAppSelector((state) => state.User.loading);
 
   return (
-    <Card sx={{ minWidth: 275 }}>
-      <CardContent>
+    <Card
+      sx={{
+        minWidth: 275,
+        boxShadow: "0px 0px 20px 11px #00000012",
+        borderRadius: "25px",
+      }}
+    >
+      <CardContent sx={{ padding: { xs: "20px", sm: "20px", md: "30px" } }}>
         <Box
           sx={{
             display: "flex",
@@ -92,6 +98,7 @@ export const Bio = () => {
                     label={item}
                     variant="outlined"
                     color="primary"
+                    sx={{ mb: 1.5 }}
                   />
                 )}
               </React.Fragment>

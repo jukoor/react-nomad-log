@@ -34,8 +34,14 @@ export const CountryLists = () => {
   return (
     <>
       {userData && (
-        <Card sx={{ minWidth: 275 }}>
-          <CardContent>
+        <Card
+          sx={{
+            minWidth: 275,
+            boxShadow: "0px 0px 20px 11px #00000012",
+            borderRadius: "25px",
+          }}
+        >
+          <CardContent sx={{ padding: { xs: "20px", sm: "20px", md: "30px" } }}>
             {userDataLoading ? (
               <Skeleton
                 variant="rounded"

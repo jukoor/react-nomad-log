@@ -15,6 +15,15 @@ export const theme = createTheme({
     ),
   },
   components: {
+    MuiCard: {
+      defaultProps: {
+        sx: {
+          minWidth: 275,
+          boxShadow: "0px 0px 20px 11px #00000012",
+          borderRadius: "25px",
+        },
+      },
+    },
     MuiButton: {
       styleOverrides: {
         root: {
