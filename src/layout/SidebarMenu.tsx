@@ -60,7 +60,7 @@ export const SidebarMenu = () => {
           <IconButton
             color="primary"
             aria-label="Close Sidebar"
-            sx={{ alignSelf: "flex-end", margin: "5px" }}
+            sx={{ alignSelf: "flex-end", margin: "5px", color: "#ffffff" }}
             onClick={handleCloseDrawer}
           >
             <CloseIcon />

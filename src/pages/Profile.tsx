@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { Bio } from "../components/profile/Bio";
 import { CountryLists } from "../components/profile/CountryLists";
 import { useFetchUserData } from "../hooks/useFetchUserdata";
+import { GradientHeader } from "../components/global/GradientHeader";
 
 export const Profile = () => {
   let { userId } = useParams();
@@ -13,7 +14,7 @@ export const Profile = () => {
 
   return (
     <div className={`${styles.module} ${styles.moduleProfile}`}>
-      <div className={styles.gradientHeader}></div>
+      <GradientHeader />
       <div className={styles.content}>
         <Container>
           <Stack spacing={2} sx={{ pb: 10 }}>

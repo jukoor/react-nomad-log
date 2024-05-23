@@ -80,7 +80,7 @@ export const SettingsForm = () => {
 
     // Set loading spinner for 5 seconds
     setLoading(true);
-    await new Promise((resolve) => setTimeout(resolve, 5000));
+    await new Promise((resolve) => setTimeout(resolve, 2000));
     setLoading(false);
 
     const formData = data as UserType;
@@ -93,9 +93,15 @@ export const SettingsForm = () => {
   }, [loading]);
 
   return (
-    <Container component="main" sx={{ marginTop: "50px" }}>
-      <Card sx={{ minWidth: 275 }}>
-        <CardContent>
+    <Container component="main" sx={{ marginTop: "-65px" }}>
+      <Card
+        sx={{
+          minWidth: 275,
+          boxShadow: "0px 0px 20px 11px #00000012",
+          borderRadius: "25px",
+        }}
+      >
+        <CardContent sx={{ padding: "30px" }}>
           <Typography variant="h4" sx={{ mb: 5 }}>
             Update Your Profile
           </Typography>
@@ -111,6 +117,7 @@ export const SettingsForm = () => {
                       <Controller
                         control={control}
                         name="nameFirst"
+                        disabled={loading}
                         rules={{ required: true }}
                         render={({ field: { onChange, value } }) => (
                           <TextField
