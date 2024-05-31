@@ -35,6 +35,7 @@ export const useGoogleLogin = () => {
             // On the first sign up - create a document in firestore to store custom user data
             if (result) {
               console.log(result);
+              // Todo
               // addUserDoc(result.uid);
             }
           } else {

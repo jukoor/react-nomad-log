@@ -26,22 +26,12 @@ export const NavBar = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // if not logged in, only load the country data
-    if (user === null) {
-      setLoading(countryData.loading);
-    } else {
-      // if logged in, load country data and user data
-      setLoading(userData.loading || countryData.loading);
-    }
+    setLoading(userData.loading || countryData.loading);
   }, [userData.loading, countryData.loading]);
 
   const handleOnClick = () => {
     dispatch(toggleMenuVisibility());
   };
-
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
 
   return (
     <Box className={styles.appBarComp} sx={{ flexGrow: 1 }}>

@@ -25,6 +25,8 @@ import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import RemoveOutlinedIcon from "@mui/icons-material/RemoveOutlined";
 import PublicIcon from "@mui/icons-material/Public";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
+import { useFetchUserData } from "../../hooks/useFetchUserdata";
+import { updateCountriesVisited } from "../../store/userSlice";
 
 type CountryCode = string;
 
@@ -32,6 +34,9 @@ export const Map = () => {
   const dispatch = useAppDispatch();
 
   const userData = useAppSelector((state) => state.User.selectedUser);
+  const userCountryVisitedTemp = useAppSelector(
+    (state) => state.User.countryVisitedTemp
+  );
   const countryData = useAppSelector((state) => state.Country.countries);
   const actionBarOpen = useAppSelector(
     (state) => state.App.countryActionsBarOpen
@@ -170,8 +175,6 @@ export const Map = () => {
                     );
                   } else {
                     console.log("polygon fill error");
-                    // Handle the case where data or data.polygonSettings is undefined
-                    // You might want to set a default fill color or handle the error appropriately
                   }
 
                   countrySeries.show();
@@ -230,21 +233,28 @@ export const Map = () => {
     chartRef.current = chart;
     worldSeriesRef.current = worldSeries;
     countrySeriesRef.current = countrySeries;
-    console.log("healthy");
     return () => {
       root.dispose();
-      console.log("Map disposed");
     };
   }, [userData]);
 
   // Custom effect to open the country details top bar
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (actionBarOpen) {
       chartRef.current?.goHome();
       worldSeriesRef.current?.show();
       countrySeriesRef.current?.hide();
       dispatch(clearSelectedCountry());
       dispatch(setCountryActionsBar(false));
+      console.log("fetch user data again");
+      // useFetchUserData();
+
+      if (userCountryVisitedTemp) {
+        setTimeout(() => {
+          console.log(userCountryVisitedTemp);
+          dispatch(updateCountriesVisited(userCountryVisitedTemp));
+        }, 1000);
+      }
     }
   }, [actionBarOpen]);
 
@@ -264,8 +274,8 @@ export const Map = () => {
     }
   }, [mapZoomOut]);
 
+  // Todo: useEffect?
   useLayoutEffect(() => {
-    console.log(mapProjection);
     if (mapProjection === false) {
       chartRef.current?.set("projection", am5map.geoMercator());
     } else if (mapProjection === true) {

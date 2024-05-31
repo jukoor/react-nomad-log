@@ -4,6 +4,7 @@ import { CountryCca2Type } from "../types/CountryCca2Type";
 
 export type UserState = {
   selectedUser: UserType;
+  countryVisitedTemp: string;
   loading: boolean;
   isLoggedIn: boolean;
 };
@@ -23,19 +24,28 @@ export const userSlice = createSlice({
       countriesBucketList: [],
       countriesLived: [],
     },
+    countryVisitedTemp: "",
     isLoggedIn: false,
-    loading: true,
+    loading: false,
   } as UserState,
   reducers: {
+    setCountryVisitedTemp: (state, action) => {
+      state.countryVisitedTemp = action.payload;
+    },
     setLoading: (state, action) => {
-      const value = action.payload as boolean;
-      state.loading = value;
+      state.loading = action.payload;
     },
     setSelectedUser: (state, action) => {
       state.selectedUser = {
         ...state.selectedUser,
         ...action.payload,
       };
+    },
+    updateCountriesVisited: (state, action) => {
+      state.selectedUser.countriesVisited = [
+        ...(state.selectedUser.countriesVisited || []),
+        action.payload,
+      ];
     },
     addCountryVisited: (state, action) => {
       const countryToAdd = action.payload as CountryCca2Type;
@@ -79,6 +89,8 @@ export const {
   addCountryBucketList,
   removeCountryBucketList,
   setUserLoggedIn,
+  updateCountriesVisited,
+  setCountryVisitedTemp,
 } = userSlice.actions;
 
 export default userSlice.reducer;

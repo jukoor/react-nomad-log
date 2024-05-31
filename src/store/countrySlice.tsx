@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { CountrySliceInnerType } from "../types/slices/CountrySliceType";
-import { fetchAllCountriesData } from "../services/apiCall";
+import { fetchAllCountriesData } from "../services/fetchCountryDataApiCall";
 
 export const countrySlice = createSlice({
   name: "countries",

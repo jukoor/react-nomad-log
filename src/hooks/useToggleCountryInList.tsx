@@ -5,6 +5,11 @@ import { setSnackbarOptions } from "../store/appSlice";
 import { getAuth } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useAppDispatch, useAppSelector } from "./reduxHooks";
+import { useFetchUserData } from "./useFetchUserdata";
+import {
+  setCountryVisitedTemp,
+  updateCountriesVisited,
+} from "../store/userSlice";
 
 type ActionType = "add" | "remove";
 type ListType = "visited" | "bucketList";
@@ -20,7 +25,7 @@ export const useToggleCountryInList = () => {
 
   const toggleCountryInList = useCallback(
     async (action: ActionType, listType: ListType) => {
-      if (user) {
+      if (user && selectedCountry) {
         console.log(action);
         console.log(listType);
 
@@ -40,7 +45,6 @@ export const useToggleCountryInList = () => {
           action === "add" ? "could not be added." : "could not be removed.";
 
         const usersColRef = doc(db, "users", user.uid);
-
         try {
           await updateDoc(usersColRef, {
             [lists[listType].firebaseField]: operation(selectedCountry?.cca2),
@@ -54,6 +58,12 @@ export const useToggleCountryInList = () => {
               severity: "success",
             })
           );
+          console.log("success");
+
+          // update redux user
+          // dispatch(updateCountriesVisited(selectedCountry?.cca2));
+
+          dispatch(setCountryVisitedTemp(selectedCountry?.cca2));
         } catch (error) {
           dispatch(
             setSnackbarOptions({
@@ -68,7 +78,7 @@ export const useToggleCountryInList = () => {
         }
       }
     },
-    [user]
+    [user, selectedCountry]
   );
 
   return { toggleCountryInList };

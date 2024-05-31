@@ -19,7 +19,8 @@ export const CountryActionsBar = () => {
 
   const { toggleCountryInList } = useToggleCountryInList();
 
-  const userData = useAppSelector((state) => state.User.selectedUser);
+  const userData = useAppSelector((state) => state.User);
+  const selectedUserdata = useAppSelector((state) => state.User.selectedUser);
   const selectedCountry = useAppSelector(
     (state) => state.Country.selectedCountry
   );
@@ -32,12 +33,21 @@ export const CountryActionsBar = () => {
     return () => {};
   }, []);
 
+  useEffect(() => {
+    console.log(
+      selectedUserdata.countriesVisited?.includes(
+        (selectedCountry?.cca2 as CountryCca2Type) ||
+          (userData.countryVisitedTemp as CountryCca2Type)
+      )
+    );
+  }, [userData]);
+
   const MapButtons = () => {
     return (
       <div className={styles.mapActions}>
-        {userData.countriesVisited?.includes(
-          (selectedCountry?.cca2 as CountryCca2Type) || ""
-        ) ? (
+        {selectedUserdata.countriesVisited?.includes(
+          selectedCountry?.cca2 as CountryCca2Type
+        ) || selectedCountry?.cca2 === userData.countryVisitedTemp ? (
           <Button
             onClick={() => {
               toggleCountryInList("remove", "visited");
@@ -58,7 +68,7 @@ export const CountryActionsBar = () => {
             Visited
           </Button>
         )}
-        {userData.countriesBucketList?.includes(
+        {selectedUserdata.countriesBucketList?.includes(
           (selectedCountry?.cca2 as CountryCca2Type) || ""
         ) ? (
           <Button
