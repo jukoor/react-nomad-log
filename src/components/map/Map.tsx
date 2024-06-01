@@ -25,8 +25,11 @@ import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import RemoveOutlinedIcon from "@mui/icons-material/RemoveOutlined";
 import PublicIcon from "@mui/icons-material/Public";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
-import { useFetchUserData } from "../../hooks/useFetchUserdata";
-import { updateCountriesVisited } from "../../store/userSlice";
+import {
+  updateCountriesBucketList,
+  updateCountriesLived,
+  updateCountriesVisited,
+} from "../../store/userSlice";
 
 type CountryCode = string;
 
@@ -37,6 +40,13 @@ export const Map = () => {
   const userCountryVisitedTemp = useAppSelector(
     (state) => state.User.countryVisitedTemp
   );
+  const userCountryBucketListTemp = useAppSelector(
+    (state) => state.User.countryBucketListTemp
+  );
+  const userCountryLivedTemp = useAppSelector(
+    (state) => state.User.countryLivedTemp
+  );
+
   const countryData = useAppSelector((state) => state.Country.countries);
   const actionBarOpen = useAppSelector(
     (state) => state.App.countryActionsBarOpen
@@ -63,9 +73,11 @@ export const Map = () => {
     // Define a mapping of country ISO codes to colors
     const countryColors: any = {};
     const bucketListColors: any = {};
+    const livedColors: any = {};
 
     const visitedCountriesColor = am5.color("#009876");
     const bucketListColor = am5.color("#FFC107");
+    const livedCountriesColor = am5.color("#00BCD4");
 
     // Only apply visited countries' colors if the user is logged in
     if (userData.nameFirst.length > 0) {
@@ -79,6 +91,12 @@ export const Map = () => {
       if (userData.countriesBucketList) {
         userData.countriesBucketList.forEach((country: CountryCode) => {
           bucketListColors[country] = bucketListColor;
+        });
+      }
+
+      if (userData.countriesLived) {
+        userData.countriesLived.forEach((country: CountryCode) => {
+          livedColors[country] = livedCountriesColor;
         });
       }
     }
@@ -130,6 +148,9 @@ export const Map = () => {
           }
           if (bucketListColors[countryId]) {
             polygon.set("fill", bucketListColors[countryId]);
+          }
+          if (livedColors[countryId]) {
+            polygon.set("fill", livedColors[countryId]);
           }
         }
       });
@@ -246,13 +267,23 @@ export const Map = () => {
       countrySeriesRef.current?.hide();
       dispatch(clearSelectedCountry());
       dispatch(setCountryActionsBar(false));
-      console.log("fetch user data again");
-      // useFetchUserData();
 
+      // update temp state after returning home so changes get visible
       if (userCountryVisitedTemp) {
         setTimeout(() => {
-          console.log(userCountryVisitedTemp);
           dispatch(updateCountriesVisited(userCountryVisitedTemp));
+        }, 1000);
+      }
+
+      if (userCountryBucketListTemp) {
+        setTimeout(() => {
+          dispatch(updateCountriesBucketList(userCountryBucketListTemp));
+        }, 1000);
+      }
+
+      if (userCountryLivedTemp) {
+        setTimeout(() => {
+          dispatch(updateCountriesLived(userCountryLivedTemp));
         }, 1000);
       }
     }

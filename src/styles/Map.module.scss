@@ -55,21 +55,22 @@
 .zoomControl {
   position: absolute;
   bottom: 40px;
-  left: 30px;
+  left: 20px;
   z-index: 5;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 
   .zoomBtn {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
+    border: 1px solid grey;
     background: $color-white;
-    transition: 0.3s backgroundColor ease-out;
+    transition: 0.3s background-color ease-out;
 
     &:hover {
-      background: $color-primary-dark;
+      background: $color-pink2;
     }
   }
 }

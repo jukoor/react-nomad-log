@@ -4,7 +4,9 @@ import { CountryCca2Type } from "../types/CountryCca2Type";
 
 export type UserState = {
   selectedUser: UserType;
-  countryVisitedTemp: string;
+  countryVisitedTemp: CountryCca2Type | null;
+  countryLivedTemp: CountryCca2Type | null;
+  countryBucketListTemp: CountryCca2Type | null;
   loading: boolean;
   isLoggedIn: boolean;
 };
@@ -24,13 +26,21 @@ export const userSlice = createSlice({
       countriesBucketList: [],
       countriesLived: [],
     },
-    countryVisitedTemp: "",
+    countryVisitedTemp: null,
+    countryBucketListTemp: null,
+    countryLivedTemp: null,
     isLoggedIn: false,
     loading: false,
   } as UserState,
   reducers: {
     setCountryVisitedTemp: (state, action) => {
       state.countryVisitedTemp = action.payload;
+    },
+    setCountryBucketListTemp: (state, action) => {
+      state.countryBucketListTemp = action.payload;
+    },
+    setCountryLivedTemp: (state, action) => {
+      state.countryLivedTemp = action.payload;
     },
     setLoading: (state, action) => {
       state.loading = action.payload;
@@ -44,6 +54,18 @@ export const userSlice = createSlice({
     updateCountriesVisited: (state, action) => {
       state.selectedUser.countriesVisited = [
         ...(state.selectedUser.countriesVisited || []),
+        action.payload,
+      ];
+    },
+    updateCountriesBucketList: (state, action) => {
+      state.selectedUser.countriesBucketList = [
+        ...(state.selectedUser.countriesBucketList || []),
+        action.payload,
+      ];
+    },
+    updateCountriesLived: (state, action) => {
+      state.selectedUser.countriesLived = [
+        ...(state.selectedUser.countriesLived || []),
         action.payload,
       ];
     },
@@ -90,7 +112,11 @@ export const {
   removeCountryBucketList,
   setUserLoggedIn,
   updateCountriesVisited,
+  updateCountriesBucketList,
+  updateCountriesLived,
   setCountryVisitedTemp,
+  setCountryBucketListTemp,
+  setCountryLivedTemp,
 } = userSlice.actions;
 
 export default userSlice.reducer;

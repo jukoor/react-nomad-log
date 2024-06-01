@@ -5,14 +5,17 @@ import { setSnackbarOptions } from "../store/appSlice";
 import { getAuth } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useAppDispatch, useAppSelector } from "./reduxHooks";
-import { useFetchUserData } from "./useFetchUserdata";
 import {
+  setCountryBucketListTemp,
+  setCountryLivedTemp,
   setCountryVisitedTemp,
-  updateCountriesVisited,
 } from "../store/userSlice";
 
 type ActionType = "add" | "remove";
-type ListType = "visited" | "bucketList";
+export type CountryList =
+  | "countriesVisited"
+  | "countriesLived"
+  | "countriesBucketList";
 
 // Toggles (add/remove) Country to visited, lived or bucket list
 export const useToggleCountryInList = () => {
@@ -24,21 +27,13 @@ export const useToggleCountryInList = () => {
   );
 
   const toggleCountryInList = useCallback(
-    async (action: ActionType, listType: ListType) => {
+    async (action: ActionType, firebaseField: CountryList) => {
       if (user && selectedCountry) {
         console.log(action);
-        console.log(listType);
-
-        const lists: Record<ListType, { firebaseField: string }> = {
-          visited: {
-            firebaseField: "countriesVisited",
-          },
-          bucketList: {
-            firebaseField: "bucketList",
-          },
-        };
+        console.log(firebaseField);
 
         const operation = action === "add" ? arrayUnion : arrayRemove;
+
         const messageSuccess =
           action === "add" ? "successfully added." : "successfully removed.";
         const messageError =
@@ -47,7 +42,7 @@ export const useToggleCountryInList = () => {
         const usersColRef = doc(db, "users", user.uid);
         try {
           await updateDoc(usersColRef, {
-            [lists[listType].firebaseField]: operation(selectedCountry?.cca2),
+            [firebaseField]: operation(selectedCountry?.cca2),
           });
 
           dispatch(
@@ -61,9 +56,13 @@ export const useToggleCountryInList = () => {
           console.log("success");
 
           // update redux user
-          // dispatch(updateCountriesVisited(selectedCountry?.cca2));
-
-          dispatch(setCountryVisitedTemp(selectedCountry?.cca2));
+          if (firebaseField === "countriesVisited") {
+            dispatch(setCountryVisitedTemp(selectedCountry?.cca2));
+          } else if (firebaseField === "countriesBucketList") {
+            dispatch(setCountryBucketListTemp(selectedCountry?.cca2));
+          } else if (firebaseField === "countriesLived") {
+            dispatch(setCountryLivedTemp(selectedCountry?.cca2));
+          }
         } catch (error) {
           dispatch(
             setSnackbarOptions({
@@ -73,8 +72,6 @@ export const useToggleCountryInList = () => {
               severity: "error",
             })
           );
-
-          // dispatch(setCountryActionsBar(true));
         }
       }
     },
