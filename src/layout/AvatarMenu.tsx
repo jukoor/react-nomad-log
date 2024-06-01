@@ -73,7 +73,7 @@ export const AvatarMenu = () => {
           >
             <Avatar
               {...randomColorStringAvatar(
-                `${userData.selectedUser.nameFirst} ${userData.selectedUser.nameLast}`
+                `${userData.selectedUser?.nameFirst} ${userData.selectedUser?.nameLast}`
               )}
             />
           </IconButton>

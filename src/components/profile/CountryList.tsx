@@ -7,7 +7,7 @@ import {
   Typography,
   Pagination,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useRemoveCountryFromList } from "../../hooks/useRemoveCountryFromList";
 import { toggleCountryDetailsOverlay } from "../../store/appSlice";
 import { setSelectedCountry } from "../../store/countrySlice";
@@ -55,7 +55,7 @@ export const CountryList = ({ list }: CountryListProps) => {
   const handleRemoveCountry = async (country: CountryCca2Type) => {
     try {
       // Remove country from list of countries
-      const filteredCountriesVisited = userData.countriesVisited?.filter(
+      const filteredCountriesVisited = userData?.countriesVisited?.filter(
         (country2) => country2 !== country
       );
 
@@ -78,10 +78,6 @@ export const CountryList = ({ list }: CountryListProps) => {
       console.error("Failed to remove country:", err);
     }
   };
-
-  useEffect(() => {
-    console.log(currentPage);
-  }, [currentPage]);
 
   return (
     <List className={styles.orderedList}>

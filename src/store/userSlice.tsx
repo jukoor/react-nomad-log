@@ -3,7 +3,7 @@ import { UserType } from "../types/UserType";
 import { CountryCca2Type } from "../types/CountryCca2Type";
 
 export type UserState = {
-  selectedUser: UserType;
+  selectedUser: UserType | null;
   countryVisitedTemp: CountryCca2Type | null;
   countryLivedTemp: CountryCca2Type | null;
   countryBucketListTemp: CountryCca2Type | null;
@@ -14,18 +14,19 @@ export type UserState = {
 export const userSlice = createSlice({
   name: "user",
   initialState: {
-    selectedUser: {
-      uid: "",
-      nameFirst: "",
-      nameLast: "",
-      bio: "",
-      tags: [],
-      homeTown: "",
-      nationality: "",
-      countriesVisited: [],
-      countriesBucketList: [],
-      countriesLived: [],
-    },
+    selectedUser: null,
+    // {
+    //   uid: "",
+    //   nameFirst: "",
+    //   nameLast: "",
+    //   bio: "",
+    //   tags: [],
+    //   homeTown: "",
+    //   nationality: "",
+    //   countriesVisited: [],
+    //   countriesBucketList: [],
+    //   countriesLived: [],
+    // },
     countryVisitedTemp: null,
     countryBucketListTemp: null,
     countryLivedTemp: null,
@@ -52,50 +53,64 @@ export const userSlice = createSlice({
       };
     },
     updateCountriesVisited: (state, action) => {
-      state.selectedUser.countriesVisited = [
-        ...(state.selectedUser.countriesVisited || []),
-        action.payload,
-      ];
+      if (state.selectedUser) {
+        state.selectedUser.countriesVisited = [
+          ...(state.selectedUser.countriesVisited || []),
+          action.payload,
+        ];
+      }
     },
     updateCountriesBucketList: (state, action) => {
-      state.selectedUser.countriesBucketList = [
-        ...(state.selectedUser.countriesBucketList || []),
-        action.payload,
-      ];
+      if (state.selectedUser) {
+        state.selectedUser.countriesBucketList = [
+          ...(state.selectedUser.countriesBucketList || []),
+          action.payload,
+        ];
+      }
     },
     updateCountriesLived: (state, action) => {
-      state.selectedUser.countriesLived = [
-        ...(state.selectedUser.countriesLived || []),
-        action.payload,
-      ];
+      if (state.selectedUser) {
+        state.selectedUser.countriesLived = [
+          ...(state.selectedUser.countriesLived || []),
+          action.payload,
+        ];
+      }
     },
     addCountryVisited: (state, action) => {
       const countryToAdd = action.payload as CountryCca2Type;
-      state.selectedUser.countriesVisited = [
-        ...(state.selectedUser.countriesVisited || []),
-        countryToAdd,
-      ];
+      if (state.selectedUser) {
+        state.selectedUser.countriesVisited = [
+          ...(state.selectedUser.countriesVisited || []),
+          countryToAdd,
+        ];
+      }
     },
     removeCountryVisited: (state, action) => {
       const countryToRemove = action.payload as CountryCca2Type;
-      state.selectedUser.countriesVisited =
-        state.selectedUser.countriesVisited?.filter(
-          (country) => country !== countryToRemove
-        );
+      if (state.selectedUser) {
+        state.selectedUser.countriesVisited =
+          state.selectedUser.countriesVisited?.filter(
+            (country) => country !== countryToRemove
+          );
+      }
     },
     addCountryBucketList: (state, action) => {
       const countryToAdd = action.payload as CountryCca2Type;
-      state.selectedUser.countriesBucketList = [
-        ...(state.selectedUser.countriesBucketList || []),
-        countryToAdd,
-      ];
+      if (state.selectedUser) {
+        state.selectedUser.countriesBucketList = [
+          ...(state.selectedUser.countriesBucketList || []),
+          countryToAdd,
+        ];
+      }
     },
     removeCountryBucketList: (state, action) => {
       const countryToRemove = action.payload as CountryCca2Type;
-      state.selectedUser.countriesBucketList =
-        state.selectedUser.countriesBucketList?.filter(
-          (country) => country !== countryToRemove
-        );
+      if (state.selectedUser) {
+        state.selectedUser.countriesBucketList =
+          state.selectedUser.countriesBucketList?.filter(
+            (country) => country !== countryToRemove
+          );
+      }
     },
     setUserLoggedIn: (state, action) => {
       state.isLoggedIn = action.payload;
