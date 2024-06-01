@@ -28,8 +28,6 @@ export const CountryActionsBar = () => {
   const MapButtons = () => {
     return (
       <div className={styles.mapActions}>
-        <ToggleCountryPopup />
-
         <Button
           onClick={() => dispatch(toggleCountryDetailsOverlay())}
           variant="outlined"
@@ -37,6 +35,8 @@ export const CountryActionsBar = () => {
         >
           Details
         </Button>
+
+        <ToggleCountryPopup />
       </div>
     );
   };

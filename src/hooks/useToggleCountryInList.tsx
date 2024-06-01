@@ -29,9 +29,6 @@ export const useToggleCountryInList = () => {
   const toggleCountryInList = useCallback(
     async (action: ActionType, firebaseField: CountryList) => {
       if (user && selectedCountry) {
-        console.log(action);
-        console.log(firebaseField);
-
         const operation = action === "add" ? arrayUnion : arrayRemove;
 
         const messageSuccess =
@@ -53,7 +50,6 @@ export const useToggleCountryInList = () => {
               severity: "success",
             })
           );
-          console.log("success");
 
           // update redux user
           if (firebaseField === "countriesVisited") {

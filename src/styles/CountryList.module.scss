@@ -16,8 +16,9 @@ body {
     font-weight: 400;
 
     &::before {
-      content: counter(my-awesome-counter);
-      counter-increment: my-awesome-counter;
+      // content: counter(my-awesome-counter);
+      content: attr(data-index);
+      // counter-increment: my-awesome-counter;
       color: #1f2937;
       font-weight: bold;
       position: absolute;

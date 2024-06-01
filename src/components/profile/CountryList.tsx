@@ -7,7 +7,7 @@ import {
   Typography,
   Pagination,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRemoveCountryFromList } from "../../hooks/useRemoveCountryFromList";
 import { toggleCountryDetailsOverlay } from "../../store/appSlice";
 import { setSelectedCountry } from "../../store/countrySlice";
@@ -79,9 +79,13 @@ export const CountryList = ({ list }: CountryListProps) => {
     }
   };
 
+  useEffect(() => {
+    console.log(currentPage);
+  }, [currentPage]);
+
   return (
     <List className={styles.orderedList}>
-      {paginatedCountryList.map((item: any, index: any) => {
+      {paginatedCountryList.map((item: CountryCca2Type, index: number) => {
         let singleCountry = getCountryData(item, countries);
         return (
           <React.Fragment key={index}>
@@ -94,7 +98,7 @@ export const CountryList = ({ list }: CountryListProps) => {
               />
             ) : (
               <ListItem
-                data-index={index}
+                data-index={index + 10 * (currentPage - 1) + 1}
                 key={`${item}_${index}`}
                 className={styles.listItem}
                 secondaryAction={
@@ -129,7 +133,7 @@ export const CountryList = ({ list }: CountryListProps) => {
       {!userDataLoading && (
         <>
           <Typography variant="body2" sx={{ marginBottom: 2 }}>
-            Total Countries: {paginatedCountryList.length}
+            Total Countries: {countryList.length}
           </Typography>
           <Pagination
             count={totalPages}

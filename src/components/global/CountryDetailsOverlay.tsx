@@ -78,12 +78,6 @@ export const CountryDetailsOverlay = () => {
     timezones: string[];
   }
 
-  useEffect(() => {
-    if (selectedCountry) {
-      console.log(selectedCountry);
-    }
-  }, [selectedCountry]);
-
   const TimezoneCollapse = ({ timezones }: TimezoneCollapseProps) => {
     return (
       <>

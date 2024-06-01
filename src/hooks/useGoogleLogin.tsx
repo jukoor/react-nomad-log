@@ -25,7 +25,6 @@ export const useGoogleLogin = () => {
       // After successful sign-in, handle the redirect response
       window.addEventListener("load", () => {
         // const result = auth.currentUser;
-        console.log(result);
         if (result) {
           const isNewUser = getAdditionalUserInfo(result); // Assuming getAdditionalUserInfo accepts a User object wrapped in a UserCredential-like structure
           console.log(isNewUser);
