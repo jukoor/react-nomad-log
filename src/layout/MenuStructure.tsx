@@ -23,7 +23,7 @@ export const useMenuStructure = () => {
           },
           {
             id: 1,
-            target: `profile/${user?.uid}`,
+            target: `/profile/${user?.uid}`,
             text: "Profile",
             icon: <InsertEmoticonIcon />,
           },

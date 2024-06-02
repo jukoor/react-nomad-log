@@ -2,12 +2,10 @@ import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
-import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import { useMenuStructure } from "./MenuStructure";
-import { NavLink } from "react-router-dom";
 import styles from "../styles/SidebarMenu.module.scss";
 import { toggleMenuVisibility } from "../store/appSlice";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
@@ -18,6 +16,8 @@ import { SidebarWelcomeMsg } from "./SidebarWelcomeMsg";
 import { getAuth } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useGoogleLogin } from "../hooks/useGoogleLogin";
+import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
 
 export const SidebarMenu = () => {
   const dispatch = useAppDispatch();
@@ -27,12 +27,17 @@ export const SidebarMenu = () => {
   const auth = getAuth();
   const [user] = useAuthState(auth);
   const { loginWithGoogle } = useGoogleLogin();
+  const location = useLocation();
 
   const drawerWidth = 240;
 
   const handleCloseDrawer = () => {
     dispatch(toggleMenuVisibility());
   };
+
+  useEffect(() => {
+    console.log(location.pathname);
+  }, [location]);
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -79,23 +84,22 @@ export const SidebarMenu = () => {
 
         <List sx={{ marginTop: "30px" }}>
           {menuStructure.map((item) => (
-            <ListItem onClick={handleCloseDrawer} key={item.id} disablePadding>
-              <NavLink
-                to={item.target}
-                className={({ isActive }) =>
-                  isActive
-                    ? `${styles.active} ${styles.link}`
-                    : `${styles.link}`
-                }
-              >
-                <ListItemButton>
-                  <ListItemIcon sx={{ minWidth: "40px", color: "#59CFFF" }}>
-                    {item.icon}
-                  </ListItemIcon>
-                  <ListItemText primary={item.text} />
-                </ListItemButton>
-              </NavLink>
-            </ListItem>
+            // const isActive = location.pathname === item.target;
+
+            <ListItemButton
+              component="a"
+              href={item.target}
+              onClick={handleCloseDrawer}
+              key={item.id}
+              className={`${styles.link} ${
+                location.pathname === item.target ? styles.active : ""
+              }`}
+            >
+              <ListItemIcon sx={{ minWidth: "40px", color: "#59CFFF" }}>
+                {item.icon}
+              </ListItemIcon>
+              <ListItemText primary={item.text} />
+            </ListItemButton>
           ))}
         </List>
         {user == null && (
