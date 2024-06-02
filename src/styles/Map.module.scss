@@ -1,5 +1,7 @@
 @import "./global/variables.scss";
-
+:global(.app) {
+  padding-top: 0;
+}
 .mapContainer {
   width: 100%;
   height: $map-height;

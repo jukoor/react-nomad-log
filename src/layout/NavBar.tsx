@@ -34,8 +34,8 @@ export const NavBar = () => {
   };
 
   return (
-    <Box className={`${styles.appBarComp} appBar`} sx={{ flexGrow: 1 }}>
-      <AppBar className={styles.appBar} position="static" color="transparent">
+    <Box className={styles.appBarComp}>
+      <AppBar className={styles.appBar} position="fixed" color="transparent">
         <Toolbar>
           <IconButton
             size="large"
@@ -68,7 +68,7 @@ export const NavBar = () => {
 
       {loading && (
         <Box className={styles.navbarLoading}>
-          <LinearProgress />
+          <LinearProgress color="secondary" sx={{ backgroundColor: "black" }} />
         </Box>
       )}
     </Box>

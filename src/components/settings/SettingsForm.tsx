@@ -303,8 +303,9 @@ export const SettingsForm = () => {
                       background: "transparent",
                       color: "#4e4e7e",
                       fontSize: "14px",
-                      border: "3px solid #4e4e7e",
+                      border: "2px solid #4e4e7e",
                       fontWeight: "bold",
+                      marginTop: "50px",
                     }}
                   >
                     Select all the countries that you have (1) visited, (2) that

@@ -1,17 +1,4 @@
-@import "../styles/global/variables.scss";
-
-:global {
-  .app {
-    padding-top: 215px;
-  }
-  .appBar {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 2;
-  }
-}
-
 .content {
+  padding-top: 215px;
   padding-bottom: 100px;
 }
