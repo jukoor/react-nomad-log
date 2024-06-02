@@ -14,14 +14,11 @@ export const Profile = () => {
   const theme = useTheme();
 
   return (
-    <div className={`${styles.module} ${styles.moduleProfile}`}>
+    <>
       <GradientHeader />
       <div className={styles.content}>
         <Container>
-          <Stack
-            spacing={theme.breakpoints.down("sm") ? 3 : 6}
-            sx={{ pb: 5, mt: -10 }}
-          >
+          <Stack spacing={theme.breakpoints.down("sm") ? 3 : 6}>
             <Bio />
             {/* <ContinentsVisited /> */}
             <CountryLists />
@@ -29,6 +26,6 @@ export const Profile = () => {
           </Stack>
         </Container>
       </div>
-    </div>
+    </>
   );
 };

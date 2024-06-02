@@ -89,10 +89,7 @@ export const SettingsForm = () => {
   };
 
   return (
-    <Container
-      component="main"
-      sx={{ marginTop: "-75px", paddingBottom: "50px" }}
-    >
+    <Container component="main">
       <Card
         sx={{
           minWidth: 275,

@@ -40,7 +40,7 @@ export const Bio = () => {
           ) : (
             <Avatar
               {...randomColorStringAvatar(
-                `${userData.nameFirst} ${userData.nameLast}`
+                `${userData?.nameFirst} ${userData?.nameLast}`
               )}
             ></Avatar>
           )}

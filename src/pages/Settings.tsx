@@ -1,12 +1,14 @@
 import { GradientHeader } from "../components/global/GradientHeader";
 import { SettingsForm } from "../components/settings/SettingsForm";
-import styles from "../styles/Profile.module.scss";
+import styles from "../styles/Settings.module.scss";
 
 export const Settings = () => {
   return (
-    <div className={`${styles.module} ${styles.moduleSettings}`}>
+    <>
       <GradientHeader />
-      <SettingsForm />
-    </div>
+      <div className={styles.content}>
+        <SettingsForm />
+      </div>
+    </>
   );
 };

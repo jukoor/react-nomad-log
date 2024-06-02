@@ -34,7 +34,7 @@ export const NavBar = () => {
   };
 
   return (
-    <Box className={styles.appBarComp} sx={{ flexGrow: 1 }}>
+    <Box className={`${styles.appBarComp} appBar`} sx={{ flexGrow: 1 }}>
       <AppBar className={styles.appBar} position="static" color="transparent">
         <Toolbar>
           <IconButton
