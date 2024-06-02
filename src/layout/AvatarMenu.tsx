@@ -59,62 +59,72 @@ export const AvatarMenu = () => {
   const isProfileActive = location.pathname.includes(`/profile/${user?.uid}`);
   const isSettingsActive = location.pathname === "/settings";
 
+  React.useEffect(() => {
+    console.log(userData.selectedUser?.nameFirst);
+  }, [userData.selectedUser]);
+
   return (
     <>
-      <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
-        <Tooltip title="Profile Menu">
-          <IconButton
-            onClick={handleClick}
-            size="small"
-            sx={{ ml: 2 }}
-            aria-controls={open ? "account-menu" : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? "true" : undefined}
+      {userData.selectedUser ? (
+        <>
+          <Box
+            sx={{ display: "flex", alignItems: "center", textAlign: "center" }}
           >
-            <Avatar
-              {...randomColorStringAvatar(
-                `${userData.selectedUser?.nameFirst} ${userData.selectedUser?.nameLast}`
-              )}
-            />
-          </IconButton>
-        </Tooltip>
-      </Box>
-      <Menu
-        anchorEl={anchorEl}
-        id="account-menu"
-        open={open}
-        onClose={handleClose}
-        onClick={handleClose}
-        transformOrigin={{ horizontal: "right", vertical: "top" }}
-        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-      >
-        <MenuItem
-          onClick={handleGoProfile}
-          style={isProfileActive ? { textDecoration: "underline" } : {}}
-        >
-          <ListItemIcon>
-            <InsertEmoticonIcon fontSize="small" />
-          </ListItemIcon>
-          Profile
-        </MenuItem>
-        <Divider />
-        <MenuItem
-          onClick={handleGoSettings}
-          style={isSettingsActive ? { textDecoration: "underline" } : {}}
-        >
-          <ListItemIcon>
-            <Settings fontSize="small" />
-          </ListItemIcon>
-          Settings
-        </MenuItem>
-        <Divider />
-        <MenuItem onClick={handleGoLogout}>
-          <ListItemIcon>
-            <Logout fontSize="small" />
-          </ListItemIcon>
-          Logout
-        </MenuItem>
-      </Menu>
+            <Tooltip title="Profile Menu">
+              <IconButton
+                onClick={handleClick}
+                size="small"
+                sx={{ ml: 2 }}
+                aria-controls={open ? "account-menu" : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? "true" : undefined}
+              >
+                <Avatar
+                  {...randomColorStringAvatar(
+                    `${userData.selectedUser?.nameFirst} ${userData.selectedUser?.nameLast}`
+                  )}
+                />
+              </IconButton>
+            </Tooltip>
+          </Box>
+          <Menu
+            anchorEl={anchorEl}
+            id="account-menu"
+            open={open}
+            onClose={handleClose}
+            onClick={handleClose}
+            transformOrigin={{ horizontal: "right", vertical: "top" }}
+            anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+          >
+            <MenuItem
+              onClick={handleGoProfile}
+              style={isProfileActive ? { textDecoration: "underline" } : {}}
+            >
+              <ListItemIcon>
+                <InsertEmoticonIcon fontSize="small" />
+              </ListItemIcon>
+              Profile
+            </MenuItem>
+            <Divider />
+            <MenuItem
+              onClick={handleGoSettings}
+              style={isSettingsActive ? { textDecoration: "underline" } : {}}
+            >
+              <ListItemIcon>
+                <Settings fontSize="small" />
+              </ListItemIcon>
+              Settings
+            </MenuItem>
+            <Divider />
+            <MenuItem onClick={handleGoLogout}>
+              <ListItemIcon>
+                <Logout fontSize="small" />
+              </ListItemIcon>
+              Logout
+            </MenuItem>
+          </Menu>
+        </>
+      ) : null}
     </>
   );
 };

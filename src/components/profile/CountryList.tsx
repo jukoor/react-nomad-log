@@ -127,17 +127,16 @@ export const CountryList = ({ list }: CountryListProps) => {
         );
       })}
       {!userDataLoading && (
-        <>
-          <Typography variant="body2" sx={{ marginBottom: 2 }}>
-            Total Countries: {countryList.length}
-          </Typography>
+        <div className={styles.pagesAndCount}>
           <Pagination
             count={totalPages}
             page={currentPage}
             onChange={handleChangePage}
-            sx={{ marginTop: 2 }}
           />
-        </>
+          <Typography variant="body2" sx={{ marginBottom: 2 }}>
+            Total Countries: {countryList.length}
+          </Typography>
+        </div>
       )}
     </List>
   );

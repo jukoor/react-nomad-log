@@ -319,14 +319,15 @@ export const SettingsForm = () => {
                     disabled={loading}
                   />
                 </Grid>
-                <Grid item xs={12}>
-                  <CountrySelectDropdown fieldType="Lived" disabled={loading} />
-                </Grid>
+
                 <Grid item xs={12}>
                   <CountrySelectDropdown
                     fieldType="BucketList"
                     disabled={loading}
                   />
+                </Grid>
+                <Grid item xs={12}>
+                  <CountrySelectDropdown fieldType="Lived" disabled={loading} />
                 </Grid>
               </Grid>
               <Grid

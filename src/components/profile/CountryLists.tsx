@@ -60,8 +60,8 @@ export const CountryLists = () => {
               </Typography>
             )}
 
-            <Box sx={{ width: "100%" }}>
-              <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+            <Box sx={{ width: "100%", pb: 0 }}>
+              <Box sx={{ borderBottom: 1, borderColor: "divider", pb: 0 }}>
                 {userDataLoading ? (
                   <Skeleton variant="rounded" height={30} width={"100%"} />
                 ) : (

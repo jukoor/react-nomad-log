@@ -48,4 +48,9 @@ body {
       margin-right: 12px;
     }
   }
+
+  .pagesAndCount {
+    display: flex;
+    justify-content: space-between;
+  }
 }
