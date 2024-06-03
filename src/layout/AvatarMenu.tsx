@@ -59,10 +59,6 @@ export const AvatarMenu = () => {
   const isProfileActive = location.pathname.includes(`/profile/${user?.uid}`);
   const isSettingsActive = location.pathname === "/settings";
 
-  React.useEffect(() => {
-    console.log(userData.selectedUser?.nameFirst);
-  }, [userData.selectedUser]);
-
   return (
     <>
       {userData.selectedUser ? (

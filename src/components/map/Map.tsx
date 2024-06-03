@@ -191,7 +191,6 @@ export const Map = () => {
                         geoJSON: geodata,
                         fill: data.polygonSettings.fill,
                       });
-
                       dispatch(
                         setSelectedCountry(getCountryData(data.id, countryData))
                       );
@@ -219,8 +218,10 @@ export const Map = () => {
 
       countrySeries.mapPolygons.template.setAll({
         tooltipText: "{name}",
+        stroke: am5.color("#FFFFFF"), // White border color
+        strokeWidth: 2,
         interactive: true,
-        fill: am5.color(0xaaaaaa),
+        fill: am5.color(0xffa3f6),
       });
 
       countrySeries.mapPolygons.template.states.create("hover", {

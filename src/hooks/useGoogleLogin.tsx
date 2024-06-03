@@ -19,18 +19,15 @@ export const useGoogleLogin = () => {
     const auth = getAuth();
 
     try {
-      // Use signInWithRedirect instead of signInWithPopup
+      // Login with Google redirect
       const result = await signInWithRedirect(auth, provider);
       console.log(result);
       // After successful sign-in, handle the redirect response
       window.addEventListener("load", () => {
-        // const result = auth.currentUser;
         if (result) {
-          const isNewUser = getAdditionalUserInfo(result); // Assuming getAdditionalUserInfo accepts a User object wrapped in a UserCredential-like structure
+          const isNewUser = getAdditionalUserInfo(result);
           console.log(isNewUser);
           if (isNewUser) {
-            // console.log("Successfully logged in:", result.displayName);
-
             // On the first sign up - create a document in firestore to store custom user data
             if (result) {
               console.log(result);
@@ -42,7 +39,6 @@ export const useGoogleLogin = () => {
             //   "Successfully logged in (first time):",
             //   result.displayName
             // );
-            // Perform actions specific to login
           }
 
           dispatch(setUserLoggedIn(true));
