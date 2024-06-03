@@ -53,6 +53,22 @@ export const SettingsForm = () => {
     "🏨 All-Inclusive Hotel",
     "🏝️ Lazy Beach Time",
     "🗼 Sightseeing",
+    "🗺️ Adventure Travel",
+    "🚶 Hiking Trails",
+    "🛳️ Cruise Vacation",
+    "🏞️ National Parks",
+    "🍴 Foodie Tours",
+    "✈️ Air Travel",
+    "🧗 Rock Climbing",
+    "🎿 Skiing",
+    "🏖️ Beach Resorts",
+    "🚗 Road Trip",
+    "🎢 Theme Parks",
+    "🏕️ Camping",
+    "🚂 Train Journeys",
+    "🌍 World Travel",
+    "🛍️ Shopping Spree",
+    "📸 Travel Photography",
   ];
 
   const profileFormMethods = useForm<UserType>({
