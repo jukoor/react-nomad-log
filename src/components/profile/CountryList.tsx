@@ -90,7 +90,7 @@ export const CountryList = ({ list }: CountryListProps) => {
                 variant="rounded"
                 height={30}
                 width={"100%"}
-                sx={{ mb: 0.5 }}
+                sx={{ mb: "15px" }}
               />
             ) : (
               <ListItem

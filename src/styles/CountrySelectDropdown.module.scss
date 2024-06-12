@@ -1,4 +1,4 @@
-.countrySearch {
+badgeCustom.countrySearch {
   :global {
     .MuiFormLabel-root {
       color: #434343;
@@ -14,15 +14,16 @@
   border-radius: 15px;
   background: #4b4b4b;
   min-width: 24px;
-  color: #ffd3db;
+  color: #ffffff;
   display: inline-flex;
   justify-content: center;
-  height: 21px;
+  height: 20px;
   font-weight: bold;
   position: relative;
   line-height: 19px;
-  font-size: 15px;
-  bottom: 3px;
-  left: 2px;
+  font-size: 13px;
+  bottom: 1px;
+  left: 6px;
   padding: 0px 11px;
+  font-family: Arial;
 }

@@ -42,7 +42,7 @@ export const SettingsForm = () => {
     bio: "",
     tags: [],
     livingInCity: "",
-    homeCountry: null,
+    homeCountry: [],
     countriesVisited: [],
     countriesBucketList: [],
     countriesLived: [],
@@ -253,32 +253,15 @@ export const SettingsForm = () => {
                 </Grid>
 
                 <Grid item xs={12} sm={6}>
-                  <FormControl fullWidth={true} error={!!errors.homeCountry}>
-                    <InputLabel htmlFor="homeCountry" required shrink>
-                      Nationality
-                    </InputLabel>
-                    <Controller
-                      control={control}
-                      name="homeCountry"
-                      rules={{ required: true }}
-                      render={({ field: { onChange, value } }) => (
-                        <TextField
-                          error={!!errors.homeCountry}
-                          onChange={onChange}
-                          value={value}
-                          fullWidth
-                          disabled={loading}
-                          id="homeCountry"
-                        />
-                      )}
-                    />
-                    {errors.homeCountry && (
-                      <FormHelperText className="Mui-error">
-                        Please tell us your nationality 🙂
-                      </FormHelperText>
-                    )}
-                  </FormControl>
+                  <CountrySelectDropdown
+                    multiple={false}
+                    label="Country"
+                    fieldName="homeCountry"
+                    required={true}
+                    disabled={loading}
+                  />
                 </Grid>
+
                 <Grid item xs={12} sm={6}>
                   <FormControl fullWidth={true}>
                     <InputLabel htmlFor="livingInCity" shrink>
@@ -316,7 +299,7 @@ export const SettingsForm = () => {
                       fontSize: "14px",
                       border: "2px solid #4e4e7e",
                       fontWeight: "bold",
-                      marginTop: "50px",
+                      marginTop: "25px",
                     }}
                   >
                     Select all the countries that you have (1) visited, (2) that
@@ -326,19 +309,25 @@ export const SettingsForm = () => {
 
                 <Grid item xs={12}>
                   <CountrySelectDropdown
-                    fieldType="Visited"
+                    label="Visited"
+                    fieldName="countriesVisited"
                     disabled={loading}
                   />
                 </Grid>
 
                 <Grid item xs={12}>
                   <CountrySelectDropdown
-                    fieldType="BucketList"
+                    label="Bucket List"
+                    fieldName="countriesBucketList"
                     disabled={loading}
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <CountrySelectDropdown fieldType="Lived" disabled={loading} />
+                  <CountrySelectDropdown
+                    label="Lived"
+                    fieldName="countriesLived"
+                    disabled={loading}
+                  />
                 </Grid>
               </Grid>
               <Grid

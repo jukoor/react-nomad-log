@@ -1,9 +1,7 @@
 import { CountryCca2Type } from "../types/CountryCca2Type";
 
 /* Returns Emoji flag icon by country code */
-export const getEmojiFlag = (
-  countryCode: CountryCca2Type | null | undefined
-) => {
+export const getEmojiFlag = (countryCode: CountryCca2Type) => {
   if (countryCode) {
     const codePoints = countryCode
       .toUpperCase()

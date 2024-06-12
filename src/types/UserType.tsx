@@ -7,7 +7,7 @@ export type UserType = {
   bio?: string;
   tags?: string[];
   livingInCity: string;
-  homeCountry: CountryCca2Type | null;
+  homeCountry: CountryCca2Type[];
   countriesVisited?: CountryCca2Type[];
   countriesBucketList?: CountryCca2Type[];
   countriesLived?: CountryCca2Type[];

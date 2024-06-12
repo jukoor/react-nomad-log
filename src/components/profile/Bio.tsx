@@ -53,9 +53,12 @@ export const Bio = () => {
                 marginBottom: "25px",
               }}
             >
-              <Avatar sx={{ backgroundColor: "#cfcfcf" }}>
-                {getEmojiFlag(userData?.homeCountry)}
-              </Avatar>
+              {userData?.homeCountry && (
+                <Avatar sx={{ backgroundColor: "#cfcfcf" }}>
+                  {getEmojiFlag(userData?.homeCountry[0])}
+                </Avatar>
+              )}
+
               <Typography
                 variant="h5"
                 component="h1"

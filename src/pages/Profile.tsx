@@ -22,7 +22,6 @@ export const Profile = () => {
             <Bio />
             {/* <ContinentsVisited /> */}
             <CountryLists />
-            {/* <Trips /> */}
           </Stack>
         </Container>
       </div>
