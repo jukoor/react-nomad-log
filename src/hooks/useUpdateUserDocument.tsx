@@ -18,7 +18,6 @@ export const useUpdateUserDocument = () => {
   const updateUserDocument = useCallback(
     async (formValues: UserType) => {
       if (user) {
-        console.log(formValues);
         setLoading(true);
         const db = getFirestore();
         const userDocRef = doc(db, "users", user.uid);

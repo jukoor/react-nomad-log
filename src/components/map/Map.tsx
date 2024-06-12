@@ -67,8 +67,6 @@ export const Map = () => {
   }, []);
 
   useLayoutEffect(() => {
-    console.log(userData);
-
     if (userData && !chartRef.current) {
       const root = am5.Root.new("map");
       const colors = am5.ColorSet.new(root, {});
@@ -255,13 +253,10 @@ export const Map = () => {
       countrySeriesRef.current = countrySeries;
     }
 
-    console.log(chartRef);
-
     return () => {
       if (chartRef.current) {
         chartRef.current.dispose();
         chartRef.current = undefined;
-        console.log("disposed the biatch");
       }
     };
   }, [userData]);

@@ -41,8 +41,8 @@ export const SettingsForm = () => {
     nameLast: "",
     bio: "",
     tags: [],
-    homeTown: "",
-    nationality: "",
+    livingInCity: "",
+    homeCountry: null,
     countriesVisited: [],
     countriesBucketList: [],
     countriesLived: [],
@@ -53,8 +53,8 @@ export const SettingsForm = () => {
     "🏨 All-Inclusive Hotel",
     "🏝️ Lazy Beach Time",
     "🗼 Sightseeing",
-    "🗺️ Adventure Travel",
-    "🚶 Hiking Trails",
+    "🗺️ Adventures",
+    "🚶 Hiking",
     "🛳️ Cruise Vacation",
     "🏞️ National Parks",
     "🍴 Foodie Tours",
@@ -85,7 +85,6 @@ export const SettingsForm = () => {
   // Reset user data values from firebase into form fields
   useEffect(() => {
     if (userData) {
-      console.log(userData);
       reset(userData);
     }
   }, [userData]);
@@ -254,30 +253,26 @@ export const SettingsForm = () => {
                 </Grid>
 
                 <Grid item xs={12} sm={6}>
-                  <FormControl fullWidth={true} error={!!errors.nationality}>
-                    <InputLabel htmlFor="nationality" required shrink>
+                  <FormControl fullWidth={true} error={!!errors.homeCountry}>
+                    <InputLabel htmlFor="homeCountry" required shrink>
                       Nationality
                     </InputLabel>
                     <Controller
                       control={control}
-                      name="nationality"
+                      name="homeCountry"
                       rules={{ required: true }}
                       render={({ field: { onChange, value } }) => (
                         <TextField
-                          error={!!errors.nationality}
+                          error={!!errors.homeCountry}
                           onChange={onChange}
                           value={value}
                           fullWidth
                           disabled={loading}
-                          id="nationality"
-                          label="Nationality"
-                          InputLabelProps={{
-                            shrink: true,
-                          }}
+                          id="homeCountry"
                         />
                       )}
                     />
-                    {errors.nationality && (
+                    {errors.homeCountry && (
                       <FormHelperText className="Mui-error">
                         Please tell us your nationality 🙂
                       </FormHelperText>
@@ -286,20 +281,20 @@ export const SettingsForm = () => {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <FormControl fullWidth={true}>
-                    <InputLabel htmlFor="homeTown" shrink>
+                    <InputLabel htmlFor="livingInCity" shrink>
                       Home Town
                     </InputLabel>
                     <Controller
                       control={control}
-                      name="homeTown"
+                      name="livingInCity"
                       render={({ field: { onChange, value } }) => (
                         <TextField
-                          error={!!errors.homeTown}
+                          error={!!errors.livingInCity}
                           onChange={onChange}
                           value={value}
                           fullWidth
                           disabled={loading}
-                          id="homeTown"
+                          id="livingInCity"
                           label="Home Town"
                           autoComplete="town"
                           InputLabelProps={{

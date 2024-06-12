@@ -15,18 +15,7 @@ export const userSlice = createSlice({
   name: "user",
   initialState: {
     selectedUser: null,
-    // {
-    //   uid: "",
-    //   nameFirst: "",
-    //   nameLast: "",
-    //   bio: "",
-    //   tags: [],
-    //   homeTown: "",
-    //   nationality: "",
-    //   countriesVisited: [],
-    //   countriesBucketList: [],
-    //   countriesLived: [],
-    // },
+
     countryVisitedTemp: null,
     countryBucketListTemp: null,
     countryLivedTemp: null,

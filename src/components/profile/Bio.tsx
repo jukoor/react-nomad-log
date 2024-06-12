@@ -63,10 +63,11 @@ export const Bio = () => {
           <Skeleton variant="text" width={"30%"} />
         ) : (
           <Typography color="text.secondary" className={styles.nationality}>
-            Nationality: {userData?.nationality}
+            Home Country: {userData?.homeCountry}
           </Typography>
         )}
 
+        {/* Tags */}
         {userDataLoading ? (
           <Skeleton variant="text" width={"30%"} sx={{ mb: 1.5 }} />
         ) : (
@@ -75,10 +76,11 @@ export const Bio = () => {
             color="text.secondary"
             className={styles.nationality}
           >
-            Living in: {userData?.homeTown}
+            Currently Living: {userData?.livingInCity}
           </Typography>
         )}
 
+        {/* Tags */}
         <div className={styles.tags}>
           {userData?.tags?.map((item: string, index: number) => {
             return (
@@ -106,6 +108,7 @@ export const Bio = () => {
           })}
         </div>
 
+        {/* Bio */}
         {userDataLoading ? (
           <Skeleton variant="text" width={"50px"} sx={{ mb: 1.5 }} />
         ) : (

@@ -67,7 +67,6 @@ export const CountrySelectDropdown = ({
                   disabled={!!disabled}
                   // @ts-ignore
                   onChange={(event, newValue) => {
-                    console.log(newValue);
                     // If newValue is undefined (no selection), set it to an empty array
                     onChange(Array.isArray(newValue) ? newValue : []);
                   }}

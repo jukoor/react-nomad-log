@@ -35,10 +35,6 @@ export const SidebarMenu = () => {
     dispatch(toggleMenuVisibility());
   };
 
-  useEffect(() => {
-    console.log(location.pathname);
-  }, [location]);
-
   return (
     <Box sx={{ display: "flex" }}>
       <Drawer
