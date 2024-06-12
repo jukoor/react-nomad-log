@@ -1,10 +1,14 @@
+@import "../styles/global/variables.scss";
+
 .bio {
   white-space: pre-wrap;
 }
 .tags {
   margin-bottom: 20px;
 }
-
+.name {
+  color: $color-primary-dark;
+}
 .tag {
   margin-right: 10px;
   font-weight: 500;
