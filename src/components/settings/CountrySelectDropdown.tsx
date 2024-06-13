@@ -61,11 +61,8 @@ export const CountrySelectDropdown = ({
       {countryList && (
         <>
           <FormControl fullWidth={true}>
-            <InputLabel htmlFor={fieldName} required={required} shrink>
+            <InputLabel htmlFor={fieldName} required={required} shrink hidden>
               {label}
-              {multiple ? (
-                <span className={styles.badgeCustom}>{selectedCount}</span>
-              ) : null}
             </InputLabel>
 
             <Controller
@@ -114,6 +111,7 @@ export const CountrySelectDropdown = ({
                   renderInput={(params) => (
                     <TextField
                       {...params}
+                      label={label}
                       fullWidth
                       inputProps={{
                         ...params.inputProps,
@@ -130,9 +128,17 @@ export const CountrySelectDropdown = ({
               )}
             />
 
+            {/* Errors  */}
             {errors.homeCountry && required ? (
               <FormHelperText className="Mui-error">
                 Please tell us your nationality 🙂
+              </FormHelperText>
+            ) : null}
+
+            {/* Selection Counter Badge  */}
+            {multiple ? (
+              <FormHelperText id="my-helper-text">
+                <span className={styles.badgeCustom}>{selectedCount}</span>
               </FormHelperText>
             ) : null}
           </FormControl>
