@@ -2,16 +2,11 @@ import {
   Container,
   Grid,
   TextField,
-  Box,
   Typography,
   CardContent,
   Card,
-  Chip,
   FormControl,
   InputLabel,
-  MenuItem,
-  OutlinedInput,
-  Select,
   FormHelperText,
   Alert,
   CircularProgress,
@@ -28,6 +23,7 @@ import {
 import { useAppSelector } from "../../hooks/reduxHooks";
 import { useEffect, useState } from "react";
 import { CountrySelectDropdown } from "./CountrySelectDropdown";
+import { TagsSelectDropdown } from "./TagsSelectDropdown";
 
 export const SettingsForm = () => {
   const { updateUserDocument } = useUpdateUserDocument();
@@ -47,29 +43,6 @@ export const SettingsForm = () => {
     countriesBucketList: [],
     countriesLived: [],
   };
-
-  const tags = [
-    "🎒 Backpacking",
-    "🏨 All-Inclusive Hotel",
-    "🏝️ Lazy Beach Time",
-    "🗼 Sightseeing",
-    "🗺️ Adventures",
-    "🚶 Hiking",
-    "🛳️ Cruise Vacation",
-    "🏞️ National Parks",
-    "🍴 Foodie Tours",
-    "✈️ Air Travel",
-    "🧗 Rock Climbing",
-    "🎿 Skiing",
-    "🏖️ Beach Resorts",
-    "🚗 Road Trip",
-    "🎢 Theme Parks",
-    "🏕️ Camping",
-    "🚂 Train Journeys",
-    "🌍 World Travel",
-    "🛍️ Shopping Spree",
-    "📸 Travel Photography",
-  ];
 
   const profileFormMethods = useForm<UserType>({
     defaultValues: formDefaultValues,
@@ -217,58 +190,7 @@ export const SettingsForm = () => {
                   </FormControl>
                 </Grid>
                 <Grid item xs={12}>
-                  <FormControl sx={{ m: 0, width: "100%" }}>
-                    <InputLabel
-                      id="tagsLabel"
-                      style={{ display: "none" }}
-                      hidden
-                    >
-                      Tags
-                    </InputLabel>
-                    <Controller
-                      control={control}
-                      name="tags"
-                      render={({ field: { onChange, value } }) => (
-                        <Select
-                          id="tags"
-                          labelId="tagsLabel"
-                          name="tags"
-                          placeholder="Your Bio Tags. What's your travel style?"
-                          multiple
-                          sx={{ minHeight: "65px" }}
-                          value={value}
-                          disabled={loading}
-                          onChange={onChange}
-                          error={!!errors.tags}
-                          input={
-                            <OutlinedInput
-                              id="select-multiple-chip"
-                              label="Chip"
-                            />
-                          }
-                          renderValue={(selected) => (
-                            <Box
-                              sx={{
-                                display: "flex",
-                                flexWrap: "wrap",
-                                gap: 0.5,
-                              }}
-                            >
-                              {selected.map((value) => (
-                                <Chip key={value} label={value} />
-                              ))}
-                            </Box>
-                          )}
-                        >
-                          {tags.map((tag) => (
-                            <MenuItem key={tag} value={tag}>
-                              {tag}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      )}
-                    />
-                  </FormControl>
+                  <TagsSelectDropdown disabled={loading} />
                 </Grid>
 
                 <Grid item xs={12} sm={6}>
