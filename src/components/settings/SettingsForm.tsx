@@ -152,7 +152,7 @@ export const SettingsForm = () => {
                 <Grid item xs={12} sm={6}>
                   <CountrySelectDropdown
                     multiple={false}
-                    label="Country"
+                    label="Country *"
                     fieldName="homeCountry"
                     required={true}
                     disabled={loading}

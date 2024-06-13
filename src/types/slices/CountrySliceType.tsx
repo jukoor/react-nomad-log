@@ -8,4 +8,5 @@ export type CountrySliceInnerType = {
   countries: CountryType[];
   selectedCountry: CountryType | null;
   loading: boolean;
+  apiError: boolean;
 };

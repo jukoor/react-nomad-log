@@ -136,7 +136,17 @@ export const CountrySelectDropdown = ({
 
             {/* Errors  */}
             {errors.homeCountry && required ? (
-              <FormHelperText className="Mui-error">
+              <FormHelperText
+                sx={{
+                  background: "#be0606db",
+                  color: "#fff",
+                  borderRadius: "5px",
+                  position: "relative",
+                  top: "3px",
+                  margin: 0,
+                  padding: "0 15px",
+                }}
+              >
                 Please tell us your nationality 🙂
               </FormHelperText>
             ) : null}

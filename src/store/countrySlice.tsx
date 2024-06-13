@@ -8,6 +8,7 @@ export const countrySlice = createSlice({
     countries: [],
     selectedCountry: null,
     loading: false,
+    apiError: false,
   } as CountrySliceInnerType,
   reducers: {
     setSelectedCountry: (state, action) => {
@@ -25,10 +26,12 @@ export const countrySlice = createSlice({
       .addCase(fetchAllCountriesData.fulfilled, (state, action) => {
         state.countries = action.payload;
         state.loading = false;
-        console.log("Country API fully fetched");
+        state.apiError = false;
+        console.log("Country API succesfully fetched");
       })
       .addCase(fetchAllCountriesData.rejected, (state) => {
         state.loading = false;
+        state.apiError = true;
       });
   },
 });
