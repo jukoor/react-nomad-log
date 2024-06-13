@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import { Bio } from "../components/profile/Bio";
 import { CountryLists } from "../components/profile/CountryLists";
 import { useFetchUserData } from "../hooks/useFetchUserdata";
-import { GradientHeader } from "../components/global/GradientHeader";
+import { ParallaxHeader } from "../components/global/ParallaxHeader";
 
 export const Profile = () => {
   let { userId } = useParams();
@@ -15,7 +15,7 @@ export const Profile = () => {
 
   return (
     <>
-      <GradientHeader />
+      <ParallaxHeader />
       <div className={styles.content}>
         <Container>
           <Stack spacing={theme.breakpoints.down("sm") ? 3 : 6}>

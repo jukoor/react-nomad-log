@@ -1,11 +1,11 @@
-import { GradientHeader } from "../components/global/GradientHeader";
+import { ParallaxHeader } from "../components/global/ParallaxHeader";
 import { SettingsForm } from "../components/settings/SettingsForm";
 import styles from "../styles/Settings.module.scss";
 
 export const Settings = () => {
   return (
     <>
-      <GradientHeader />
+      <ParallaxHeader />
       <div className={styles.content}>
         <SettingsForm />
       </div>

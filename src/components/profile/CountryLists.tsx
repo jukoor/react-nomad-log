@@ -37,6 +37,8 @@ export const CountryLists = () => {
           minWidth: 275,
           boxShadow: "0px 0px 20px 11px #00000012",
           borderRadius: "25px",
+          backgroundColor: "rgba(255,255,255,0.5)",
+          backdropFilter: "blur(5px)",
         }}
       >
         <CardContent sx={{ padding: { xs: "20px", sm: "20px", md: "30px" } }}>

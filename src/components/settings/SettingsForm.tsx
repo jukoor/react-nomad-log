@@ -110,6 +110,8 @@ export const SettingsForm = () => {
           minWidth: 275,
           boxShadow: "0px 0px 20px 11px #00000012",
           borderRadius: "25px",
+          backgroundColor: "rgba(255,255,255,0.5)",
+          backdropFilter: "blur(5px)",
         }}
       >
         <CardContent sx={{ padding: { xs: "20px", sm: "20px", md: "30px" } }}>
@@ -127,7 +129,7 @@ export const SettingsForm = () => {
               <Grid container spacing={4}>
                 <Grid item xs={12} sm={6}>
                   <FormControl fullWidth={true}>
-                    <InputLabel htmlFor="nameFirst" required shrink>
+                    <InputLabel htmlFor="nameFirst" hidden required shrink>
                       First Name
                     </InputLabel>
                     <Controller
@@ -138,6 +140,7 @@ export const SettingsForm = () => {
                         <TextField
                           id="nameFirst"
                           error={!!errors.nameFirst}
+                          label="First Name"
                           onChange={onChange}
                           value={value}
                           fullWidth
@@ -154,7 +157,7 @@ export const SettingsForm = () => {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <FormControl fullWidth={true}>
-                    <InputLabel htmlFor="nameLast" shrink>
+                    <InputLabel htmlFor="nameLast" shrink hidden>
                       Last Name
                     </InputLabel>
                     <Controller
@@ -165,6 +168,7 @@ export const SettingsForm = () => {
                           id="nameLast"
                           error={!!errors.nameLast}
                           onChange={onChange}
+                          label="Last Name"
                           value={value}
                           fullWidth
                           disabled={loading}
@@ -175,7 +179,7 @@ export const SettingsForm = () => {
                 </Grid>
                 <Grid item xs={12}>
                   <FormControl fullWidth={true}>
-                    <InputLabel htmlFor="bio" shrink>
+                    <InputLabel htmlFor="bio" shrink hidden>
                       Bio
                     </InputLabel>
                     <Controller
@@ -192,9 +196,7 @@ export const SettingsForm = () => {
                           rows={4}
                           disabled={loading}
                           placeholder="Your Bio. Tell us something about yourself :) where do you like to travel?"
-                          InputLabelProps={{
-                            shrink: true,
-                          }}
+                          label="Bio"
                         />
                       )}
                     />
@@ -202,7 +204,7 @@ export const SettingsForm = () => {
                 </Grid>
                 <Grid item xs={12}>
                   <FormControl sx={{ m: 0, width: "100%" }}>
-                    <InputLabel id="tagsLabel" shrink>
+                    <InputLabel id="tagsLabel" shrink hidden>
                       Tags
                     </InputLabel>
                     <Controller
@@ -213,7 +215,7 @@ export const SettingsForm = () => {
                           id="tags"
                           labelId="tagsLabel"
                           name="tags"
-                          label="tags"
+                          label="Tags"
                           placeholder="Your Bio Tags. What's your travel style?"
                           multiple
                           sx={{ minHeight: "65px" }}
@@ -264,7 +266,7 @@ export const SettingsForm = () => {
 
                 <Grid item xs={12} sm={6}>
                   <FormControl fullWidth={true}>
-                    <InputLabel htmlFor="livingInCity" shrink>
+                    <InputLabel htmlFor="livingInCity" shrink hidden>
                       Home Town
                     </InputLabel>
                     <Controller
@@ -278,7 +280,7 @@ export const SettingsForm = () => {
                           fullWidth
                           disabled={loading}
                           id="livingInCity"
-                          label="Home Town"
+                          label="Home Town  "
                           autoComplete="town"
                           InputLabelProps={{
                             shrink: true,

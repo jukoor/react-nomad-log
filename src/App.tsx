@@ -7,6 +7,7 @@ import { Settings } from "./pages/Settings";
 import { Logout } from "./pages/Logout";
 import { useFetchCountryDataFromApi } from "./hooks/useFetchCountryDataFromApi";
 import { useFetchUserData } from "./hooks/useFetchUserdata";
+import { ParallaxProvider } from "react-scroll-parallax";
 
 function App() {
   // Fetch all country data from API on App init
@@ -17,14 +18,16 @@ function App() {
   return (
     <div className="app">
       <BrowserRouter>
-        <PageLayout>
-          <Routes>
-            <Route path="/" element={<Home />}></Route>
-            <Route path="profile/:userId" element={<Profile />} />
-            <Route path="settings" element={<Settings />} />
-            <Route path="logout" element={<Logout />} />
-          </Routes>
-        </PageLayout>
+        <ParallaxProvider>
+          <PageLayout>
+            <Routes>
+              <Route path="/" element={<Home />}></Route>
+              <Route path="profile/:userId" element={<Profile />} />
+              <Route path="settings" element={<Settings />} />
+              <Route path="logout" element={<Logout />} />
+            </Routes>
+          </PageLayout>
+        </ParallaxProvider>
       </BrowserRouter>
     </div>
   );
