@@ -7,7 +7,6 @@ import {
   Card,
   FormControl,
   InputLabel,
-  FormHelperText,
   Alert,
   CircularProgress,
   Button,
@@ -24,6 +23,7 @@ import { useAppSelector } from "../../hooks/reduxHooks";
 import { useEffect, useState } from "react";
 import { CountrySelectDropdown } from "./CountrySelectDropdown";
 import { TagsSelectDropdown } from "./TagsSelectDropdown";
+import { CustomInputField } from "./CustomInputField";
 
 export const SettingsForm = () => {
   const { updateUserDocument } = useUpdateUserDocument();
@@ -101,64 +101,20 @@ export const SettingsForm = () => {
             <form onSubmit={handleSubmit(onSubmit)}>
               <Grid container spacing={4}>
                 <Grid item xs={12} sm={6}>
-                  <FormControl fullWidth={true}>
-                    <InputLabel
-                      htmlFor="nameFirst"
-                      style={{ display: "none" }}
-                      required
-                    >
-                      First Name
-                    </InputLabel>
-                    <Controller
-                      control={control}
-                      name="nameFirst"
-                      rules={{ required: true }}
-                      render={({ field: { onChange, value } }) => (
-                        <TextField
-                          id="nameFirst"
-                          error={!!errors.nameFirst}
-                          label="First Name *"
-                          onChange={onChange}
-                          placeholder=""
-                          value={value}
-                          fullWidth
-                          type="search"
-                          disabled={loading}
-                        />
-                      )}
-                    />
-                    {errors.nameFirst && (
-                      <FormHelperText className="Mui-error">
-                        Please tell us your first name 🙂
-                      </FormHelperText>
-                    )}
-                  </FormControl>
+                  <CustomInputField
+                    fieldName="nameFirst"
+                    label="First Name *"
+                    required={true}
+                    disabled={loading}
+                  />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <FormControl fullWidth={true}>
-                    <InputLabel
-                      htmlFor="nameLast"
-                      style={{ display: "none" }}
-                      hidden
-                    >
-                      Last Name
-                    </InputLabel>
-                    <Controller
-                      control={control}
-                      name="nameLast"
-                      render={({ field: { onChange, value } }) => (
-                        <TextField
-                          id="nameLast"
-                          error={!!errors.nameLast}
-                          onChange={onChange}
-                          label="Last Name"
-                          value={value}
-                          fullWidth
-                          disabled={loading}
-                        />
-                      )}
-                    />
-                  </FormControl>
+                  <CustomInputField
+                    fieldName="nameLast"
+                    label="Last Name"
+                    required={false}
+                    disabled={loading}
+                  />
                 </Grid>
                 <Grid item xs={12}>
                   <FormControl fullWidth={true}>
@@ -204,31 +160,12 @@ export const SettingsForm = () => {
                 </Grid>
 
                 <Grid item xs={12} sm={6}>
-                  <FormControl fullWidth={true}>
-                    <InputLabel
-                      htmlFor="livingInCity"
-                      style={{ display: "none" }}
-                      hidden
-                    >
-                      Home Town
-                    </InputLabel>
-                    <Controller
-                      control={control}
-                      name="livingInCity"
-                      render={({ field: { onChange, value } }) => (
-                        <TextField
-                          error={!!errors.livingInCity}
-                          onChange={onChange}
-                          value={value}
-                          fullWidth
-                          disabled={loading}
-                          id="livingInCity"
-                          label="Home Town"
-                          autoComplete="town"
-                        />
-                      )}
-                    />
-                  </FormControl>
+                  <CustomInputField
+                    fieldName="livingInCity"
+                    label="Home Town"
+                    required={false}
+                    disabled={loading}
+                  />
                 </Grid>
 
                 <Grid item xs={12}>
