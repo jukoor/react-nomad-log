@@ -129,7 +129,11 @@ export const SettingsForm = () => {
               <Grid container spacing={4}>
                 <Grid item xs={12} sm={6}>
                   <FormControl fullWidth={true}>
-                    <InputLabel htmlFor="nameFirst" hidden required shrink>
+                    <InputLabel
+                      htmlFor="nameFirst"
+                      style={{ display: "none" }}
+                      required
+                    >
                       First Name
                     </InputLabel>
                     <Controller
@@ -140,10 +144,12 @@ export const SettingsForm = () => {
                         <TextField
                           id="nameFirst"
                           error={!!errors.nameFirst}
-                          label="First Name"
+                          label="First Name *"
                           onChange={onChange}
+                          placeholder=""
                           value={value}
                           fullWidth
+                          type="search"
                           disabled={loading}
                         />
                       )}
@@ -157,7 +163,11 @@ export const SettingsForm = () => {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <FormControl fullWidth={true}>
-                    <InputLabel htmlFor="nameLast" shrink hidden>
+                    <InputLabel
+                      htmlFor="nameLast"
+                      style={{ display: "none" }}
+                      hidden
+                    >
                       Last Name
                     </InputLabel>
                     <Controller
@@ -179,7 +189,11 @@ export const SettingsForm = () => {
                 </Grid>
                 <Grid item xs={12}>
                   <FormControl fullWidth={true}>
-                    <InputLabel htmlFor="bio" shrink hidden>
+                    <InputLabel
+                      htmlFor="bio"
+                      style={{ display: "none" }}
+                      hidden
+                    >
                       Bio
                     </InputLabel>
                     <Controller
@@ -204,7 +218,11 @@ export const SettingsForm = () => {
                 </Grid>
                 <Grid item xs={12}>
                   <FormControl sx={{ m: 0, width: "100%" }}>
-                    <InputLabel id="tagsLabel" shrink hidden>
+                    <InputLabel
+                      id="tagsLabel"
+                      style={{ display: "none" }}
+                      hidden
+                    >
                       Tags
                     </InputLabel>
                     <Controller
@@ -215,7 +233,6 @@ export const SettingsForm = () => {
                           id="tags"
                           labelId="tagsLabel"
                           name="tags"
-                          label="Tags"
                           placeholder="Your Bio Tags. What's your travel style?"
                           multiple
                           sx={{ minHeight: "65px" }}
@@ -266,7 +283,11 @@ export const SettingsForm = () => {
 
                 <Grid item xs={12} sm={6}>
                   <FormControl fullWidth={true}>
-                    <InputLabel htmlFor="livingInCity" shrink hidden>
+                    <InputLabel
+                      htmlFor="livingInCity"
+                      style={{ display: "none" }}
+                      hidden
+                    >
                       Home Town
                     </InputLabel>
                     <Controller
@@ -280,11 +301,8 @@ export const SettingsForm = () => {
                           fullWidth
                           disabled={loading}
                           id="livingInCity"
-                          label="Home Town  "
+                          label="Home Town"
                           autoComplete="town"
-                          InputLabelProps={{
-                            shrink: true,
-                          }}
                         />
                       )}
                     />
@@ -297,9 +315,9 @@ export const SettingsForm = () => {
                     severity="info"
                     sx={{
                       background: "transparent",
-                      color: "#4e4e7e",
+                      color: "#212121",
                       fontSize: "14px",
-                      border: "2px solid #4e4e7e",
+                      border: "2px solid #212121",
                       fontWeight: "bold",
                       marginTop: "25px",
                     }}

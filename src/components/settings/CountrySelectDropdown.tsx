@@ -61,7 +61,13 @@ export const CountrySelectDropdown = ({
       {countryList && (
         <>
           <FormControl fullWidth={true}>
-            <InputLabel htmlFor={fieldName} required={required} shrink hidden>
+            <InputLabel
+              htmlFor={fieldName}
+              required={required}
+              shrink
+              hidden
+              style={{ display: "none" }}
+            >
               {label}
             </InputLabel>
 
