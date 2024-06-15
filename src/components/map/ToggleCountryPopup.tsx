@@ -6,7 +6,7 @@ import {
   FormHelperText,
   Switch,
 } from "@mui/material";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { Unstable_Popup as BasePopup } from "@mui/base/Unstable_Popup";
 
 import styles from "../../styles/ToggleCountryPopup.module.scss";
@@ -28,19 +28,19 @@ export const ToggleCountryPopup = () => {
   const [anchor, setAnchor] = useState<null | HTMLElement>(null);
   const [countryList, setCountryList] = useState({
     countriesVisited:
-      (selectedUserdata.countriesVisited?.includes(
+      (selectedUserdata?.countriesVisited?.includes(
         selectedCountry?.cca2 as CountryCca2Type
       ) ||
         selectedCountry?.cca2 === userData.countryVisitedTemp) ??
       false,
     countriesBucketList:
-      (selectedUserdata.countriesBucketList?.includes(
+      (selectedUserdata?.countriesBucketList?.includes(
         selectedCountry?.cca2 as CountryCca2Type
       ) ||
         selectedCountry?.cca2 === userData.countryBucketListTemp) ??
       false,
     countriesLived:
-      (selectedUserdata.countriesLived?.includes(
+      (selectedUserdata?.countriesLived?.includes(
         selectedCountry?.cca2 as CountryCca2Type
       ) ||
         selectedCountry?.cca2 === userData.countryLivedTemp) ??
@@ -57,10 +57,6 @@ export const ToggleCountryPopup = () => {
     },
     [anchor]
   );
-
-  useEffect(() => {
-    console.log(anchor);
-  }, [anchor]);
 
   const handleChangeSwitch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, checked } = event.target;

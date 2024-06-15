@@ -42,7 +42,7 @@ interface Demonyms {
 interface Flags {
   png: string;
   svg: string;
-  alt: string;
+  alt?: string;
 }
 
 interface Maps {

@@ -30,6 +30,7 @@ import {
   updateCountriesLived,
   updateCountriesVisited,
 } from "../../store/userSlice";
+import { CountryCca2Type } from "../../types/CountryCca2Type";
 
 type CountryCode = string;
 
@@ -234,7 +235,7 @@ export const Map = () => {
           if (country.maps.length) {
             data.push({
               id: id,
-              emoji: getEmojiFlag(id),
+              emoji: getEmojiFlag(id as CountryCca2Type),
               map: country.maps[0],
               polygonSettings: {
                 // Todo
