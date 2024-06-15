@@ -3,7 +3,7 @@ import { useGoogleLogin } from "../../hooks/useGoogleLogin";
 import { getAuth } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 
-export const Login = () => {
+export const LoginButton = () => {
   const auth = getAuth();
 
   const [user] = useAuthState(auth);
@@ -20,4 +20,4 @@ export const Login = () => {
   );
 };
 
-export default Login;
+export default LoginButton;

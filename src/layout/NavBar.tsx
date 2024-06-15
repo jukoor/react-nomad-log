@@ -8,8 +8,7 @@ import styles from "../styles/NavBar.module.scss";
 import { LinearProgress, Link } from "@mui/material";
 import { toggleMenuVisibility } from "../store/appSlice";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
-import { useEffect, useState } from "react";
-import Login from "../components/global/Login";
+import LoginButton from "../components/global/LoginButton";
 
 import { AvatarMenu } from "./AvatarMenu";
 
@@ -18,13 +17,8 @@ export const NavBar = () => {
 
   const userData = useAppSelector((state) => state.User);
   const countryData = useAppSelector((state) => state.Country);
-  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    setLoading(userData.loading || countryData.loading);
-  }, [userData.loading, countryData.loading]);
-
-  const handleOnClick = () => {
+  const openSidebarMenu = () => {
     dispatch(toggleMenuVisibility());
   };
 
@@ -38,7 +32,7 @@ export const NavBar = () => {
             color="inherit"
             aria-label="menu"
             sx={{ mr: 2 }}
-            onClick={handleOnClick}
+            onClick={openSidebarMenu}
           >
             <MenuIcon />
           </IconButton>
@@ -57,11 +51,11 @@ export const NavBar = () => {
             </Link>
           </Typography>
 
-          {userData.isLoggedIn ? <AvatarMenu /> : <Login />}
+          {userData.isLoggedIn ? <AvatarMenu /> : <LoginButton />}
         </Toolbar>
       </AppBar>
 
-      {loading && (
+      {countryData.loading && (
         <Box className={styles.navbarLoading}>
           <LinearProgress color="secondary" sx={{ backgroundColor: "black" }} />
         </Box>

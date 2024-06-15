@@ -11,21 +11,17 @@ import { toggleMenuVisibility } from "../store/appSlice";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import { Button, Tooltip } from "@mui/material";
+import { Tooltip } from "@mui/material";
 import { SidebarWelcomeMsg } from "./SidebarWelcomeMsg";
-import { getAuth } from "firebase/auth";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { useGoogleLogin } from "../hooks/useGoogleLogin";
 import { useLocation } from "react-router-dom";
 
 export const SidebarMenu = () => {
   const dispatch = useAppDispatch();
   const menuVisibility = useAppSelector((state) => state.App.menuOpen);
+  const userData = useAppSelector((state) => state.User);
+
   const menuStructure = useMenuStructure();
 
-  const auth = getAuth();
-  const [user] = useAuthState(auth);
-  const { loginWithGoogle } = useGoogleLogin();
   const location = useLocation();
 
   const drawerWidth = 240;
@@ -40,7 +36,7 @@ export const SidebarMenu = () => {
 
     // If a callback is provided, execute it after a short delay
     if (callback) {
-      setTimeout(callback, 300); // Adjust the delay as needed to match the animation duration
+      setTimeout(callback, 300); // time for sidebar to finish closing animation
     }
   };
 
@@ -81,7 +77,7 @@ export const SidebarMenu = () => {
         <Divider sx={{ borderColor: "#ffffff70" }} />
 
         {/* Show welcome Message when user is logged in */}
-        {user && (
+        {userData.isLoggedIn && (
           <>
             <SidebarWelcomeMsg />
             <Divider sx={{ borderColor: "#ffffff70" }} />
@@ -90,12 +86,9 @@ export const SidebarMenu = () => {
 
         <List sx={{ marginTop: "30px" }}>
           {menuStructure.map((item) => (
-            // const isActive = location.pathname === item.target;
-
             <ListItemButton
               component="a"
               href={item.target}
-              // onClick={handleCloseDrawer}
               onClick={(event) => {
                 event.preventDefault(); // Prevent the default link behavior
                 handleCloseDrawerDelay(() => {
@@ -115,16 +108,6 @@ export const SidebarMenu = () => {
             </ListItemButton>
           ))}
         </List>
-        {user == null && (
-          <Button
-            className={styles.signInBtn}
-            variant="contained"
-            color="secondary"
-            onClick={loginWithGoogle}
-          >
-            Sign in
-          </Button>
-        )}
       </Drawer>
     </Box>
   );

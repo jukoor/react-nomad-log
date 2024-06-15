@@ -21,7 +21,7 @@ export const SidebarWelcomeMsg = () => {
         <span style={{ display: "inline-block", marginLeft: "5px" }}>👋</span>
       </Typography>
       <Typography variant="body2" sx={{ fontWeight: "bold" }}>
-        {user.nameFirst} {user.nameLast}
+        {user?.nameFirst} {user?.nameLast}
       </Typography>
     </Box>
   );
