@@ -3,51 +3,48 @@ import InsertEmoticonIcon from "@mui/icons-material/InsertEmoticon";
 import ToggleOnOutlinedIcon from "@mui/icons-material/ToggleOnOutlined";
 import LogoutIcon from "@mui/icons-material/Logout";
 
-import { getAuth } from "firebase/auth";
-import { useAuthState } from "react-firebase-hooks/auth";
 import { MenuStructureType } from "../types/MenuStructureType.tsx";
+import { useAppSelector } from "../hooks/reduxHooks.tsx";
 
 export const useMenuStructure = () => {
-  const auth = getAuth();
-  const [user] = useAuthState(auth);
+  const userData = useAppSelector((state) => state.User);
 
-  // Return menu structure seperately for logged in and logged out state
-  const menuStructure: MenuStructureType[] =
-    user !== null
-      ? [
-          {
-            id: 0,
-            target: "/",
-            text: "Map",
-            icon: <MapOutlinedIcon />,
-          },
-          {
-            id: 1,
-            target: `/profile/${user?.uid}`,
-            text: "Profile",
-            icon: <InsertEmoticonIcon />,
-          },
-          {
-            id: 2,
-            target: "/settings",
-            text: "Settings",
-            icon: <ToggleOnOutlinedIcon />,
-          },
-          {
-            id: 3,
-            target: "/logout",
-            text: "Logout",
-            icon: <LogoutIcon />,
-          },
-        ]
-      : [
-          {
-            id: 0,
-            target: "/",
-            text: "Map",
-            icon: <MapOutlinedIcon />,
-          },
-        ];
+  // Return menu structure each for logged in and logged out state
+  const menuStructure: MenuStructureType[] = !userData.loading
+    ? [
+        {
+          id: 0,
+          target: "/",
+          text: "Map",
+          icon: <MapOutlinedIcon />,
+        },
+        {
+          id: 1,
+          target: `/profile/${userData?.selectedUser?.uid}`,
+          text: "Profile",
+          icon: <InsertEmoticonIcon />,
+        },
+        {
+          id: 2,
+          target: "/settings",
+          text: "Settings",
+          icon: <ToggleOnOutlinedIcon />,
+        },
+        {
+          id: 3,
+          target: "/logout",
+          text: "Logout",
+          icon: <LogoutIcon />,
+        },
+      ]
+    : [
+        {
+          id: 0,
+          target: "/",
+          text: "Map",
+          icon: <MapOutlinedIcon />,
+        },
+      ];
 
   return menuStructure;
 };

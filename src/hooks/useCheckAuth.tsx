@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useAppDispatch } from "./reduxHooks";
 import { setUserLoggedIn } from "../store/userSlice";
 
+/* Only used in App.tsx, value check against isLoggedIn @redux store */
 export const useCheckAuth = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const auth = getAuth();

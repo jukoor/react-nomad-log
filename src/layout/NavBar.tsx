@@ -12,12 +12,9 @@ import { useEffect, useState } from "react";
 import Login from "../components/global/Login";
 
 import { AvatarMenu } from "./AvatarMenu";
-import { useCheckAuth } from "../hooks/useCheckAuth";
 
 export const NavBar = () => {
   const dispatch = useAppDispatch();
-
-  const isAuthenticated = useCheckAuth();
 
   const userData = useAppSelector((state) => state.User);
   const countryData = useAppSelector((state) => state.Country);
@@ -60,7 +57,7 @@ export const NavBar = () => {
             </Link>
           </Typography>
 
-          {isAuthenticated ? <AvatarMenu /> : <Login />}
+          {userData.isLoggedIn ? <AvatarMenu /> : <Login />}
         </Toolbar>
       </AppBar>
 

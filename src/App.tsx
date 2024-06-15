@@ -8,12 +8,17 @@ import { Logout } from "./pages/Logout";
 import { useFetchCountryDataFromApi } from "./hooks/useFetchCountryDataFromApi";
 import { useFetchUserData } from "./hooks/useFetchUserdata";
 import { ParallaxProvider } from "react-scroll-parallax";
+import { useCheckAuth } from "./hooks/useCheckAuth";
 
 function App() {
   // Fetch all country data from API on App init
   useFetchCountryDataFromApi();
+
   // Fetch user data from Firestore DB
   useFetchUserData();
+
+  // Check if User is authenticated/logged in
+  useCheckAuth();
 
   return (
     <div className="app">

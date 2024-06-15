@@ -35,7 +35,7 @@ export const SidebarMenu = () => {
   };
 
   /* Delay redirect on link click, wait until sidebar has finished closing */
-  const handleCloseDrawer2 = (callback?: () => void) => {
+  const handleCloseDrawerDelay = (callback?: () => void) => {
     dispatch(toggleMenuVisibility());
 
     // If a callback is provided, execute it after a short delay
@@ -98,7 +98,7 @@ export const SidebarMenu = () => {
               // onClick={handleCloseDrawer}
               onClick={(event) => {
                 event.preventDefault(); // Prevent the default link behavior
-                handleCloseDrawer2(() => {
+                handleCloseDrawerDelay(() => {
                   // Perform the redirection after the sidebar close animation
                   window.location.href = item.target;
                 });
