@@ -63,6 +63,15 @@ interface Gini {
   [key: string]: number;
 }
 
+export type ContinentType =
+  | "Oceania"
+  | "Antarctica"
+  | "Africa"
+  | "Asia"
+  | "Europe"
+  | "North America"
+  | "South America";
+
 export interface CountryType {
   name: Name;
   tld: string[];
@@ -93,7 +102,7 @@ export interface CountryType {
   fifa: string;
   car: Car;
   timezones: string[];
-  continents: string[];
+  continents: ContinentType[];
   flags: Flags;
   coatOfArms: Flags;
   startOfWeek: string;

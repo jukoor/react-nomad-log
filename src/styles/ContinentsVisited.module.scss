@@ -1,0 +1,93 @@
+@import "../styles/global/variables.scss";
+
+.continents {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(125px, 1fr));
+
+  .continent {
+    border: 3px solid $color-primary-dark;
+    flex: 1;
+    height: 125px;
+
+    text-align: center;
+    font-size: 12px;
+    text-transform: uppercase;
+    font-weight: bold;
+
+    &.active {
+      border-width: 3px;
+      border-style: solid;
+      border-image: linear-gradient(135deg, #83e4e2 0%, #a2ed56 100%) 1;
+    }
+  }
+
+  .svg {
+    max-width: 58%;
+    height: calc(89% - 30px);
+    margin-bottom: 11%;
+    background-repeat: no-repeat;
+    background-size: contain;
+    position: relative;
+    left: 50%;
+    top: 8px;
+    transform: translateX(-50%);
+
+    &.africa {
+      background-image: url("../images/continents/africa.svg");
+    }
+
+    &.antarctica {
+      background-image: url("../images/continents/antarctica.svg");
+    }
+
+    &.asia {
+      background-image: url("../images/continents/asia.svg");
+      top: 16px;
+    }
+
+    &.europe {
+      background-image: url("../images/continents/europe.svg");
+    }
+
+    &.northamerica {
+      background-image: url("../images/continents/northamerica.svg");
+      top: 16px;
+      max-width: 76%;
+    }
+
+    &.southamerica {
+      background-image: url("../images/continents/southamerica.svg");
+      height: calc(86% - 29px);
+      left: 55%;
+      top: 7px;
+      margin-bottom: 14%;
+    }
+
+    &.oceania {
+      background-image: url("../images/continents/oceania.svg");
+      top: 16px;
+      max-width: 76%;
+    }
+  }
+
+  .name {
+    padding-top: 5px;
+    padding-bottom: 1px;
+    border-top: 3px solid $color-primary-dark;
+  }
+}
+
+.sceletonContainer {
+  display: flex;
+  gap: 20px;
+}
+
+@media (max-width: 360px) {
+  .continents {
+    .svg {
+      height: calc(77% - 30px);
+      background-position: center;
+    }
+  }
+}

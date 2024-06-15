@@ -6,6 +6,7 @@ import { Bio } from "../components/profile/Bio";
 import { CountryLists } from "../components/profile/CountryLists";
 import { useFetchUserData } from "../hooks/useFetchUserdata";
 import { ParallaxHeader } from "../components/global/ParallaxHeader";
+import { ContinentsVisited } from "../components/profile/ContinentsVisited";
 
 export const Profile = () => {
   let { userId } = useParams();
@@ -20,7 +21,7 @@ export const Profile = () => {
         <Container>
           <Stack spacing={theme.breakpoints.down("sm") ? 3 : 6}>
             <Bio />
-            {/* <ContinentsVisited /> */}
+            <ContinentsVisited />
             <CountryLists />
           </Stack>
         </Container>

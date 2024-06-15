@@ -15,7 +15,6 @@ export const userSlice = createSlice({
   name: "user",
   initialState: {
     selectedUser: null,
-
     countryVisitedTemp: null,
     countryBucketListTemp: null,
     countryLivedTemp: null,

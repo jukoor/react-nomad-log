@@ -114,7 +114,7 @@ export const Map = () => {
       const worldSeries = chart.series.push(
         am5map.MapPolygonSeries.new(root, {
           geoJSON: am5geodata_worldLow,
-          exclude: ["AQ"],
+          exclude: ["AQ"], // Antartiqua
         })
       );
 
