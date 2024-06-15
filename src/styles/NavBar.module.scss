@@ -1,7 +1,7 @@
 @import "global/variables.scss";
 
 .appBarComp {
-  margin-top: $header-height;
+  // margin-top: $header-height;
   .appBar {
     background-color: $color-navbar-bg;
     position: fixed;
@@ -53,7 +53,7 @@
       width: 35px;
       height: 35px;
       font-size: 16px;
-      background: $color-pink;
+      background: $color-primary-pink;
     }
 
     &.active,
@@ -80,5 +80,5 @@
 }
 
 .css-8kh2zk-MuiLinearProgress-bar1 {
-  background-color: $color-pink2;
+  background-color: $color-pink-dark;
 }

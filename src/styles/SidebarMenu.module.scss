@@ -2,15 +2,22 @@
 
 .sidebar {
   .link {
-    width: 100%;
+    margin: 0 14px;
+    width: calc(100% - 28px);
+    border-radius: 20px 0 20px 0;
     text-decoration: none;
     color: $color-white;
-    transition: background-color 0.3s ease-out;
+    transition: background-color 0.5s ease-out;
+    backdrop-filter: blur(10px);
+    margin-bottom: 10px;
+    border: 2px solid transparent;
+
     &:hover {
-      background-color: $color-sidebarlink;
+      background-color: #5d5d5d3d;
     }
+
     &.active {
-      background-color: $color-sidebarlink;
+      border-color: pink;
     }
   }
 

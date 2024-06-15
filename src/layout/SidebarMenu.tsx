@@ -17,7 +17,6 @@ import { getAuth } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useGoogleLogin } from "../hooks/useGoogleLogin";
 import { useLocation } from "react-router-dom";
-import { useEffect } from "react";
 
 export const SidebarMenu = () => {
   const dispatch = useAppDispatch();
@@ -35,6 +34,15 @@ export const SidebarMenu = () => {
     dispatch(toggleMenuVisibility());
   };
 
+  const handleCloseDrawer2 = (callback?: () => void) => {
+    dispatch(toggleMenuVisibility());
+
+    // If a callback is provided, execute it after a short delay
+    if (callback) {
+      setTimeout(callback, 300); // Adjust the delay as needed to match the animation duration
+    }
+  };
+
   return (
     <Box sx={{ display: "flex" }}>
       <Drawer
@@ -47,7 +55,8 @@ export const SidebarMenu = () => {
           "& .MuiDrawer-paper": {
             width: drawerWidth,
             boxSizing: "border-box",
-            backgroundColor: "#0b2948",
+            backgroundColor: "#1f2937b8",
+            backdropFilter: "blur(10px)",
           },
         }}
         anchor="left"
@@ -85,13 +94,20 @@ export const SidebarMenu = () => {
             <ListItemButton
               component="a"
               href={item.target}
-              onClick={handleCloseDrawer}
+              // onClick={handleCloseDrawer}
+              onClick={(event) => {
+                event.preventDefault(); // Prevent the default link behavior
+                handleCloseDrawer2(() => {
+                  // Perform the redirection after the sidebar close animation
+                  window.location.href = item.target;
+                });
+              }}
               key={item.id}
               className={`${styles.link} ${
                 location.pathname === item.target ? styles.active : ""
               }`}
             >
-              <ListItemIcon sx={{ minWidth: "40px", color: "#59CFFF" }}>
+              <ListItemIcon sx={{ minWidth: "40px", color: "pink" }}>
                 {item.icon}
               </ListItemIcon>
               <ListItemText primary={item.text} />

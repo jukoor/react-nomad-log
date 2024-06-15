@@ -6,6 +6,7 @@
 .mapContainer {
   width: 100%;
   height: $map-height;
+  top: $header-height;
 
   .map {
     width: 100%;
@@ -73,7 +74,7 @@
     transition: 0.3s background-color ease-out;
 
     &:hover {
-      background: $color-pink2;
+      background: $color-pink-dark;
     }
   }
 }
