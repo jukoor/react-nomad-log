@@ -56,7 +56,7 @@ export const ContinentsVisited = () => {
             component="h2"
             color="text.secondary"
             gutterBottom
-            sx={{ mb: 4 }}
+            sx={{ mb: 3 }}
           >
             Continents visited
           </Typography>

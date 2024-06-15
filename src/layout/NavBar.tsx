@@ -9,18 +9,16 @@ import { LinearProgress, Link } from "@mui/material";
 import { toggleMenuVisibility } from "../store/appSlice";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 import { useEffect, useState } from "react";
-import { getAuth } from "firebase/auth";
-import { useAuthState } from "react-firebase-hooks/auth";
 import Login from "../components/global/Login";
 
 import { AvatarMenu } from "./AvatarMenu";
+import { useCheckAuth } from "../hooks/useCheckAuth";
 
 export const NavBar = () => {
   const dispatch = useAppDispatch();
 
-  const auth = getAuth();
+  const isAuthenticated = useCheckAuth();
 
-  const [user] = useAuthState(auth);
   const userData = useAppSelector((state) => state.User);
   const countryData = useAppSelector((state) => state.Country);
   const [loading, setLoading] = useState(false);
@@ -62,7 +60,7 @@ export const NavBar = () => {
             </Link>
           </Typography>
 
-          {user ? <AvatarMenu /> : <Login />}
+          {isAuthenticated ? <AvatarMenu /> : <Login />}
         </Toolbar>
       </AppBar>
 

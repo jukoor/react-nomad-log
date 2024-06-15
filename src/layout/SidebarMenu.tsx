@@ -34,6 +34,7 @@ export const SidebarMenu = () => {
     dispatch(toggleMenuVisibility());
   };
 
+  /* Delay redirect on link click, wait until sidebar has finished closing */
   const handleCloseDrawer2 = (callback?: () => void) => {
     dispatch(toggleMenuVisibility());
 
