@@ -13,7 +13,11 @@
     font-size: 12px;
     text-transform: uppercase;
     font-weight: bold;
+    transition: transform 0.3s ease-out;
 
+    &:hover {
+      transform: scale(1.1);
+    }
     &.active {
       border-color: $color-primary-pink;
 

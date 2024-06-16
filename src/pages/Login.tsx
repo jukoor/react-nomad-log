@@ -11,13 +11,14 @@ export const Login = () => {
 
   // Sign in with Google Auth
   useEffect(() => {
+    console.log(userData.isLoggedIn);
     if (!userData.isLoggedIn) {
       loginWithGoogle();
     } else {
       // if logged in, navigate to home/map
       navigate("/");
     }
-  }, []);
+  }, [userData]);
 
   return <></>;
 };

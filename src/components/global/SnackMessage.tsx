@@ -26,7 +26,11 @@ export const SnackMessage = () => {
       <Alert
         onClose={handleClose}
         severity={snackbarOptions.severity}
-        sx={{ width: "100%" }}
+        sx={{
+          width: "100%",
+          border: "1px solid darkgreen",
+          borderRadius: "8px",
+        }}
       >
         {snackbarOptions.message}
       </Alert>

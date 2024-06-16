@@ -28,17 +28,15 @@ export const useGoogleLogin = () => {
           const isNewUser = getAdditionalUserInfo(result);
           console.log(isNewUser);
           if (isNewUser) {
+            console.log("new user?");
             // On the first sign up - create a document in firestore to store custom user data
             if (result) {
               console.log(result);
               // Todo
-              // addUserDoc(result.uid);
+              // addUserDoc(result.user.uid);
             }
           } else {
-            // console.log(
-            //   "Successfully logged in (first time):",
-            //   result.displayName
-            // );
+            console.log("Successfully logged in (first time):");
           }
 
           dispatch(setUserLoggedIn(true));

@@ -19,7 +19,7 @@ export const useAddFirebaseUser = () => {
           bio: "",
           tags: [],
           livingInCity: "",
-          homeCountry: "",
+          homeCountry: [],
           countriesVisited: [],
           countriesBucketList: [],
           countriesLived: [],

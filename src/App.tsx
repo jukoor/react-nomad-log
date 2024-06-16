@@ -12,13 +12,13 @@ import { useCheckAuth } from "./hooks/useCheckAuth";
 import { Login } from "./pages/Login";
 
 function App() {
-  // Fetch all country data from API on App init
+  // Fetch  country data from API
   useFetchCountryDataFromApi();
 
   // Fetch user data from Firestore DB
   useFetchUserData();
 
-  // Check if User is authenticated/logged in
+  // Check if User is authenticated
   useCheckAuth();
 
   return (
@@ -32,6 +32,7 @@ function App() {
               <Route path="settings" element={<Settings />} />
               <Route path="login" element={<Login />} />
               <Route path="logout" element={<Logout />} />
+              <Route path="*" element={<p>There's nothing here: 404!</p>} />
             </Routes>
           </PageLayout>
         </ParallaxProvider>

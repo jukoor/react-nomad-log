@@ -11,15 +11,21 @@ export const ContinentsVisited = () => {
   const countryData = useAppSelector((state) => state.Country.countries);
 
   // Get list of visited continents from list of visited countries
-  const visitedContinents: string[] = useMemo(() => {
+  const visitedContinents: ContinentType[] = useMemo(() => {
     if (!userData || !Array.isArray(userData.countriesVisited)) return [];
     const allContinents = [].concat(
-      ...userData.countriesVisited.map(
-        (country) => getCountryData(country, countryData).continents
-      )
+      ...userData.countriesVisited.map((country) => {
+        const countryDataResult = getCountryData(country, countryData);
+        // Check if countryDataResult is defined and has a continents property
+        return countryDataResult && countryDataResult.continents
+          ? countryDataResult.continents
+          : "";
+      })
     );
-    return Array.from(new Set(allContinents)).sort();
-  }, [userData]);
+    return Array.from(
+      new Set(allContinents.filter((continent) => continent))
+    ).sort();
+  }, [userData, countryData]);
 
   // All available continents
   const continents: ContinentType[] = [
@@ -77,7 +83,7 @@ export const ContinentsVisited = () => {
             </>
           ) : (
             <div className={styles.continents}>
-              {continents.map((item: string) => {
+              {continents.map((item: ContinentType) => {
                 const continentNoSpaces = item.replace(" ", "").toLowerCase();
                 const isContinentVisited = visitedContinents.includes(
                   item
