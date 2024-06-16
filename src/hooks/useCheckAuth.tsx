@@ -2,7 +2,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useState, useEffect } from "react";
 import { useAppDispatch } from "./reduxHooks";
 import { setUserLoggedIn } from "../store/userSlice";
-import { setSnackbarOptions } from "../store/appSlice";
+import { setSnackbarOptions, toggleMenuVisibility } from "../store/appSlice";
 
 /* Only used in App.tsx, value check against isLoggedIn @redux store */
 export const useCheckAuth = () => {
@@ -25,6 +25,8 @@ export const useCheckAuth = () => {
       } else {
         setIsAuthenticated(false);
         dispatch(setUserLoggedIn(false));
+        // show sidebar when not logged in, to log in
+        dispatch(toggleMenuVisibility());
       }
     });
 

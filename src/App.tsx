@@ -1,17 +1,15 @@
-import { Routes, Route, BrowserRouter } from "react-router-dom";
-import { Profile } from "./pages/Profile";
-import { Home } from "./pages/Home";
+import { Routes, BrowserRouter } from "react-router-dom";
 import { PageLayout } from "./layout/PageLayout";
 import "./styles/global/App.scss";
-import { Settings } from "./pages/Settings";
-import { Logout } from "./pages/Logout";
 import { useFetchCountryDataFromApi } from "./hooks/useFetchCountryDataFromApi";
 import { useFetchUserData } from "./hooks/useFetchUserdata";
 import { ParallaxProvider } from "react-scroll-parallax";
 import { useCheckAuth } from "./hooks/useCheckAuth";
-import { Login } from "./pages/Login";
+import { AppRoutes } from "./routes/AppRoutes";
 
 function App() {
+  // Todo nur fetchen countires wenn eingeloggt
+
   // Fetch  country data from API
   useFetchCountryDataFromApi();
 
@@ -26,14 +24,7 @@ function App() {
       <BrowserRouter>
         <ParallaxProvider>
           <PageLayout>
-            <Routes>
-              <Route path="/" element={<Home />}></Route>
-              <Route path="profile/:userId" element={<Profile />} />
-              <Route path="settings" element={<Settings />} />
-              <Route path="login" element={<Login />} />
-              <Route path="logout" element={<Logout />} />
-              <Route path="*" element={<p>There's nothing here: 404!</p>} />
-            </Routes>
+            <AppRoutes />
           </PageLayout>
         </ParallaxProvider>
       </BrowserRouter>

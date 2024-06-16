@@ -10,7 +10,7 @@ import { useAppSelector } from "../hooks/reduxHooks.tsx";
 export const useMenuStructure = () => {
   const userData = useAppSelector((state) => state.User);
 
-  // Return menu structure each for logged in and logged out state
+  // Return menu structure dynamically for logged in and logged out state
   const menuStructure: MenuStructureType[] = userData.isLoggedIn
     ? [
         {
