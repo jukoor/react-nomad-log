@@ -3,7 +3,7 @@ import { CountryCca2Type } from "./CountryCca2Type";
 export type UserType = {
   uid?: string;
   nameFirst: string;
-  nameLast?: string;
+  nameLast: string;
   bio?: string;
   tags?: string[];
   livingInCity: string;

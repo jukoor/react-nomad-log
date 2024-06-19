@@ -14,7 +14,6 @@ import InsertEmoticonIcon from "@mui/icons-material/InsertEmoticon";
 import { useNavigate } from "react-router-dom";
 import { getAuth, signOut } from "firebase/auth";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
-import { randomColorStringAvatar } from "../utils/appUtils";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { setUserLoggedIn } from "../store/userSlice";
 
@@ -28,6 +27,9 @@ export const AvatarMenu = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const userData = useAppSelector((state) => state.User);
+  const userInitials = `${userData.selectedUser?.nameFirst.charAt(
+    0
+  )}${userData.selectedUser?.nameLast.charAt(0)}`;
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -75,11 +77,7 @@ export const AvatarMenu = () => {
                 aria-haspopup="true"
                 aria-expanded={open ? "true" : undefined}
               >
-                <Avatar
-                  {...randomColorStringAvatar(
-                    `${userData.selectedUser?.nameFirst} ${userData.selectedUser?.nameLast}`
-                  )}
-                />
+                <Avatar sx={{ backgroundColor: "pink" }}>{userInitials}</Avatar>
               </IconButton>
             </Tooltip>
           </Box>

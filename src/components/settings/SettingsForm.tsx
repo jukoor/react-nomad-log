@@ -111,8 +111,8 @@ export const SettingsForm = () => {
                 <Grid item xs={12} sm={6}>
                   <CustomInputField
                     fieldName="nameLast"
-                    label="Last Name"
-                    required={false}
+                    label="Last Name *"
+                    required={true}
                     disabled={loading}
                   />
                 </Grid>
