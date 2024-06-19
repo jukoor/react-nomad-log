@@ -1,9 +1,9 @@
 import {
   Autocomplete,
+  Badge,
   Box,
   Chip,
   FormControl,
-  FormHelperText,
   InputLabel,
   TextField,
 } from "@mui/material";
@@ -107,6 +107,7 @@ export const TagsSelectDropdown: FC<TagsSelectDropdownProps> = ({
                     {...params}
                     label="Tags"
                     fullWidth
+                    placeholder="Describe your travel style"
                     inputProps={{
                       ...params.inputProps,
                       autoComplete: "", // disable autocomplete and autofill
@@ -123,9 +124,12 @@ export const TagsSelectDropdown: FC<TagsSelectDropdownProps> = ({
           />
 
           {/* Selection Counter Badge  */}
-          <FormHelperText id="my-helper-text">
-            <span className={styles.badgeCustom}>{selectedCount}</span>
-          </FormHelperText>
+          <Badge
+            sx={{ position: "absolute", top: "-14px", right: "18px" }}
+            color="secondary"
+            badgeContent={selectedCount}
+            showZero
+          ></Badge>
         </FormControl>
       </>
     </>

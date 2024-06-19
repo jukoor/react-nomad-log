@@ -138,7 +138,7 @@ export const SettingsForm = () => {
                           multiline
                           rows={4}
                           disabled={loading}
-                          placeholder="Your Bio. Tell us something about yourself :) where do you like to travel?"
+                          placeholder="Tell us something about yourself 🙂 Where and how do you like to travel?"
                           label="Bio"
                         />
                       )}

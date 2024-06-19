@@ -21,8 +21,6 @@ export const useCheckAuth = () => {
           user.uid
         );
 
-        console.log(checkIfFirebaseUserExists());
-
         if (checkIfFirebaseUserExists) {
           checkIfFirebaseUserExists().then((exists) => {
             if (!exists) {
@@ -30,7 +28,6 @@ export const useCheckAuth = () => {
 
               // add empty firebase user with same uid as google auth user
               addUserDoc(user.uid);
-              console.log("firebase user added with id:  " + user.uid);
             } else {
               // User exists, perform actions for returning users
             }

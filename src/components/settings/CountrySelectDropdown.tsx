@@ -1,5 +1,6 @@
 import {
   Autocomplete,
+  Badge,
   Box,
   Chip,
   FormControl,
@@ -147,15 +148,18 @@ export const CountrySelectDropdown = ({
                   padding: "0 15px",
                 }}
               >
-                Please tell us your nationality 🙂
+                Please tell us your Nationality * 🙂
               </FormHelperText>
             ) : null}
 
             {/* Selection Counter Badge  */}
             {multiple ? (
-              <FormHelperText id="my-helper-text">
-                <span className={styles.badgeCustom}>{selectedCount}</span>
-              </FormHelperText>
+              <Badge
+                sx={{ position: "absolute", top: "-14px", right: "18px" }}
+                color="secondary"
+                badgeContent={selectedCount}
+                showZero
+              ></Badge>
             ) : null}
           </FormControl>
         </>
