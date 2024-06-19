@@ -6,7 +6,6 @@ import { Login } from "../pages/Login";
 import { Logout } from "../pages/Logout";
 import { Home } from "../pages/Home";
 import { Settings } from "../pages/Settings";
-
 export const AppRoutes: React.FC = () => {
   const isAuthenticated = useAppSelector((state) => state.User.isLoggedIn);
 

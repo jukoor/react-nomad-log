@@ -14,6 +14,7 @@ export const useFetchUserData = (uidFromUrl?: string) => {
   const [user, loading, error] = useAuthState(getAuth());
 
   useEffect(() => {
+    // Todo: remove?
     // If uidToUse is set, use its value (uid) as query for firebase,
     // this makes it possible to view the profile page of others users without begin logged in.
     // Otherwise take the uid from the logged in user (Google Auth)
