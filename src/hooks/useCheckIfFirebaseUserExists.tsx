@@ -3,7 +3,7 @@ import { db } from "../services/firebaseConfig";
 
 export const useCheckIfFirebaseUserExists = (uid: string) => {
   const userRef = doc(db, "users", uid);
-
+  console.log(uid);
   const checkIfFirebaseUserExists = async (): Promise<boolean> => {
     try {
       const docSnap = await getDoc(userRef);

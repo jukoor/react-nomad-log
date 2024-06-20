@@ -70,8 +70,11 @@ export const Map = () => {
   }, []);
 
   useLayoutEffect(() => {
-    if (!chartRef.current && countryData.length > 0) {
-      const root = am5.Root.new("map");
+    console.log(countryData.length);
+    let root: am5.Root | null = null;
+    if (!root && countryData.length > 0) {
+      console.log("No");
+      root = am5.Root.new("map");
       const colors = am5.ColorSet.new(root, {});
 
       // Define a mapping of country ISO codes to colors
@@ -261,9 +264,9 @@ export const Map = () => {
     }
 
     return () => {
-      if (chartRef.current) {
-        chartRef.current.dispose();
-        chartRef.current = undefined;
+      if (root) {
+        root.dispose();
+        console.log("disposed");
       }
     };
   }, [userData, countryData]);
