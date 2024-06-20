@@ -12,10 +12,9 @@ import Logout from "@mui/icons-material/Logout";
 import InsertEmoticonIcon from "@mui/icons-material/InsertEmoticon";
 
 import { useNavigate } from "react-router-dom";
-import { getAuth, signOut } from "firebase/auth";
-import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
+import { getAuth } from "firebase/auth";
+import { useAppSelector } from "../hooks/reduxHooks";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { setUserLoggedIn } from "../store/userSlice";
 
 export const AvatarMenu = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -24,7 +23,6 @@ export const AvatarMenu = () => {
   const auth = getAuth();
 
   const [user] = useAuthState(auth);
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const userData = useAppSelector((state) => state.User);
   const userInitials = `${userData.selectedUser?.nameFirst.charAt(
@@ -54,8 +52,7 @@ export const AvatarMenu = () => {
   // Logout of Google Auth
   const handleGoLogout = () => {
     setAnchorEl(null);
-    signOut(auth);
-    dispatch(setUserLoggedIn(false));
+    navigate("/logout");
   };
 
   const isProfileActive = location.pathname.includes(`/profile/${user?.uid}`);

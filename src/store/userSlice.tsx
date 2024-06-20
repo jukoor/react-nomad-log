@@ -34,6 +34,9 @@ export const userSlice = createSlice({
     setLoading: (state, action) => {
       state.loading = action.payload;
     },
+    resetSelectedUser: (state) => {
+      state.selectedUser = null;
+    },
     setSelectedUser: (state, action) => {
       state.selectedUser = {
         ...state.selectedUser,
@@ -120,6 +123,7 @@ export const {
   setCountryVisitedTemp,
   setCountryBucketListTemp,
   setCountryLivedTemp,
+  resetSelectedUser,
 } = userSlice.actions;
 
 export default userSlice.reducer;

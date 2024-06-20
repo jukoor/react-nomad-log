@@ -2,7 +2,7 @@ import { getAuth, signOut } from "firebase/auth";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../hooks/reduxHooks";
-import { setUserLoggedIn } from "../store/userSlice";
+import { resetSelectedUser, setUserLoggedIn } from "../store/userSlice";
 
 export const Logout = () => {
   const auth = getAuth();
@@ -14,6 +14,7 @@ export const Logout = () => {
     signOut(auth);
     navigate("/");
     dispatch(setUserLoggedIn(false));
+    dispatch(resetSelectedUser());
   }, []);
 
   return <div>Hello Feinds</div>;
