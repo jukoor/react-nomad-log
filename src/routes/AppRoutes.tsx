@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { useAppSelector } from "../hooks/reduxHooks";
 import { Profile } from "../pages/Profile";
 import { Login } from "../pages/Login";
@@ -25,8 +25,8 @@ export const AppRoutes: React.FC = () => {
           <Route path="login" element={<Login />} />
         </>
       )}
-
-      <Route path="*" element={<p>There's nothing here: 404!</p>} />
+      {/* 404: redirect home */}
+      <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
 };

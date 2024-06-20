@@ -192,8 +192,6 @@ export const Map = () => {
                         geoJSON: geodata,
                         fill: data.polygonSettings.fill,
                       });
-                      console.log(data.id);
-                      console.log(countryData);
                       if (countryData) {
                         dispatch(
                           setSelectedCountry(
@@ -269,10 +267,6 @@ export const Map = () => {
       }
     };
   }, [userData, countryData]);
-
-  useEffect(() => {
-    console.log(countryData);
-  }, [countryData]);
 
   // Custom effect to open the country details top bar
   useEffect(() => {
