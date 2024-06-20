@@ -1,14 +1,10 @@
 import { Button, Slide, Typography } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
-import {
-  setCountryActionsBar,
-  toggleCountryDetailsOverlay,
-} from "../../store/appSlice";
+import { setCountryActionsBar } from "../../store/appSlice";
 import { useEffect, useState } from "react";
 import styles from "../../styles/CountryActionBar.module.scss";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import { ToggleCountryPopup } from "./ToggleCountryPopup";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import { CountryActionButtons } from "./CountryActionButtons";
 
 export const CountryActionsBar = () => {
   const dispatch = useAppDispatch();
@@ -24,22 +20,6 @@ export const CountryActionsBar = () => {
 
     return () => {};
   }, []);
-
-  const MapButtons = () => {
-    return (
-      <div className={styles.mapActions}>
-        <Button
-          onClick={() => dispatch(toggleCountryDetailsOverlay())}
-          variant="outlined"
-          startIcon={<InfoOutlinedIcon />}
-        >
-          Details
-        </Button>
-
-        <ToggleCountryPopup />
-      </div>
-    );
-  };
 
   return (
     <>
@@ -67,12 +47,7 @@ export const CountryActionsBar = () => {
                 </Typography>
               </div>
               <div className={`${styles.cell} ${styles.right}`}>
-                <MapButtons />
-                {/* <ButtonGroup variant="outlined" aria-label="Basic button group">
-                  <Button>Visited</Button>
-                  <Button>Lived</Button>
-                  <Button>To Do</Button>
-                </ButtonGroup> */}
+                <CountryActionButtons />
               </div>
             </div>
           </Slide>

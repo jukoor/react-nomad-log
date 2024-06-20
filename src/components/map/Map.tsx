@@ -52,7 +52,9 @@ export const Map = () => {
   const actionBarOpen = useAppSelector(
     (state) => state.App.countryActionsBarOpen
   );
-
+  const selectedCountry = useAppSelector(
+    (state) => state.Country.selectedCountry
+  );
   const mapZoomIn = useAppSelector((state) => state.App.mapZoomIn);
   const mapZoomOut = useAppSelector((state) => state.App.mapZoomOut);
   const mapProjection = useAppSelector((state) => state.App.mapProjectionGlobe);
@@ -68,7 +70,7 @@ export const Map = () => {
   }, []);
 
   useLayoutEffect(() => {
-    if (userData && !chartRef.current) {
+    if (!chartRef.current && countryData.length > 0) {
       const root = am5.Root.new("map");
       const colors = am5.ColorSet.new(root, {});
 
@@ -82,20 +84,20 @@ export const Map = () => {
       const livedCountriesColor = am5.color("#00BCD4");
 
       // Only apply visited countries' colors if the user is logged in
-      if (userData.countriesVisited) {
+      if (userData && userData.countriesVisited) {
         // Assign the specified color to all visited countries
         userData.countriesVisited.forEach((country: CountryCode) => {
           countryColors[country] = visitedCountriesColor;
         });
       }
 
-      if (userData.countriesBucketList) {
+      if (userData && userData.countriesBucketList) {
         userData.countriesBucketList.forEach((country: CountryCode) => {
           bucketListColors[country] = bucketListColor;
         });
       }
 
-      if (userData.countriesLived) {
+      if (userData && userData.countriesLived) {
         userData.countriesLived.forEach((country: CountryCode) => {
           livedColors[country] = livedCountriesColor;
         });
@@ -190,9 +192,15 @@ export const Map = () => {
                         geoJSON: geodata,
                         fill: data.polygonSettings.fill,
                       });
-                      dispatch(
-                        setSelectedCountry(getCountryData(data.id, countryData))
-                      );
+                      console.log(data.id);
+                      console.log(countryData);
+                      if (countryData) {
+                        dispatch(
+                          setSelectedCountry(
+                            getCountryData(data.id, countryData)
+                          )
+                        );
+                      }
                     } else {
                       console.log("polygon fill error");
                     }
@@ -260,7 +268,11 @@ export const Map = () => {
         chartRef.current = undefined;
       }
     };
-  }, [userData]);
+  }, [userData, countryData]);
+
+  useEffect(() => {
+    console.log(countryData);
+  }, [countryData]);
 
   // Custom effect to open the country details top bar
   useEffect(() => {
@@ -314,32 +326,36 @@ export const Map = () => {
     } else if (mapProjection === true) {
       chartRef.current?.set("projection", am5map.geoOrthographic());
     }
-    chartRef.current?.goHome();
   }, [mapProjection]);
 
   return (
     <>
       <div className={styles.map} id="map"></div>
       <Box className={styles.zoomControl}>
-        {mapProjection === true ? (
-          <Tooltip title="Change globe to map" placement="right" arrow>
-            <IconButton
-              className={styles.zoomBtn}
-              onClick={() => dispatch(toggleMapProjection())}
-            >
-              <MapOutlinedIcon />
-            </IconButton>
-          </Tooltip>
-        ) : (
-          <Tooltip title="Change map to globe" placement="right" arrow>
-            <IconButton
-              className={styles.zoomBtn}
-              onClick={() => dispatch(toggleMapProjection())}
-            >
-              <PublicIcon />
-            </IconButton>
-          </Tooltip>
-        )}
+        {!selectedCountry ? (
+          <>
+            {mapProjection === true ? (
+              <Tooltip title="Change globe to map" placement="right" arrow>
+                <IconButton
+                  className={styles.zoomBtn}
+                  onClick={() => dispatch(toggleMapProjection())}
+                >
+                  <MapOutlinedIcon />
+                </IconButton>
+              </Tooltip>
+            ) : (
+              <Tooltip title="Change map to globe" placement="right" arrow>
+                <IconButton
+                  className={styles.zoomBtn}
+                  onClick={() => dispatch(toggleMapProjection())}
+                >
+                  <PublicIcon />
+                </IconButton>
+              </Tooltip>
+            )}
+          </>
+        ) : null}
+
         <Tooltip title="Zoom in" placement="right" arrow>
           <IconButton
             className={styles.zoomBtn}
