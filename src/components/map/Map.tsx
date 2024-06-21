@@ -70,10 +70,8 @@ export const Map = () => {
   }, []);
 
   useLayoutEffect(() => {
-    console.log(countryData.length);
     let root: am5.Root | null = null;
     if (!root && countryData.length > 0) {
-      console.log("No");
       root = am5.Root.new("map");
       const colors = am5.ColorSet.new(root, {});
 
@@ -128,15 +126,29 @@ export const Map = () => {
         tooltipHTML:
           "<span class='mapTooltipEmoji'>{emoji}</span> <span class='mapTooltipText'>{name}</span>",
         interactive: true,
-        fill: am5.color(0xaaaaaa),
+        fill: am5.color("#cacaca"),
         templateField: "polygonSettings",
-        stroke: am5.color("#ffffff"),
-        strokeWidth: 1,
+        stroke: am5.color("#eeeeee"),
+        strokeWidth: 2,
       });
 
+      let tooltip = am5.Tooltip.new(root, {
+        getFillFromSprite: false,
+      });
+
+      const background = tooltip.get("background");
+      if (background) {
+        background.setAll({
+          fill: am5.color("#ffffff"),
+          stroke: am5.color("#727272"),
+          fillOpacity: 0.8,
+        });
+      }
+
+      worldSeries.set("tooltip", tooltip);
+
       worldSeries.mapPolygons.template.states.create("hover", {
-        //   fill: am5.color(0x677935),
-        fill: colors.getIndex(13),
+        fill: am5.color("#ffc0cb"), // pink
       });
 
       worldSeries.events.on("datavalidated", function () {
@@ -232,6 +244,21 @@ export const Map = () => {
         fill: am5.color(0xffa3f6),
       });
 
+      let countryTooltip = am5.Tooltip.new(root, {
+        getFillFromSprite: false,
+      });
+
+      const countryTtBackground = countryTooltip.get("background");
+      if (countryTtBackground) {
+        countryTtBackground.setAll({
+          fill: am5.color("#ffffff"),
+          stroke: am5.color("#727272"),
+          fillOpacity: 0.8,
+        });
+      }
+
+      countrySeries.set("tooltip", countryTooltip);
+
       countrySeries.mapPolygons.template.states.create("hover", {
         fill: colors.getIndex(9),
       });
@@ -249,7 +276,7 @@ export const Map = () => {
               polygonSettings: {
                 // Todo
                 // fill: colors.getIndex(continents[country.continent_code]),
-                fill: am5.color(0xaaaaaa),
+                fill: am5.color("#cacaca"),
               },
             });
           }
@@ -266,7 +293,6 @@ export const Map = () => {
     return () => {
       if (root) {
         root.dispose();
-        console.log("disposed");
       }
     };
   }, [userData, countryData]);
@@ -329,33 +355,33 @@ export const Map = () => {
     <>
       <div className={styles.map} id="map"></div>
       <Box className={styles.zoomControl}>
-        {!selectedCountry ? (
-          <>
-            {mapProjection === true ? (
-              <Tooltip title="Change globe to map" placement="right" arrow>
-                <IconButton
-                  className={styles.zoomBtn}
-                  onClick={() => dispatch(toggleMapProjection())}
-                >
-                  <MapOutlinedIcon />
-                </IconButton>
-              </Tooltip>
-            ) : (
-              <Tooltip title="Change map to globe" placement="right" arrow>
-                <IconButton
-                  className={styles.zoomBtn}
-                  onClick={() => dispatch(toggleMapProjection())}
-                >
-                  <PublicIcon />
-                </IconButton>
-              </Tooltip>
-            )}
-          </>
-        ) : null}
+        {mapProjection === true ? (
+          <Tooltip title="Change globe to map" placement="right" arrow>
+            <IconButton
+              className={`${styles.actionBtn} ${styles.first}`}
+              onClick={() => dispatch(toggleMapProjection())}
+            >
+              <MapOutlinedIcon sx={{ width: "0.9em", height: "0.9em" }} />
+            </IconButton>
+          </Tooltip>
+        ) : (
+          <Tooltip title="Change map to globe" placement="right" arrow>
+            <IconButton
+              className={`${
+                selectedCountry
+                  ? `${styles.actionBtn} ${styles.first} ${styles.disabled}`
+                  : `${styles.actionBtn} ${styles.first}`
+              }`}
+              onClick={() => dispatch(toggleMapProjection())}
+            >
+              <PublicIcon />
+            </IconButton>
+          </Tooltip>
+        )}
 
         <Tooltip title="Zoom in" placement="right" arrow>
           <IconButton
-            className={styles.zoomBtn}
+            className={`${styles.actionBtn} ${styles.middle}`}
             onClick={() => dispatch(setMapZoomIn(true))}
           >
             <AddOutlinedIcon />
@@ -363,7 +389,7 @@ export const Map = () => {
         </Tooltip>
         <Tooltip title="Zoom out" placement="right" arrow>
           <IconButton
-            className={styles.zoomBtn}
+            className={`${styles.actionBtn} ${styles.last}`}
             onClick={() => dispatch(setMapZoomOut(true))}
           >
             <RemoveOutlinedIcon />
