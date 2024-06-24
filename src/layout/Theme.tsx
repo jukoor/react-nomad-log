@@ -27,7 +27,10 @@ export const theme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
-          borderRadius: 0,
+          borderRadius: "20px 0",
+          backgroundColor: "#cacaca",
+          color: "#212121",
+          padding: "6px 14px",
         },
       },
     },

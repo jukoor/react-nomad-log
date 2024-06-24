@@ -8,11 +8,10 @@ import {
 } from "@mui/material";
 import { useCallback, useState } from "react";
 import { Unstable_Popup as BasePopup } from "@mui/base/Unstable_Popup";
-
+import CheckCircleOutlineOutlinedIcon from "@mui/icons-material/CheckCircleOutlineOutlined";
 import styles from "../../styles/ToggleCountryPopup.module.scss";
 import { useAppSelector } from "../../hooks/reduxHooks";
 import { CountryCca2Type } from "../../types/CountryCca2Type";
-import ChecklistIcon from "@mui/icons-material/Checklist";
 import {
   CountryList,
   useToggleCountryInList,
@@ -78,9 +77,8 @@ export const ToggleCountryPopup = () => {
       <Button
         aria-describedby={id}
         type="button"
-        variant="contained"
         onClick={handleOpenPopup}
-        startIcon={<ChecklistIcon />}
+        startIcon={<CheckCircleOutlineOutlinedIcon />}
       >
         Set On List
       </Button>

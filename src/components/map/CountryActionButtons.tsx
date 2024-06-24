@@ -12,7 +12,6 @@ export const CountryActionButtons = () => {
     <div style={{ display: "flex", gap: "10px" }}>
       <Button
         onClick={() => dispatch(toggleCountryDetailsOverlay())}
-        variant="outlined"
         startIcon={<InfoOutlinedIcon />}
       >
         Details

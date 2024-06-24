@@ -73,7 +73,6 @@ export const Map = () => {
     let root: am5.Root | null = null;
     if (!root && countryData.length > 0) {
       root = am5.Root.new("map");
-      const colors = am5.ColorSet.new(root, {});
 
       // Define a mapping of country ISO codes to colors
       const countryColors: any = {};
@@ -148,6 +147,7 @@ export const Map = () => {
       worldSeries.set("tooltip", tooltip);
 
       worldSeries.mapPolygons.template.states.create("hover", {
+        cursorOverStyle: "pointer",
         fill: am5.color("#ffc0cb"), // pink
       });
 
@@ -260,7 +260,7 @@ export const Map = () => {
       countrySeries.set("tooltip", countryTooltip);
 
       countrySeries.mapPolygons.template.states.create("hover", {
-        fill: colors.getIndex(9),
+        fill: am5.color("#ffc0cb"),
       });
 
       // Set up data for countries

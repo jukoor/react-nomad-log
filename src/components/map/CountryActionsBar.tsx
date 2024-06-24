@@ -3,8 +3,8 @@ import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import { setCountryActionsBar } from "../../store/appSlice";
 import { useEffect, useState } from "react";
 import styles from "../../styles/CountryActionBar.module.scss";
-import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { CountryActionButtons } from "./CountryActionButtons";
+import ArrowCircleLeftOutlinedIcon from "@mui/icons-material/ArrowCircleLeftOutlined";
 
 export const CountryActionsBar = () => {
   const dispatch = useAppDispatch();
@@ -35,8 +35,7 @@ export const CountryActionsBar = () => {
               <div className={styles.cell}>
                 <Button
                   onClick={() => dispatch(setCountryActionsBar(true))}
-                  variant="outlined"
-                  startIcon={<ArrowBackIosIcon />}
+                  startIcon={<ArrowCircleLeftOutlinedIcon />}
                 >
                   Back to Map
                 </Button>

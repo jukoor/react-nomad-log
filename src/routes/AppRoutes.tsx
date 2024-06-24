@@ -11,19 +11,17 @@ export const AppRoutes: React.FC = () => {
 
   return (
     <Routes>
+      <Route path="/" element={<Home />} />
       {isAuthenticated ? (
         <>
-          <Route path="/" element={<Home />}></Route>
+          <Route index element={<Home />} />
           <Route path="profile/:userId" element={<Profile />} />
           <Route path="settings" element={<Settings />} />
           <Route path="login" element={<Login />} />
           <Route path="logout" element={<Logout />} />
         </>
       ) : (
-        <>
-          <Route path="/" element={<Home />}></Route>
-          <Route path="login" element={<Login />} />
-        </>
+        <Route path="login" element={<Login />} />
       )}
       {/* 404: redirect home */}
       <Route path="*" element={<Navigate to="/" />} />
