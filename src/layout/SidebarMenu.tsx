@@ -45,6 +45,7 @@ export const SidebarMenu = () => {
       <Drawer
         className={styles.sidebar}
         open={menuVisibility}
+        disableScrollLock={true}
         onClose={handleCloseDrawer}
         sx={{
           width: drawerWidth,

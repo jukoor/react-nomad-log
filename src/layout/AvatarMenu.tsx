@@ -82,6 +82,7 @@ export const AvatarMenu = () => {
             anchorEl={anchorEl}
             id="account-menu"
             open={open}
+            disableScrollLock={true}
             onClose={handleClose}
             onClick={handleClose}
             transformOrigin={{ horizontal: "right", vertical: "top" }}

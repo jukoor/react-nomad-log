@@ -28,9 +28,14 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: "20px 0",
-          backgroundColor: "#cacaca",
-          color: "#212121",
-          padding: "6px 14px",
+          backgroundColor: "#ffc0cb",
+          color: "#1f2937",
+          padding: "6px 20px",
+
+          "&:hover": {
+            backgroundColor: "#1f2937",
+            color: "#ffffff",
+          },
         },
       },
     },

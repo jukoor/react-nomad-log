@@ -111,7 +111,12 @@ export const CountryList = ({ list }: CountryListProps) => {
                       <InfoOutlinedIcon />
                     </IconButton>
                     <IconButton
-                      sx={{ marginRight: "5px" }}
+                      sx={{
+                        marginRight: "5px",
+                        ":hover": {
+                          color: "#cb0000",
+                        },
+                      }}
                       onClick={() => handleRemoveCountry(singleCountry.cca2)}
                     >
                       <RemoveCircleOutlineIcon />

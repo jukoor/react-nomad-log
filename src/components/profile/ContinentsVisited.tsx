@@ -4,11 +4,13 @@ import { useMemo } from "react";
 import { getCountryData } from "../../utils/countryDataUtils";
 import { ContinentType } from "../../types/CountryType";
 import styles from "../../styles/ContinentsVisited.module.scss";
+import { DonutChart } from "./DonutChart";
 
 export const ContinentsVisited = () => {
   const userData = useAppSelector((state) => state.User.selectedUser);
   const userDataLoading = useAppSelector((state) => state.User.loading);
   const countryData = useAppSelector((state) => state.Country.countries);
+  const continentCount = 7;
 
   // Get list of visited continents from list of visited countries
   const visitedContinents: ContinentType[] = useMemo(() => {
@@ -26,6 +28,9 @@ export const ContinentsVisited = () => {
       new Set(allContinents.filter((continent) => continent))
     ).sort();
   }, [userData, countryData]);
+
+  const continentsVisitedPercent =
+    (visitedContinents.length / continentCount) * 100;
 
   // All available continents
   const continents: ContinentType[] = [
@@ -48,7 +53,15 @@ export const ContinentsVisited = () => {
         backdropFilter: "blur(5px)",
       }}
     >
-      <CardContent sx={{ padding: { xs: "20px", sm: "20px", md: "30px" } }}>
+      <CardContent
+        sx={{
+          padding: {
+            xs: "20px",
+            sm: "15px 20px 20px 20px",
+            md: "20px 30px 30px 30px",
+          },
+        }}
+      >
         {userDataLoading ? (
           <Skeleton
             variant="rounded"
@@ -57,15 +70,32 @@ export const ContinentsVisited = () => {
             sx={{ mb: 1 }}
           />
         ) : (
-          <Typography
-            variant="h5"
-            component="h2"
-            color="text.secondary"
-            gutterBottom
-            sx={{ mb: 3 }}
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "flex-start",
+              justifyContent: "space-between",
+              width: "100%",
+            }}
           >
-            Continents visited
-          </Typography>
+            <Typography
+              variant="h5"
+              component="h2"
+              color="text.secondary"
+              gutterBottom
+              sx={{ mb: 3 }}
+            >
+              Continents visited
+            </Typography>
+
+            <Box>
+              <DonutChart
+                id={1}
+                percent={Number(continentsVisitedPercent)}
+                text={`${Math.round(continentsVisitedPercent)}%`}
+              />
+            </Box>
+          </Box>
         )}
 
         <Box sx={{ width: "100%", pb: 0 }}>

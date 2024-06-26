@@ -24,6 +24,7 @@ import { useEffect, useState } from "react";
 import { CountrySelectDropdown } from "./CountrySelectDropdown";
 import { TagsSelectDropdown } from "./TagsSelectDropdown";
 import { CustomInputField } from "./CustomInputField";
+import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 
 export const SettingsForm = () => {
   const { updateUserDocument } = useUpdateUserDocument();
@@ -216,14 +217,18 @@ export const SettingsForm = () => {
                 justifyContent="center"
               >
                 <Button
-                  variant="contained"
-                  color="secondary"
                   disabled={loading}
                   type="submit"
                   sx={{ minWidth: "200px", fontWeight: "bold" }}
-                  endIcon={loading ? <CircularProgress size={24} /> : null}
+                  startIcon={
+                    loading ? (
+                      <CircularProgress size={20} />
+                    ) : (
+                      <SaveOutlinedIcon />
+                    )
+                  }
                 >
-                  {loading ? "Loading..." : "Save Changes"}
+                  {loading ? "Loading..." : "Save"}
                 </Button>
               </Grid>
             </form>

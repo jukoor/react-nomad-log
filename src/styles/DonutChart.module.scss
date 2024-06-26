@@ -1,0 +1,75 @@
+/////////////////////////////////////
+// SCSS donut chart mixin
+// Author: Sean Stopnik
+// Editor: Julian Orth
+// Email: thelifemgmt@gmail.com
+/////////////////////////////////////
+
+@import "../styles/global/variables.scss";
+
+// Chart settings
+$donut-font-weight: 700;
+$donut-center-color: transparent;
+$jual: var(--percent);
+
+// Chart base
+.donutChart {
+  position: relative;
+  border-radius: 50%;
+
+  &:before,
+  &:after {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: $color-primary-dark;
+  }
+
+  &:before {
+    border-radius: 50%;
+    background: $donut-center-color;
+    content: "";
+  }
+
+  &:after {
+    font: {
+      weight: $donut-font-weight;
+    }
+    z-index: 1;
+  }
+}
+
+// Donut chart mixin
+@mixin donut-chart($name, $size, $base-color, $val-color, $center-color) {
+  // Donut chart
+  [data-chart="#{$name}"] {
+    .donutChart {
+      width: $size;
+      height: $size;
+      background-color: $base-color;
+      background: conic-gradient(
+        $val-color 0deg,
+        $val-color var(--degrees),
+        $base-color var(--degrees)
+      );
+
+      &:before {
+        width: $size / 1.3;
+        height: $size / 1.3;
+        @if $center-color {
+          background-color: $center-color;
+        }
+      }
+
+      &:after {
+        content: attr(data-percent);
+        color: $color-primary-dark;
+        font-size: $size / 3.5;
+      }
+    }
+  }
+} // End donut chart mixin
+
+// Argument order: ( chart ID, chart size, chart base color, chart value color, chart center color(optional) )
+@include donut-chart("1", 40px, #d1d1d1, #68cfbc, #fff);

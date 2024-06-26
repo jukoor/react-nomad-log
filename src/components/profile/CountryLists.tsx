@@ -41,7 +41,15 @@ export const CountryLists = () => {
           backdropFilter: "blur(5px)",
         }}
       >
-        <CardContent sx={{ padding: { xs: "20px", sm: "20px", md: "30px" } }}>
+        <CardContent
+          sx={{
+            padding: {
+              xs: "20px",
+              sm: "15px 20px 20px 20px",
+              md: "20px 30px 30px 30px",
+            },
+          }}
+        >
           {userDataLoading ? (
             <Skeleton
               variant="rounded"
