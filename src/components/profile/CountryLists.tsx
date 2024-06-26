@@ -15,12 +15,13 @@ import { CountryList } from "./CountryList";
 
 export const CountryLists = () => {
   const userDataLoading = useAppSelector((state) => state.User.loading);
+  const userData = useAppSelector((state) => state.User.selectedUser);
 
-  const [value, setValue] = useState(0);
+  const [activeTabIdx, setActiveTabIdx] = useState(0);
 
   // @ts-ignore
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
+    setActiveTabIdx(newValue);
   };
 
   function a11yProps(index: number) {
@@ -28,6 +29,20 @@ export const CountryLists = () => {
       id: `simple-tab-${index}`,
       "aria-controls": `simple-tabpanel-${index}`,
     };
+  }
+
+  function tabLabel(label: string, length: number) {
+    let countryStringSingular = "Country";
+    let countryStringPlural = "Countries";
+
+    return (
+      <>
+        <span style={{ fontWeight: "bold" }}>{label}</span>
+        <span style={{ fontSize: "10px" }}>
+          {length} {length === 1 ? countryStringSingular : countryStringPlural}
+        </span>
+      </>
+    );
   }
 
   return (
@@ -63,6 +78,7 @@ export const CountryLists = () => {
               component="h2"
               color="text.secondary"
               gutterBottom
+              sx={{ mb: 2 }}
             >
               Country Lists
             </Typography>
@@ -74,25 +90,45 @@ export const CountryLists = () => {
                 <Skeleton variant="rounded" height={30} width={"100%"} />
               ) : (
                 <Tabs
-                  value={value}
+                  value={activeTabIdx}
                   onChange={handleChange}
                   aria-label="Lists of countries visited, bucket list countries and countries lived in."
                 >
-                  <Tab label="Visited" {...a11yProps(0)} />
-                  <Tab label="Bucket List" {...a11yProps(1)} />
-                  <Tab label="Lived in" {...a11yProps(2)} />
+                  <Tab
+                    label={tabLabel(
+                      "Visited",
+                      Number(userData?.countriesVisited?.length)
+                    )}
+                    {...a11yProps(0)}
+                  />
+
+                  <Tab
+                    label={tabLabel(
+                      "Bucket List",
+                      Number(userData?.countriesBucketList?.length)
+                    )}
+                    {...a11yProps(0)}
+                  />
+
+                  <Tab
+                    label={tabLabel(
+                      "Lived",
+                      Number(userData?.countriesLived?.length)
+                    )}
+                    {...a11yProps(0)}
+                  />
                 </Tabs>
               )}
               <span></span>
             </Box>
 
-            <CustomTabPanel value={value} index={0}>
+            <CustomTabPanel value={activeTabIdx} index={0}>
               <CountryList list={"countriesVisited"} />
             </CustomTabPanel>
-            <CustomTabPanel value={value} index={1}>
+            <CustomTabPanel value={activeTabIdx} index={1}>
               <CountryList list={"countriesBucketList"} />
             </CustomTabPanel>
-            <CustomTabPanel value={value} index={2}>
+            <CustomTabPanel value={activeTabIdx} index={2}>
               <CountryList list={"countriesLived"} />
             </CustomTabPanel>
           </Box>

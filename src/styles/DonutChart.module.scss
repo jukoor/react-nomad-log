@@ -9,6 +9,7 @@
 
 // Chart settings
 $donut-font-weight: 700;
+$donut-bg: #d1d1d1;
 $donut-center-color: transparent;
 $jual: var(--percent);
 
@@ -72,4 +73,4 @@ $jual: var(--percent);
 } // End donut chart mixin
 
 // Argument order: ( chart ID, chart size, chart base color, chart value color, chart center color(optional) )
-@include donut-chart("1", 40px, #d1d1d1, #68cfbc, #fff);
+@include donut-chart("1", 40px, $donut-bg, $color-primary-pink, $color-white);
