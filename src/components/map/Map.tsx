@@ -274,8 +274,6 @@ export const Map = () => {
               emoji: getEmojiFlag(id as CountryCca2Type),
               map: country.maps[0],
               polygonSettings: {
-                // Todo
-                // fill: colors.getIndex(continents[country.continent_code]),
                 fill: am5.color("#cacaca"),
               },
             });

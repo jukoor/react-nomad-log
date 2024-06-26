@@ -5,8 +5,6 @@ import { ParallaxProvider } from "react-scroll-parallax";
 import { AppRoutes } from "./routes/AppRoutes";
 
 function App() {
-  // Todo nur fetchen countires wenn eingeloggt
-
   return (
     <div className="app">
       <ParallaxProvider>

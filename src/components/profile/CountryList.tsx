@@ -6,6 +6,7 @@ import {
   IconButton,
   Typography,
   Pagination,
+  Tooltip,
 } from "@mui/material";
 import React, { useState } from "react";
 import { useRemoveCountryFromList } from "../../hooks/useRemoveCountryFromList";
@@ -52,25 +53,22 @@ export const CountryList = ({ list }: CountryListProps) => {
   );
 
   // Remove country from one of the 3 lists from firebase and redux store
-  const handleRemoveCountry = async (country: CountryCca2Type) => {
+  const handleRemoveCountry = async (countryToRemove: CountryCca2Type) => {
     try {
       // Remove country from list of countries
-      const filteredCountriesVisited = userData?.countriesVisited?.filter(
-        (country2) => country2 !== country
+      const filteredCountries = countryList?.filter(
+        (country: CountryCca2Type) => country !== countryToRemove
       );
 
       // Update Firebase Store with new values
-      if (filteredCountriesVisited) {
-        await updateCountryList(
-          list,
-          filteredCountriesVisited as CountryCca2Type[]
-        );
+      if (filteredCountries) {
+        await updateCountryList(list, filteredCountries as CountryCca2Type[]);
 
         // Set new list of countries to store, exluciding the selected country
         dispatch(
           setSelectedUser({
             ...userData,
-            countriesVisited: filteredCountriesVisited,
+            [list]: filteredCountries,
           })
         );
       }
@@ -99,28 +97,42 @@ export const CountryList = ({ list }: CountryListProps) => {
                 className={styles.listItem}
                 secondaryAction={
                   <ButtonGroup size="small" aria-label="Small button group">
-                    <IconButton
+                    <Tooltip
                       sx={{ marginRight: "5px" }}
-                      onClick={() => {
-                        dispatch(
-                          setSelectedCountry(getCountryData(item, countries))
-                        );
-                        dispatch(toggleCountryDetailsOverlay());
-                      }}
+                      title={"Show country details"}
+                      placement="left"
+                      arrow
                     >
-                      <InfoOutlinedIcon />
-                    </IconButton>
-                    <IconButton
-                      sx={{
-                        marginRight: "5px",
-                        ":hover": {
-                          color: "#cb0000",
-                        },
-                      }}
-                      onClick={() => handleRemoveCountry(singleCountry.cca2)}
+                      <IconButton
+                        sx={{ marginRight: "5px" }}
+                        onClick={() => {
+                          dispatch(
+                            setSelectedCountry(getCountryData(item, countries))
+                          );
+                          dispatch(toggleCountryDetailsOverlay());
+                        }}
+                      >
+                        <InfoOutlinedIcon />
+                      </IconButton>
+                    </Tooltip>
+                    <Tooltip
+                      sx={{ marginRight: "5px" }}
+                      title={"Remove country from list"}
+                      placement="left"
+                      arrow
                     >
-                      <RemoveCircleOutlineIcon />
-                    </IconButton>
+                      <IconButton
+                        sx={{
+                          marginRight: "5px",
+                          ":hover": {
+                            color: "#cb0000",
+                          },
+                        }}
+                        onClick={() => handleRemoveCountry(singleCountry.cca2)}
+                      >
+                        <RemoveCircleOutlineIcon />
+                      </IconButton>
+                    </Tooltip>
                   </ButtonGroup>
                 }
               >
