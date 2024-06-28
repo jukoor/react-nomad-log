@@ -1,9 +1,9 @@
 import * as am5 from "@amcharts/amcharts5";
 import * as am5map from "@amcharts/amcharts5/map";
 import am5geodata_data_countries2 from "@amcharts/amcharts5-geodata/data/countries2";
-import am5geodata_worldLow from "@amcharts/amcharts5-geodata/worldLow";
+import am5geodata_worldHigh from "@amcharts/amcharts5-geodata/worldHigh";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
-import { DataItem } from "@amcharts/amcharts5";
+import { Color, DataItem } from "@amcharts/amcharts5";
 import { IComponentDataItem } from "@amcharts/amcharts5/.internal/core/render/Component";
 import { IMapPolygonSeriesDataItem, MapChart } from "@amcharts/amcharts5/map";
 import { useEffect, useLayoutEffect, useRef } from "react";
@@ -33,6 +33,10 @@ import {
 import { CountryCca2Type } from "../../types/CountryCca2Type";
 
 type CountryCode = string;
+
+interface CountryColorMapping {
+  [key: string]: Color;
+}
 
 export const Map = () => {
   const dispatch = useAppDispatch();
@@ -75,9 +79,9 @@ export const Map = () => {
       root = am5.Root.new("map");
 
       // Define a mapping of country ISO codes to colors
-      const countryColors: any = {};
-      const bucketListColors: any = {};
-      const livedColors: any = {};
+      const countryColors: CountryColorMapping = {};
+      const bucketListColors: CountryColorMapping = {};
+      const livedColors: CountryColorMapping = {};
 
       const visitedCountriesColor = am5.color("#009876");
       const bucketListColor = am5.color("#FFC107");
@@ -116,7 +120,7 @@ export const Map = () => {
       // Create polygon series
       const worldSeries = chart.series.push(
         am5map.MapPolygonSeries.new(root, {
-          geoJSON: am5geodata_worldLow,
+          geoJSON: am5geodata_worldHigh,
           exclude: ["AQ"], // Antartiqua
         })
       );
@@ -179,6 +183,7 @@ export const Map = () => {
           const dataItem: DataItem<IComponentDataItem> | undefined =
             ev.target.dataItem;
           const data: any = dataItem?.dataContext;
+          console.log(data);
           if (dataItem) {
             const zoomAnimation = worldSeries.zoomToDataItem(
               dataItem as DataItem<IMapPolygonSeriesDataItem>
@@ -304,7 +309,7 @@ export const Map = () => {
       dispatch(clearSelectedCountry());
       dispatch(setCountryActionsBar(false));
 
-      // update temp state after returning home so changes get visible
+      // update temp state after returning home so changes get visible without need for an reload
       if (userCountryVisitedTemp) {
         setTimeout(() => {
           dispatch(updateCountriesVisited(userCountryVisitedTemp));

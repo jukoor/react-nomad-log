@@ -1,4 +1,5 @@
 import { CountryCca2Type } from "../types/CountryCca2Type";
+import { CountryType } from "../types/CountryType";
 
 /* Returns Emoji flag icon by country code */
 export const getEmojiFlag = (countryCode: CountryCca2Type) => {
@@ -15,7 +16,7 @@ export const getEmojiFlag = (countryCode: CountryCca2Type) => {
 /* todo: allCountries any remove */
 export const getCountryData = (
   countryCode: CountryCca2Type,
-  countryData: any[]
+  countryData: CountryType[]
 ) => {
   return countryData?.find((country) => country.cca2 === countryCode);
 };

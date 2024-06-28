@@ -4,7 +4,6 @@ import {
   ListItem,
   ButtonGroup,
   IconButton,
-  Typography,
   Pagination,
   Tooltip,
 } from "@mui/material";
@@ -81,67 +80,75 @@ export const CountryList = ({ list }: CountryListProps) => {
     <List className={styles.orderedList}>
       {paginatedCountryList.map((item: CountryCca2Type, index: number) => {
         let singleCountry = getCountryData(item, countries);
-        return (
-          <React.Fragment key={index}>
-            {userDataLoading ? (
-              <Skeleton
-                variant="rounded"
-                height={30}
-                width={"100%"}
-                sx={{ mb: "15px" }}
-              />
-            ) : (
-              <ListItem
-                data-index={index + 10 * (currentPage - 1) + 1}
-                key={`${item}_${index}`}
-                className={styles.listItem}
-                secondaryAction={
-                  <ButtonGroup size="small" aria-label="Small button group">
-                    <Tooltip
-                      sx={{ marginRight: "5px" }}
-                      title={"Show country details"}
-                      placement="left"
-                      arrow
-                    >
-                      <IconButton
+        if (singleCountry) {
+          return (
+            <React.Fragment key={index}>
+              {userDataLoading ? (
+                <Skeleton
+                  variant="rounded"
+                  height={30}
+                  width={"100%"}
+                  sx={{ mb: "15px" }}
+                />
+              ) : (
+                <ListItem
+                  data-index={index + 10 * (currentPage - 1) + 1}
+                  key={`${item}_${index}`}
+                  className={styles.listItem}
+                  secondaryAction={
+                    <ButtonGroup size="small" aria-label="Small button group">
+                      <Tooltip
                         sx={{ marginRight: "5px" }}
-                        onClick={() => {
-                          dispatch(
-                            setSelectedCountry(getCountryData(item, countries))
-                          );
-                          dispatch(toggleCountryDetailsOverlay());
-                        }}
+                        title={"Show country details"}
+                        placement="left"
+                        arrow
                       >
-                        <InfoOutlinedIcon />
-                      </IconButton>
-                    </Tooltip>
-                    <Tooltip
-                      sx={{ marginRight: "5px" }}
-                      title={"Remove country from list"}
-                      placement="left"
-                      arrow
-                    >
-                      <IconButton
-                        sx={{
-                          marginRight: "5px",
-                          ":hover": {
-                            color: "#cb0000",
-                          },
-                        }}
-                        onClick={() => handleRemoveCountry(singleCountry.cca2)}
+                        <IconButton
+                          sx={{ marginRight: "5px" }}
+                          onClick={() => {
+                            dispatch(
+                              setSelectedCountry(
+                                getCountryData(item, countries)
+                              )
+                            );
+                            dispatch(toggleCountryDetailsOverlay());
+                          }}
+                        >
+                          <InfoOutlinedIcon />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip
+                        sx={{ marginRight: "5px" }}
+                        title={"Remove country from list"}
+                        placement="left"
+                        arrow
                       >
-                        <RemoveCircleOutlineIcon />
-                      </IconButton>
-                    </Tooltip>
-                  </ButtonGroup>
-                }
-              >
-                <span className={styles.flag}>{getEmojiFlag(item)}</span>
-                {singleCountry?.name.common}
-              </ListItem>
-            )}
-          </React.Fragment>
-        );
+                        <IconButton
+                          sx={{
+                            marginRight: "5px",
+                            ":hover": {
+                              color: "#cb0000",
+                            },
+                          }}
+                          onClick={() =>
+                            handleRemoveCountry(
+                              singleCountry.cca2 as CountryCca2Type
+                            )
+                          }
+                        >
+                          <RemoveCircleOutlineIcon />
+                        </IconButton>
+                      </Tooltip>
+                    </ButtonGroup>
+                  }
+                >
+                  <span className={styles.flag}>{getEmojiFlag(item)}</span>
+                  {singleCountry?.name.common}
+                </ListItem>
+              )}
+            </React.Fragment>
+          );
+        }
       })}
       {!userDataLoading && (
         <div className={styles.pagesAndCount}>
@@ -150,9 +157,6 @@ export const CountryList = ({ list }: CountryListProps) => {
             page={currentPage}
             onChange={handleChangePage}
           />
-          <Typography variant="body2" sx={{ marginBottom: 2 }}>
-            Total Countries: {countryList.length}
-          </Typography>
         </div>
       )}
     </List>

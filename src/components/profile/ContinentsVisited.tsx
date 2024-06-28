@@ -1,32 +1,41 @@
 import { Box, Card, CardContent, Skeleton, Typography } from "@mui/material";
 import { useAppSelector } from "../../hooks/reduxHooks";
-import { useMemo } from "react";
+import { useEffect, useState } from "react";
 import { getCountryData } from "../../utils/countryDataUtils";
-import { ContinentType } from "../../types/CountryType";
+import { ContinentType, CountryType } from "../../types/CountryType";
 import styles from "../../styles/ContinentsVisited.module.scss";
 import { DonutChart } from "./DonutChart";
 
 export const ContinentsVisited = () => {
+  const [visitedContinents, setVisitedContinents] = useState<ContinentType[]>(
+    []
+  );
+
   const userData = useAppSelector((state) => state.User.selectedUser);
   const userDataLoading = useAppSelector((state) => state.User.loading);
   const countryData = useAppSelector((state) => state.Country.countries);
   const continentCount = 7;
 
-  // Get list of visited continents from list of visited countries
-  const visitedContinents: ContinentType[] = useMemo(() => {
-    if (!userData || !Array.isArray(userData.countriesVisited)) return [];
-    const allContinents = [].concat(
-      ...userData.countriesVisited.map((country) => {
-        const countryDataResult = getCountryData(country, countryData);
-        // Check if countryDataResult is defined and has a continents property
-        return countryDataResult && countryDataResult.continents
-          ? countryDataResult.continents
-          : "";
-      })
+  useEffect(() => {
+    // Initialize an empty array to store country data for visited countries
+    let visitedCountriesData: CountryType[] = [];
+
+    // Fetch data for each country visited by the user
+    userData?.countriesVisited?.forEach((countryCode) => {
+      const countryDetails = getCountryData(countryCode, countryData);
+      if (countryDetails) {
+        visitedCountriesData.push(countryDetails);
+      }
+    });
+
+    // Extract continents from the visited countries data
+    const continents = new Set(
+      visitedCountriesData.map((country) => country.continents)
     );
-    return Array.from(
-      new Set(allContinents.filter((continent) => continent))
-    ).sort();
+
+    const continentsArray = Array.from(continents);
+    // Update the state with the continents visited, use flat() to resolve the second array created by array.from
+    setVisitedContinents(continentsArray.flat());
   }, [userData, countryData]);
 
   const continentsVisitedPercent =
