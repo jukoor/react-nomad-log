@@ -2,10 +2,10 @@ import { useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getAuth } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
-import { db } from "../services/firebaseConfig";
 import { setLoading, setSelectedUser } from "../store/userSlice";
 import { UserType } from "../types/UserType";
 import { useAppDispatch } from "./reduxHooks";
+import { db } from "../context/AuthProvider";
 
 // Fetch the userdata doc from firestore and store its value in redux
 export const useFetchUserData = (uidFromUrl?: string) => {

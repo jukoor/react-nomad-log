@@ -14,16 +14,20 @@ import CloseIcon from "@mui/icons-material/Close";
 import { Tooltip } from "@mui/material";
 import { SidebarWelcomeMsg } from "./SidebarWelcomeMsg";
 import { useLocation } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthProvider";
+
+import LoginIcon from "@mui/icons-material/Login";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
 export const SidebarMenu = () => {
+  const { isAuthenticated, loginUser, logoutUser } = useContext(AuthContext);
+
   const dispatch = useAppDispatch();
   const menuVisibility = useAppSelector((state) => state.App.menuOpen);
-  const userData = useAppSelector((state) => state.User);
 
   const menuStructure = useMenuStructure();
-
   const location = useLocation();
-
   const drawerWidth = 240;
 
   const handleCloseDrawer = () => {
@@ -78,7 +82,7 @@ export const SidebarMenu = () => {
         <Divider sx={{ borderColor: "#ffffff70" }} />
 
         {/* Show welcome Message when user is logged in */}
-        {userData.isLoggedIn && (
+        {isAuthenticated && (
           <>
             <SidebarWelcomeMsg />
             <Divider sx={{ borderColor: "#ffffff70" }} />
@@ -86,28 +90,53 @@ export const SidebarMenu = () => {
         )}
 
         <List sx={{ marginTop: "30px" }}>
-          {menuStructure.map((item) => (
-            <ListItemButton
-              component="a"
-              href={item.target}
-              onClick={(event) => {
-                event.preventDefault(); // Prevent the default link behavior
-                handleCloseDrawerDelay(() => {
-                  // Perform the redirection after the sidebar close animation
-                  window.location.href = item.target;
-                });
-              }}
-              key={item.id}
-              className={`${styles.link} ${
-                location.pathname === item.target ? styles.active : ""
-              }`}
-            >
-              <ListItemIcon sx={{ minWidth: "40px", color: "pink" }}>
-                {item.icon}
-              </ListItemIcon>
-              <ListItemText primary={item.text} />
-            </ListItemButton>
-          ))}
+          {isAuthenticated ? (
+            <>
+              {menuStructure.map((item) => (
+                <ListItemButton
+                  component="a"
+                  href={item.target}
+                  onClick={(event) => {
+                    event.preventDefault(); // Prevent the default link behavior
+                    handleCloseDrawerDelay(() => {
+                      // Perform the redirection after the sidebar close animation
+                      window.location.href = item.target;
+                    });
+                  }}
+                  key={item.id}
+                  className={`${styles.link} ${
+                    location.pathname === item.target ? styles.active : ""
+                  }`}
+                >
+                  <ListItemIcon sx={{ minWidth: "40px", color: "pink" }}>
+                    {item.icon}
+                  </ListItemIcon>
+                  <ListItemText primary={item.text} />
+                </ListItemButton>
+              ))}
+            </>
+          ) : (
+            <>
+              <ListItemButton
+                onClick={() => loginUser()}
+                className={styles.link}
+              >
+                <ListItemIcon sx={{ minWidth: "40px", color: "pink" }}>
+                  <LoginIcon />
+                </ListItemIcon>
+                <ListItemText primary="Login" />
+              </ListItemButton>
+              <ListItemButton
+                onClick={() => logoutUser()}
+                className={styles.link}
+              >
+                <ListItemIcon sx={{ minWidth: "40px", color: "pink" }}>
+                  <FavoriteBorderIcon />
+                </ListItemIcon>
+                <ListItemText primary="Sign Up" />
+              </ListItemButton>
+            </>
+          )}
         </List>
       </Drawer>
     </Box>

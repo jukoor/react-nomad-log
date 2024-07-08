@@ -4,7 +4,6 @@ import { SidebarMenu } from "./SidebarMenu";
 import { CountryDetailsOverlay } from "../components/global/CountryDetailsOverlay.tsx";
 import { SnackMessage } from "../components/global/SnackMessage.tsx";
 import { ApiErrorOverlay } from "../components/global/ApiErrorOverlay.tsx";
-import { useCheckAuth } from "../hooks/useCheckAuth.tsx";
 import { useFetchCountryDataFromApi } from "../hooks/useFetchCountryDataFromApi.tsx";
 import { useFetchUserData } from "../hooks/useFetchUserdata.tsx";
 
@@ -13,13 +12,11 @@ type PageLayoutProps = {
 };
 
 export const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
-  // Check if User is authenticated
-  useCheckAuth();
-
-  // Fetch  country data from API
+  // Fetch country data from API
   useFetchCountryDataFromApi();
 
-  // Fetch user data from Firestore DB
+  // // Fetch user data from Firestore DB
+  // Todo: use here?
   useFetchUserData();
 
   return (

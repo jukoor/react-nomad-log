@@ -3,19 +3,22 @@ import { PageLayout } from "./layout/PageLayout";
 import "./styles/global/App.scss";
 import { ParallaxProvider } from "react-scroll-parallax";
 import { AppRoutes } from "./routes/AppRoutes";
+import AuthProvider from "./context/AuthProvider";
 
-function App() {
+const App = () => {
   return (
     <div className="app">
-      <ParallaxProvider>
-        <BrowserRouter>
-          <PageLayout>
-            <AppRoutes />
-          </PageLayout>
-        </BrowserRouter>
-      </ParallaxProvider>
+      <AuthProvider>
+        <ParallaxProvider>
+          <BrowserRouter>
+            <PageLayout>
+              <AppRoutes />
+            </PageLayout>
+          </BrowserRouter>
+        </ParallaxProvider>
+      </AuthProvider>
     </div>
   );
-}
+};
 
 export default App;

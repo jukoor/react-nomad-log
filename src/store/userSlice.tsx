@@ -8,7 +8,6 @@ export type UserState = {
   countryLivedTemp: CountryCca2Type | null;
   countryBucketListTemp: CountryCca2Type | null;
   loading: boolean;
-  isLoggedIn: boolean;
 };
 
 export const userSlice = createSlice({
@@ -18,7 +17,6 @@ export const userSlice = createSlice({
     countryVisitedTemp: null,
     countryBucketListTemp: null,
     countryLivedTemp: null,
-    isLoggedIn: false,
     loading: false,
   } as UserState,
   reducers: {
@@ -103,9 +101,6 @@ export const userSlice = createSlice({
           );
       }
     },
-    setUserLoggedIn: (state, action) => {
-      state.isLoggedIn = action.payload;
-    },
   },
 });
 
@@ -116,7 +111,6 @@ export const {
   removeCountryVisited,
   addCountryBucketList,
   removeCountryBucketList,
-  setUserLoggedIn,
   updateCountriesVisited,
   updateCountriesBucketList,
   updateCountriesLived,

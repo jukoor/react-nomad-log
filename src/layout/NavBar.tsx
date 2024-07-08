@@ -11,12 +11,15 @@ import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 import LoginButton from "../components/global/LoginButton";
 
 import { AvatarMenu } from "./AvatarMenu";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthProvider";
 
 export const NavBar = () => {
   const dispatch = useAppDispatch();
 
-  const userData = useAppSelector((state) => state.User);
   const countryData = useAppSelector((state) => state.Country);
+
+  const { isAuthenticated } = useContext(AuthContext);
 
   const openSidebarMenu = () => {
     dispatch(toggleMenuVisibility());
@@ -51,7 +54,7 @@ export const NavBar = () => {
             </Link>
           </Typography>
 
-          {userData.isLoggedIn ? <AvatarMenu /> : <LoginButton />}
+          {isAuthenticated ? <AvatarMenu /> : <LoginButton />}
         </Toolbar>
       </AppBar>
 

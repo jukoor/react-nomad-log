@@ -1,6 +1,5 @@
 import { arrayRemove, arrayUnion, doc, updateDoc } from "firebase/firestore";
 import { useCallback } from "react";
-import { db } from "../services/firebaseConfig";
 import { setSnackbarOptions } from "../store/appSlice";
 import { getAuth } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -10,6 +9,7 @@ import {
   setCountryLivedTemp,
   setCountryVisitedTemp,
 } from "../store/userSlice";
+import { db } from "../context/AuthProvider";
 
 type ActionType = "add" | "remove";
 export type CountryList =

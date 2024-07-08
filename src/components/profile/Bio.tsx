@@ -12,6 +12,7 @@ import {
 import styles from "../../styles/Bio.module.scss";
 import { useAppSelector } from "../../hooks/reduxHooks";
 import { getEmojiFlag } from "../../utils/countryDataUtils";
+import { HighlightNumbers } from "./HighlightNumbers";
 
 export const Bio = () => {
   const userData = useAppSelector((state) => state.User.selectedUser);
@@ -68,6 +69,8 @@ export const Bio = () => {
               >
                 {userData?.nameFirst} {userData?.nameLast}
               </Typography>
+
+              <HighlightNumbers />
             </Box>
 
             <div className={styles.tags}>

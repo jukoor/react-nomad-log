@@ -1,28 +1,37 @@
-import React from "react";
-import { Routes, Route } from "react-router-dom";
-import { useAppSelector } from "../hooks/reduxHooks";
-import { Profile } from "../pages/Profile";
-import { Login } from "../pages/Login";
-import { Logout } from "../pages/Logout";
+import { Routes, Route, RouteProps } from "react-router-dom";
 import { Home } from "../pages/Home";
+import { Profile } from "../pages/Profile";
 import { Settings } from "../pages/Settings";
-export const AppRoutes: React.FC = () => {
-  const isAuthenticated = useAppSelector((state) => state.User.isLoggedIn);
+import { FC, useContext } from "react";
+import { AuthContext } from "../context/AuthProvider";
+import PrivateRoute from "./PrivateRoute";
+
+export const AppRoutes: FC = () => {
+  const { isAuthenticated } = useContext(AuthContext);
+
+  const appRoutes: RouteProps[] = [
+    { path: "/", index: true, element: <Home /> },
+    { path: "profile/:userId", element: <Profile /> },
+    {
+      path: "/settings",
+      element: (
+        <PrivateRoute isAuthenticated={isAuthenticated}>
+          <Settings />
+        </PrivateRoute>
+      ),
+    },
+  ];
 
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
-      {isAuthenticated ? (
-        <>
-          <Route index element={<Home />} />
-          <Route path="profile/:userId" element={<Profile />} />
-          <Route path="settings" element={<Settings />} />
-          <Route path="login" element={<Login />} />
-          <Route path="logout" element={<Logout />} />
-        </>
-      ) : (
-        <Route path="login" element={<Login />} />
-      )}
+      {appRoutes.map((route, idx) => (
+        <Route
+          key={idx}
+          index={route.index}
+          path={route.path}
+          element={route.element}
+        />
+      ))}
     </Routes>
   );
 };
