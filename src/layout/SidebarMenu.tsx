@@ -16,6 +16,7 @@ import { SidebarWelcomeMsg } from "./SidebarWelcomeMsg";
 import { useLocation } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthProvider";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 import LoginIcon from "@mui/icons-material/Login";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -114,6 +115,15 @@ export const SidebarMenu = () => {
                   <ListItemText primary={item.text} />
                 </ListItemButton>
               ))}
+              <ListItemButton
+                onClick={() => logoutUser()}
+                className={styles.link}
+              >
+                <ListItemIcon sx={{ minWidth: "40px", color: "pink" }}>
+                  <LogoutIcon />
+                </ListItemIcon>
+                <ListItemText primary="Logout" />
+              </ListItemButton>
             </>
           ) : (
             <>

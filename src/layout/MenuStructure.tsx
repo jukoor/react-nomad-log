@@ -1,7 +1,6 @@
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 import InsertEmoticonIcon from "@mui/icons-material/InsertEmoticon";
 import ToggleOnOutlinedIcon from "@mui/icons-material/ToggleOnOutlined";
-import LogoutIcon from "@mui/icons-material/Logout";
 
 import { MenuStructureType } from "../types/MenuStructureType.tsx";
 import { useAppSelector } from "../hooks/reduxHooks.tsx";
@@ -27,12 +26,6 @@ export const useMenuStructure = () => {
       target: "/settings",
       text: "Settings",
       icon: <ToggleOnOutlinedIcon />,
-    },
-    {
-      id: 3,
-      target: "/logout",
-      text: "Logout",
-      icon: <LogoutIcon />,
     },
   ];
 

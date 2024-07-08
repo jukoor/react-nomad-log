@@ -23,8 +23,8 @@ type AuthProviderProps = {
 
 interface IAuthProviderContextProps {
   user: User | null;
-  loginUser: () => void;
-  logoutUser: () => void;
+  loginUser: () => Promise<void>;
+  logoutUser: () => Promise<void>;
   loading: boolean;
   isAuthenticated: boolean;
   createUserAccount: () => void;
@@ -32,8 +32,8 @@ interface IAuthProviderContextProps {
 
 const initialValues: IAuthProviderContextProps = {
   user: null,
-  loginUser: () => {},
-  logoutUser: () => {},
+  loginUser: async () => {},
+  logoutUser: async () => {},
   loading: false,
   isAuthenticated: false,
   createUserAccount: () => {},
@@ -42,10 +42,10 @@ const initialValues: IAuthProviderContextProps = {
 // Initialize Cloud Firestore and get a reference to the service
 export const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
+export const auth = getAuth();
 
 export const AuthContext =
   createContext<IAuthProviderContextProps>(initialValues);
-const auth = getAuth();
 
 const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
@@ -53,11 +53,10 @@ const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const dispatch = useAppDispatch();
   const { addUserDoc } = useAddFirebaseUser();
+  const navigate = useNavigate();
 
   /* Login user to firebase with email and password methode */
-  const loginUser = () => {
-    const auth = getAuth();
-
+  const loginUser = async () => {
     signInWithEmailAndPassword(auth, "testmail@mail.de", "123456")
       .then((userCredential) => {
         // Signed in
@@ -109,23 +108,20 @@ const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
       });
   };
 
-  const logoutUser = () => {
-    const navigate = useNavigate();
+  const logoutUser = async () => {
     setLoading(true);
 
-    return signOut(auth).then(() => {
-      dispatch(
-        setSnackbarOptions({
-          open: true,
-          message: `Good bye 👋`,
-          severity: "info",
-        })
-      );
-
-      setIsAuthenticated(false);
-      dispatch(resetSelectedUser());
-      navigate("/");
-    });
+    await signOut(auth);
+    dispatch(
+      setSnackbarOptions({
+        open: true,
+        message: `Good bye 👋`,
+        severity: "info",
+      })
+    );
+    setIsAuthenticated(false);
+    dispatch(resetSelectedUser());
+    navigate("/");
   };
 
   useEffect(() => {

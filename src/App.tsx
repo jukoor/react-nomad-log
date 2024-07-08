@@ -8,15 +8,15 @@ import AuthProvider from "./context/AuthProvider";
 const App = () => {
   return (
     <div className="app">
-      <AuthProvider>
-        <ParallaxProvider>
-          <BrowserRouter>
+      <BrowserRouter>
+        <AuthProvider>
+          <ParallaxProvider>
             <PageLayout>
               <AppRoutes />
             </PageLayout>
-          </BrowserRouter>
-        </ParallaxProvider>
-      </AuthProvider>
+          </ParallaxProvider>
+        </AuthProvider>
+      </BrowserRouter>
     </div>
   );
 };
