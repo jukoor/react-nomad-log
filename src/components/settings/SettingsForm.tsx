@@ -67,9 +67,9 @@ export const SettingsForm = () => {
   const onSubmit: SubmitHandler<UserType> = async (data) => {
     console.log(data);
 
-    // Set loading spinner for 5 seconds
+    // Set loading spinner for 3 seconds
     setLoading(true);
-    await new Promise((resolve) => setTimeout(resolve, 5000));
+    await new Promise((resolve) => setTimeout(resolve, 3000));
     setLoading(false);
 
     const formData = data as UserType;
@@ -222,7 +222,7 @@ export const SettingsForm = () => {
                   sx={{ minWidth: "200px", fontWeight: "bold" }}
                   startIcon={
                     loading ? (
-                      <CircularProgress size={20} />
+                      <CircularProgress size={18} />
                     ) : (
                       <SaveOutlinedIcon />
                     )

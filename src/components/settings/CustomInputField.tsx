@@ -55,7 +55,7 @@ export const CustomInputField: React.FC<CustomInputFieldProps> = ({
       {errors[fieldName] && (
         <FormHelperText
           sx={{
-            background: "#be0606db",
+            background: "#d32f2f",
             color: "#fff",
             borderRadius: "5px",
             position: "relative",

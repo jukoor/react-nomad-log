@@ -30,7 +30,7 @@ export const ApiErrorOverlay = () => {
     setLoading(true);
 
     dispatch(fetchAllCountriesData());
-    await new Promise((resolve) => setTimeout(resolve, 5000));
+    await new Promise((resolve) => setTimeout(resolve, 3000));
     setLoading(false);
   };
 
@@ -52,7 +52,7 @@ export const ApiErrorOverlay = () => {
           disabled={loading}
           onClick={reFetchCountryDataFromApi}
           type="submit"
-          endIcon={loading ? <CircularProgress size={24} /> : <CachedIcon />}
+          endIcon={loading ? <CircularProgress size={18} /> : <CachedIcon />}
         >
           {loading ? "Loading..." : "Retry"}
         </Button>

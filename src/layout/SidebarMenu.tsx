@@ -14,15 +14,17 @@ import CloseIcon from "@mui/icons-material/Close";
 import { Tooltip } from "@mui/material";
 import { SidebarWelcomeMsg } from "./SidebarWelcomeMsg";
 import { useLocation } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthProvider";
 import LogoutIcon from "@mui/icons-material/Logout";
 
 import LoginIcon from "@mui/icons-material/Login";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-
+import { SignUpForm } from "./SignUpForm";
+import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
 export const SidebarMenu = () => {
   const { isAuthenticated, loginUser, logoutUser } = useContext(AuthContext);
+  const [isSignUpFormVisible, setIsSignUpFormVisible] = useState(false);
 
   const dispatch = useAppDispatch();
   const menuVisibility = useAppSelector((state) => state.App.menuOpen);
@@ -35,13 +37,12 @@ export const SidebarMenu = () => {
     dispatch(toggleMenuVisibility());
   };
 
-  /* Delay redirect on link click, wait until sidebar has finished closing */
+  /*  Delay for sidebar to finish closing animation before redirecting*/
   const handleCloseDrawerDelay = (callback?: () => void) => {
     dispatch(toggleMenuVisibility());
 
-    // If a callback is provided, execute it after a short delay
     if (callback) {
-      setTimeout(callback, 300); // time for sidebar to finish closing animation
+      setTimeout(callback, 300);
     }
   };
 
@@ -127,27 +128,56 @@ export const SidebarMenu = () => {
             </>
           ) : (
             <>
-              <ListItemButton
-                onClick={() => loginUser()}
-                className={styles.link}
-              >
-                <ListItemIcon sx={{ minWidth: "40px", color: "pink" }}>
-                  <LoginIcon />
-                </ListItemIcon>
-                <ListItemText primary="Login" />
-              </ListItemButton>
-              <ListItemButton
-                onClick={() => logoutUser()}
-                className={styles.link}
-              >
-                <ListItemIcon sx={{ minWidth: "40px", color: "pink" }}>
-                  <FavoriteBorderIcon />
-                </ListItemIcon>
-                <ListItemText primary="Sign Up" />
-              </ListItemButton>
+              {isSignUpFormVisible ? (
+                <>
+                  <SignUpForm />
+                </>
+              ) : (
+                <>
+                  <ListItemButton
+                    onClick={() => loginUser()}
+                    className={styles.link}
+                  >
+                    <ListItemIcon sx={{ minWidth: "40px", color: "pink" }}>
+                      <LoginIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Login" />
+                  </ListItemButton>
+
+                  <ListItemButton
+                    onClick={() => setIsSignUpFormVisible(true)}
+                    className={styles.link}
+                  >
+                    <ListItemIcon sx={{ minWidth: "40px", color: "pink" }}>
+                      <FavoriteBorderIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Sign Up" />
+                  </ListItemButton>
+                </>
+              )}
             </>
           )}
         </List>
+        {isSignUpFormVisible && (
+          <Tooltip
+            sx={{ marginRight: "5px" }}
+            title="Back to menu"
+            placement="right"
+            arrow
+          >
+            <IconButton
+              sx={{
+                border: "2px solid #fac0cb",
+                position: "absolute",
+                bottom: "14px",
+                left: "14px",
+              }}
+              onClick={() => setIsSignUpFormVisible(false)}
+            >
+              <KeyboardDoubleArrowLeftIcon />
+            </IconButton>
+          </Tooltip>
+        )}
       </Drawer>
     </Box>
   );
