@@ -19,7 +19,7 @@ import {
   useAddFirebaseUser,
 } from "../hooks/useAddFirebaseUser";
 import { setSnackbarOptions, toggleMenuVisibility } from "../store/appSlice";
-import { RegisterType } from "../types/RegisterType";
+import { LoginType, RegisterType } from "../types/RegisterType";
 
 type AuthProviderProps = {
   children: ReactNode;
@@ -29,7 +29,7 @@ interface IAuthProviderContextProps {
   user: User | null;
   loading: boolean;
   isAuthenticated: boolean;
-  loginUser: () => Promise<void>;
+  loginUser: (args: LoginType) => Promise<void>;
   logoutUser: () => Promise<void>;
   createUserAccount: (args: RegisterType) => Promise<void>;
 }
@@ -60,24 +60,12 @@ const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
   const navigate = useNavigate();
 
   /* Login user to firebase with email and password methode */
-  const loginUser = async () => {
-    signInWithEmailAndPassword(auth, "testmail@mail.de", "123456")
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        console.log("User signed in: " + user.displayName);
-
-        dispatch(
-          setSnackbarOptions({
-            open: true,
-            message: `Welcome back ${user.displayName} 👋`,
-            severity: "success",
-          })
-        );
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  const loginUser = async ({ email, password }: LoginType) => {
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   // Creates firebase auth user and creates custom user account used as profile for travelmap
@@ -101,14 +89,6 @@ const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
 
         // create new firebase doc for user
         addUserDoc(userData).then(() => {
-          dispatch(
-            setSnackbarOptions({
-              open: true,
-              message: `Welcome to Nomad Log ${firstName}  ${lastName}! 👋`,
-              severity: "success",
-            })
-          );
-
           // hide sidebar
           dispatch(toggleMenuVisibility());
 
@@ -148,7 +128,6 @@ const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      console.log(currentUser);
       if (currentUser) {
         setIsAuthenticated(true);
         setUser(currentUser);
@@ -157,8 +136,8 @@ const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
         dispatch(
           setSnackbarOptions({
             open: true,
-            message: `Welcome back ${currentUser.displayName}! 👋`,
-            severity: "info",
+            message: `Welcome 👋`,
+            severity: "success",
           })
         );
       } else {

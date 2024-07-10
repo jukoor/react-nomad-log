@@ -14,7 +14,8 @@ export const AppRoutes: FC = () => {
 
   return (
     <Routes>
-      {isAuthenticated ? (
+      <Route path="/settings" element={<Settings />} />
+      {!isAuthenticated ? (
         <>
           <Route index={true} path="/" element={<Home />} />
           <Route path="/settings" element={<Settings />} />

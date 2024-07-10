@@ -22,9 +22,11 @@ import LoginIcon from "@mui/icons-material/Login";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { SignUpForm } from "./SignUpForm";
 import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
+import { LoginForm } from "./LoginForm";
 export const SidebarMenu = () => {
-  const { isAuthenticated, loginUser, logoutUser } = useContext(AuthContext);
+  const { isAuthenticated, logoutUser } = useContext(AuthContext);
   const [isSignUpFormVisible, setIsSignUpFormVisible] = useState(false);
+  const [isLoginFormVisible, setIsLoginFormVisible] = useState(false);
 
   const dispatch = useAppDispatch();
   const menuVisibility = useAppSelector((state) => state.App.menuOpen);
@@ -128,14 +130,14 @@ export const SidebarMenu = () => {
             </>
           ) : (
             <>
-              {isSignUpFormVisible ? (
-                <>
-                  <SignUpForm />
-                </>
-              ) : (
+              {isSignUpFormVisible && <SignUpForm />}
+
+              {isLoginFormVisible && <LoginForm />}
+
+              {!isSignUpFormVisible && !isLoginFormVisible && (
                 <>
                   <ListItemButton
-                    onClick={() => loginUser()}
+                    onClick={() => setIsLoginFormVisible(true)}
                     className={styles.link}
                   >
                     <ListItemIcon sx={{ minWidth: "40px", color: "pink" }}>
@@ -158,7 +160,7 @@ export const SidebarMenu = () => {
             </>
           )}
         </List>
-        {isSignUpFormVisible && !isAuthenticated && (
+        {(isSignUpFormVisible || isLoginFormVisible) && !isAuthenticated && (
           <Tooltip
             sx={{ marginRight: "5px" }}
             title="Back to menu"
@@ -173,7 +175,10 @@ export const SidebarMenu = () => {
                 bottom: "14px",
                 left: "14px",
               }}
-              onClick={() => setIsSignUpFormVisible(false)}
+              onClick={() => {
+                setIsLoginFormVisible(false);
+                setIsSignUpFormVisible(false);
+              }}
             >
               <KeyboardDoubleArrowLeftIcon />
             </IconButton>
