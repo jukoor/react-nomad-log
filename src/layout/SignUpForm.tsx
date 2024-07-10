@@ -21,7 +21,9 @@ export const SignUpForm = () => {
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm<RegisterType>({ defaultValues: { email: "", password: "" } });
+  } = useForm<RegisterType>({
+    defaultValues: { email: "", password: "", firstName: "", lastName: "" },
+  });
 
   const { createUserAccount } = useContext(AuthContext);
 
@@ -56,6 +58,66 @@ export const SignUpForm = () => {
         onSubmit={handleSubmit(onSubmit)}
         style={{ display: "flex", flexDirection: "column", gap: "12px" }}
       >
+        {/* First name */}
+        <FormControl variant="filled">
+          <InputLabel htmlFor="firstName">First Name</InputLabel>
+          <Controller
+            name="firstName"
+            control={control}
+            rules={{
+              required: "First name is required",
+            }}
+            render={({ field }) => (
+              <FilledInput
+                sx={{ color: "white" }}
+                {...field}
+                id="firstName"
+                error={!!errors.firstName}
+              />
+            )}
+          />
+          {errors.firstName && (
+            <FormHelperText
+              sx={{
+                color: "#d32f2f",
+                margin: 0,
+              }}
+            >
+              {errors.firstName?.message}
+            </FormHelperText>
+          )}
+        </FormControl>
+
+        {/* Last name */}
+        <FormControl variant="filled">
+          <InputLabel htmlFor="lastName">Last Name</InputLabel>
+          <Controller
+            name="lastName"
+            control={control}
+            rules={{
+              required: "Last name is required",
+            }}
+            render={({ field }) => (
+              <FilledInput
+                {...field}
+                sx={{ color: "white" }}
+                id="lastName"
+                error={!!errors.lastName}
+              />
+            )}
+          />
+          {errors.lastName && (
+            <FormHelperText
+              sx={{
+                color: "#d32f2f",
+                margin: 0,
+              }}
+            >
+              {errors.lastName?.message}
+            </FormHelperText>
+          )}
+        </FormControl>
+
         {/* Email Field */}
         <FormControl variant="filled">
           <InputLabel htmlFor="email">Email</InputLabel>
@@ -73,6 +135,7 @@ export const SignUpForm = () => {
               <FilledInput
                 {...field}
                 id="email"
+                sx={{ color: "white" }}
                 type="email"
                 error={!!errors.email}
               />
@@ -107,6 +170,7 @@ export const SignUpForm = () => {
               <FilledInput
                 {...field}
                 id="password"
+                sx={{ color: "white" }}
                 error={!!errors.password}
                 type={showPassword ? "text" : "password"}
                 endAdornment={

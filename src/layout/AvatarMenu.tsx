@@ -74,7 +74,9 @@ export const AvatarMenu = () => {
                 aria-haspopup="true"
                 aria-expanded={open ? "true" : undefined}
               >
-                <Avatar sx={{ backgroundColor: "pink" }}>{userInitials}</Avatar>
+                <Avatar sx={{ backgroundColor: "pink" }}>
+                  {userInitials.toUpperCase()}
+                </Avatar>
               </IconButton>
             </Tooltip>
           </Box>

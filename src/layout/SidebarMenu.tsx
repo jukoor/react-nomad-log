@@ -158,7 +158,7 @@ export const SidebarMenu = () => {
             </>
           )}
         </List>
-        {isSignUpFormVisible && (
+        {isSignUpFormVisible && !isAuthenticated && (
           <Tooltip
             sx={{ marginRight: "5px" }}
             title="Back to menu"
@@ -167,6 +167,7 @@ export const SidebarMenu = () => {
           >
             <IconButton
               sx={{
+                color: "white",
                 border: "2px solid #fac0cb",
                 position: "absolute",
                 bottom: "14px",

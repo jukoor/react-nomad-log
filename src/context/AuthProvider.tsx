@@ -14,7 +14,10 @@ import { getFirestore } from "firebase/firestore";
 import { useAppDispatch } from "../hooks/reduxHooks";
 import { resetSelectedUser } from "../store/userSlice";
 import { useNavigate } from "react-router-dom";
-import { useAddFirebaseUser } from "../hooks/useAddFirebaseUser";
+import {
+  FirebaseUserDto,
+  useAddFirebaseUser,
+} from "../hooks/useAddFirebaseUser";
 import { setSnackbarOptions, toggleMenuVisibility } from "../store/appSlice";
 import { RegisterType } from "../types/RegisterType";
 
@@ -78,21 +81,30 @@ const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
   };
 
   // Creates firebase auth user and creates custom user account used as profile for travelmap
-  const createUserAccount = async ({ email, password }: RegisterType) => {
-    console.log(email, password);
+  const createUserAccount = async ({
+    email,
+    password,
+    firstName,
+    lastName,
+  }: RegisterType) => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed up
         const user = userCredential.user;
-        console.log(user);
-        console.log("New User created: " + user.displayName);
+        console.log("New User created: " + user);
+
+        const userData: FirebaseUserDto = {
+          googleAuthUserUid: user.uid,
+          firstName: firstName,
+          lastName: lastName,
+        };
 
         // create new firebase doc for user
-        addUserDoc(user.uid).then(() => {
+        addUserDoc(userData).then(() => {
           dispatch(
             setSnackbarOptions({
               open: true,
-              message: `Welcome to Nomad Log ${user.displayName}! 👋`,
+              message: `Welcome to Nomad Log ${firstName}  ${lastName}! 👋`,
               severity: "success",
             })
           );
@@ -105,8 +117,16 @@ const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
         });
       })
       .catch((error) => {
-        console.log("Error creating account: " + error);
-        // ..
+        // Email already exists
+        if (error.code == "auth/email-already-in-use") {
+          dispatch(
+            setSnackbarOptions({
+              open: true,
+              message: `Error creating account. Email is already in use.`,
+              severity: "error",
+            })
+          );
+        }
       });
   };
 

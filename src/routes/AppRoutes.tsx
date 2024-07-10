@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { Home } from "../pages/Home";
 import { Profile } from "../pages/Profile";
 import { Settings } from "../pages/Settings";
@@ -21,7 +21,10 @@ export const AppRoutes: FC = () => {
           <Route path="/profile/:userId" element={<Profile />} />
         </>
       ) : (
-        <Route index={true} path="/" element={<Home />} />
+        <>
+          <Route index={true} path="/" element={<Home />} />
+          <Route path="*" element={<Navigate to="/" />} />
+        </>
       )}
     </Routes>
   );
