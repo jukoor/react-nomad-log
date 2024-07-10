@@ -131,4 +131,4 @@ dist
 
 src/services/firebaseConfig.tsx
 .DS_Store
-Ideas.txt
+.vscode
