@@ -15,11 +15,11 @@ export const AppRoutes: FC = () => {
   return (
     <Routes>
       <Route path="/settings" element={<Settings />} />
+      <Route path="/profile/:userId" element={<Profile />} />
       {!isAuthenticated ? (
         <>
           <Route index={true} path="/" element={<Home />} />
           <Route path="/settings" element={<Settings />} />
-          <Route path="/profile/:userId" element={<Profile />} />
         </>
       ) : (
         <>

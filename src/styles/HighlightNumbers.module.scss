@@ -1,0 +1,49 @@
+.highlightNumbers.list {
+  display: flex;
+  padding: 0;
+  margin-left: auto;
+  gap: 15px;
+
+  .item {
+    padding: 0;
+    padding-right: 15px;
+
+    &:not(:last-of-type) {
+      &::after {
+        content: "";
+        position: absolute;
+        right: 0;
+        top: 10px;
+        height: calc(100% - 20px);
+        background: #818181;
+        width: 1px;
+      }
+    }
+  }
+
+  .text {
+    text-align: center;
+    white-space: nowrap;
+    margin: 0;
+    font-size: 12px;
+
+    :global(.MuiListItemText-primary) {
+      font-size: 20px;
+      font-weight: bold;
+      line-height: 22px;
+    }
+  }
+
+  .icon {
+    border: 2px solid rgba(0, 0, 0, 0.54);
+    min-width: auto;
+    margin-right: 20px;
+    padding: 4px;
+    border-radius: 50%;
+
+    .iconSvg {
+      width: 0.8em;
+      height: 0.8em;
+    }
+  }
+}

@@ -28,14 +28,14 @@ export const ContinentsVisited = () => {
       }
     });
 
-    // Extract continents from the visited countries data
-    const continents = new Set(
-      visitedCountriesData.map((country) => country.continents)
+    const continentsOrg = visitedCountriesData.map(
+      (country) => country.continents
     );
-
+    // Extract continents from the visited countries data
+    const continents = [...new Set(continentsOrg.flat())];
     const continentsArray = Array.from(continents);
     // Update the state with the continents visited, use flat() to resolve the second array created by array.from
-    setVisitedContinents(continentsArray.flat());
+    setVisitedContinents(continentsArray);
   }, [userData, countryData]);
 
   const continentsVisitedPercent =

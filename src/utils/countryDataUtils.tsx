@@ -13,7 +13,6 @@ export const getEmojiFlag = (countryCode: CountryCca2Type) => {
 };
 
 /* Searches all countries data to return the specific country data by countryCode input */
-/* todo: allCountries any remove */
 export const getCountryData = (
   countryCode: CountryCca2Type,
   countryData: CountryType[]

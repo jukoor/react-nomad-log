@@ -49,7 +49,6 @@ export const Bio = () => {
             <Box
               sx={{
                 display: "flex",
-                alignItems: "center",
                 gap: "20px",
                 marginBottom: "25px",
               }}
@@ -73,6 +72,17 @@ export const Bio = () => {
               <HighlightNumbers />
             </Box>
 
+            <Typography
+              variant="button"
+              display="block"
+              gutterBottom
+              sx={{ fontWeight: "bold" }}
+            >
+              Tags
+            </Typography>
+
+            <Divider sx={{ mb: "10px" }} />
+
             <div className={styles.tags}>
               {userData?.tags?.map((item: string, index: number) => (
                 <Chip
@@ -87,35 +97,41 @@ export const Bio = () => {
               ))}
             </div>
 
-            <Typography
-              variant="button"
-              display="block"
-              gutterBottom
-              sx={{ fontWeight: "bold" }}
-            >
-              Currently Living
-            </Typography>
+            {userData?.livingInCity && (
+              <>
+                <Typography
+                  variant="button"
+                  display="block"
+                  gutterBottom
+                  sx={{ fontWeight: "bold" }}
+                >
+                  Currently Living
+                </Typography>
 
-            <Divider sx={{ mb: "10px" }} />
+                <Divider sx={{ mb: "10px" }} />
 
-            <Typography variant="body2" sx={{ mb: 3 }}>
-              {userData?.livingInCity}
-            </Typography>
+                <Typography variant="body2" sx={{ mb: 3 }}>
+                  {userData.livingInCity}
+                </Typography>
+              </>
+            )}
 
-            <Typography
-              variant="button"
-              display="block"
-              gutterBottom
-              sx={{ fontWeight: "bold" }}
-            >
-              BIO
-            </Typography>
-
-            <Divider sx={{ mb: "10px" }} />
-
-            <Typography variant="body2" className={styles.bio}>
-              {userData?.bio}
-            </Typography>
+            {userData?.bio && (
+              <>
+                <Typography
+                  variant="button"
+                  display="block"
+                  gutterBottom
+                  sx={{ fontWeight: "bold" }}
+                >
+                  BIO
+                </Typography>
+                <Divider sx={{ mb: "10px" }} />
+                <Typography variant="body2" className={styles.bio}>
+                  {userData.bio}
+                </Typography>
+              </>
+            )}
           </>
         );
       default:

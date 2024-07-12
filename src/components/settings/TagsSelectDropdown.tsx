@@ -73,6 +73,7 @@ export const TagsSelectDropdown: FC<TagsSelectDropdownProps> = ({
                 className={styles.countrySearch}
                 options={tags}
                 autoHighlight
+                disableCloseOnSelect
                 multiple
                 fullWidth
                 disabled={!!disabled}
