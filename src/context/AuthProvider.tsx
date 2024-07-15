@@ -128,6 +128,8 @@ const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      console.log(currentUser);
+      console.log(auth);
       if (currentUser) {
         setIsAuthenticated(true);
         setUser(currentUser);

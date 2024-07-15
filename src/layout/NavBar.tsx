@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import styles from "../styles/NavBar.module.scss";
-import { LinearProgress, Link } from "@mui/material";
+import { LinearProgress } from "@mui/material";
 import { toggleMenuVisibility } from "../store/appSlice";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 import LoginButton from "../components/global/LoginButton";
@@ -13,6 +13,7 @@ import LoginButton from "../components/global/LoginButton";
 import { AvatarMenu } from "./AvatarMenu";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthProvider";
+import { NavLink } from "react-router-dom";
 
 export const NavBar = () => {
   const dispatch = useAppDispatch();
@@ -41,17 +42,12 @@ export const NavBar = () => {
           </IconButton>
 
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            <Link
-              className={styles.appTitle}
-              href="/"
-              underline="none"
-              color="inherit"
-            >
+            <NavLink className={styles.appTitle} to="/" color="inherit">
               <span className={styles.appName}>Nomad Log</span>
               <span className={styles.appSlogan}>
                 Your Personal Travel Tracker
               </span>
-            </Link>
+            </NavLink>
           </Typography>
 
           {isAuthenticated ? <AvatarMenu /> : <LoginButton />}

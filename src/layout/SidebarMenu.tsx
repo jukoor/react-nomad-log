@@ -11,10 +11,15 @@ import { toggleMenuVisibility } from "../store/appSlice";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import { Tooltip } from "@mui/material";
+import { ListItem, Tooltip } from "@mui/material";
 import { SidebarWelcomeMsg } from "./SidebarWelcomeMsg";
-import { useLocation } from "react-router-dom";
-import { useContext, useState } from "react";
+import {
+  useLocation,
+  Link as RouterLink,
+  LinkProps as RouterLinkProps,
+  useNavigate,
+} from "react-router-dom";
+import { forwardRef, Fragment, useContext, useState } from "react";
 import { AuthContext } from "../context/AuthProvider";
 import LogoutIcon from "@mui/icons-material/Logout";
 
@@ -47,6 +52,48 @@ export const SidebarMenu = () => {
       setTimeout(callback, 300);
     }
   };
+
+  interface ListItemLinkProps {
+    icon: React.ReactElement;
+    primary: string;
+    to: string;
+  }
+
+  const Link = forwardRef<HTMLAnchorElement, RouterLinkProps>(function Link(
+    itemProps,
+    ref
+  ) {
+    return <RouterLink ref={ref} {...itemProps} role={undefined} />;
+  });
+
+  function ListItemLink(props: ListItemLinkProps) {
+    const { icon, primary, to } = props;
+    const navigate = useNavigate();
+
+    return (
+      <ListItem
+        component={Link}
+        to={to}
+        className={`${styles.link} ${
+          location.pathname === to ? styles.active : ""
+        }`}
+        onClick={(event) => {
+          event.preventDefault(); // Prevent the default link behavior
+          handleCloseDrawerDelay(() => {
+            // Perform the redirection after the sidebar close animation
+            navigate(to);
+          });
+        }}
+      >
+        {icon ? (
+          <ListItemIcon sx={{ minWidth: "40px", color: "pink" }}>
+            {icon}
+          </ListItemIcon>
+        ) : null}
+        <ListItemText primary={primary} />
+      </ListItem>
+    );
+  }
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -97,26 +144,13 @@ export const SidebarMenu = () => {
           {isAuthenticated ? (
             <>
               {menuStructure.map((item) => (
-                <ListItemButton
-                  component="a"
-                  href={item.target}
-                  onClick={(event) => {
-                    event.preventDefault(); // Prevent the default link behavior
-                    handleCloseDrawerDelay(() => {
-                      // Perform the redirection after the sidebar close animation
-                      window.location.href = item.target;
-                    });
-                  }}
-                  key={item.id}
-                  className={`${styles.link} ${
-                    location.pathname === item.target ? styles.active : ""
-                  }`}
-                >
-                  <ListItemIcon sx={{ minWidth: "40px", color: "pink" }}>
-                    {item.icon}
-                  </ListItemIcon>
-                  <ListItemText primary={item.text} />
-                </ListItemButton>
+                <Fragment key={item.id}>
+                  <ListItemLink
+                    to={item.target}
+                    primary={item.text}
+                    icon={item.icon}
+                  />
+                </Fragment>
               ))}
               <ListItemButton
                 onClick={() => logoutUser()}

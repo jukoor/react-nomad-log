@@ -70,14 +70,18 @@
     flex-direction: column;
     position: relative;
     top: -3px;
+    text-decoration: none;
   }
 
   .appName {
     font-size: 16px;
+    line-height: 18px;
     font-weight: bold;
+    color: $color-white;
   }
   .appSlogan {
     font-size: 11px;
+    color: $color-white;
   }
 }
 

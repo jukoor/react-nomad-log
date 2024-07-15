@@ -94,11 +94,16 @@ export const TagsSelectDropdown: FC<TagsSelectDropdownProps> = ({
                 )}
                 renderTags={(value, getTagProps) =>
                   value.map((option, index) => {
+                    // Extract the key prop if present
+                    const tagProps = getTagProps({ index });
+                    const { key, ...otherProps } = tagProps;
+
                     return (
                       <Chip
                         variant="outlined"
                         label={option}
-                        {...getTagProps({ index })}
+                        {...otherProps}
+                        key={key} // Explicitly pass the key prop
                       />
                     );
                   })

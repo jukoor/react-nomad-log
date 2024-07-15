@@ -102,15 +102,19 @@ export const CountrySelectDropdown = ({
                   )}
                   renderTags={(value, getTagProps) =>
                     value.map((option, index) => {
-                      // Use returnCountryDisplayValues to format the display of each selected value
+                      // Extract the key prop if present
                       const displayValue = returnCountryDisplayValues(
                         option as CountryCca2Type
                       );
+                      const tagProps = getTagProps({ index });
+                      const { key, ...otherProps } = tagProps;
+
                       return (
                         <Chip
                           variant="outlined"
                           label={displayValue}
-                          {...getTagProps({ index })}
+                          {...otherProps}
+                          key={key} // Explicitly pass the key prop
                         />
                       );
                     })
