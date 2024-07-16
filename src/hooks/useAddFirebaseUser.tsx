@@ -30,11 +30,9 @@ export const useAddFirebaseUser = () => {
           };
 
           // Create new user doc in firebase with uid from google auth
-          const docRef = await setDoc(doc(db, "users", googleAuthUserUid), {
+          await setDoc(doc(db, "users", googleAuthUserUid), {
             ...newUserData,
           });
-
-          console.log("Document written with ID: ", docRef);
         } catch (e) {
           console.error("Error adding document: ", e);
         }

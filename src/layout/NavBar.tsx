@@ -8,7 +8,6 @@ import styles from "../styles/NavBar.module.scss";
 import { LinearProgress } from "@mui/material";
 import { toggleMenuVisibility } from "../store/appSlice";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
-import LoginButton from "../components/global/LoginButton";
 
 import { AvatarMenu } from "./AvatarMenu";
 import { useContext } from "react";
@@ -50,7 +49,7 @@ export const NavBar = () => {
             </NavLink>
           </Typography>
 
-          {isAuthenticated ? <AvatarMenu /> : <LoginButton />}
+          {isAuthenticated ? <AvatarMenu /> : null}
         </Toolbar>
       </AppBar>
 

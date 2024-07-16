@@ -63,8 +63,17 @@ const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
   const loginUser = async ({ email, password }: LoginType) => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
+      if ("code" in error && error.code === "auth/invalid-credential") {
+        dispatch(
+          setSnackbarOptions({
+            open: true,
+            message: `Error logging in. Invalid credentials.`,
+            severity: "error",
+          })
+        );
+      }
     }
   };
 
@@ -97,6 +106,7 @@ const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
         });
       })
       .catch((error) => {
+        console.log(error.rcode);
         // Email already exists
         if (error.code == "auth/email-already-in-use") {
           dispatch(
@@ -128,8 +138,6 @@ const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      console.log(currentUser);
-      console.log(auth);
       if (currentUser) {
         setIsAuthenticated(true);
         setUser(currentUser);

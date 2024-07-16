@@ -15,9 +15,14 @@ import { useNavigate } from "react-router-dom";
 import { getAuth } from "firebase/auth";
 import { useAppSelector } from "../hooks/reduxHooks";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { useContext, useState } from "react";
+import { AuthContext } from "../context/AuthProvider";
+import { Skeleton } from "@mui/material";
 
 export const AvatarMenu = () => {
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const { logoutUser } = useContext(AuthContext);
+
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
   const auth = getAuth();
@@ -52,7 +57,7 @@ export const AvatarMenu = () => {
   // Logout of Google Auth
   const handleGoLogout = () => {
     setAnchorEl(null);
-    navigate("/logout");
+    logoutUser();
   };
 
   const isProfileActive = location.pathname.includes(`/profile/${user?.uid}`);
@@ -118,7 +123,9 @@ export const AvatarMenu = () => {
             </MenuItem>
           </Menu>
         </>
-      ) : null}
+      ) : (
+        <Skeleton variant="circular" width={40} height={40} />
+      )}
     </>
   );
 };
