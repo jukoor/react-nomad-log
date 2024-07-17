@@ -82,6 +82,7 @@ export const CountrySelectDropdown = ({
                   className={styles.countrySearch}
                   options={transformedValue}
                   autoHighlight
+                  disableCloseOnSelect
                   multiple
                   fullWidth
                   disabled={!!disabled}
@@ -96,25 +97,23 @@ export const CountrySelectDropdown = ({
                       component="li"
                       sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
                       {...props}
+                      key={option}
                     >
                       {returnCountryDisplayValues(option as CountryCca2Type)}
                     </Box>
                   )}
                   renderTags={(value, getTagProps) =>
                     value.map((option, index) => {
-                      // Extract the key prop if present
                       const displayValue = returnCountryDisplayValues(
                         option as CountryCca2Type
                       );
                       const tagProps = getTagProps({ index });
-                      const { key, ...otherProps } = tagProps;
-
                       return (
                         <Chip
                           variant="outlined"
                           label={displayValue}
-                          {...otherProps}
-                          key={key} // Explicitly pass the key prop
+                          {...tagProps}
+                          key={option}
                         />
                       );
                     })

@@ -27,7 +27,7 @@ type AuthProviderProps = {
 
 interface IAuthProviderContextProps {
   user: User | null;
-  loading: boolean;
+  isLoading: boolean;
   isAuthenticated: boolean;
   loginUser: (args: LoginType) => Promise<void>;
   logoutUser: () => Promise<void>;
@@ -36,7 +36,7 @@ interface IAuthProviderContextProps {
 
 const initialValues: IAuthProviderContextProps = {
   user: null,
-  loading: false,
+  isLoading: false,
   isAuthenticated: false,
   loginUser: async () => {},
   logoutUser: async () => {},
@@ -53,7 +53,7 @@ export const AuthContext =
 
 const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const dispatch = useAppDispatch();
   const { addUserDoc } = useAddFirebaseUser();
@@ -165,7 +165,7 @@ const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     <AuthContext.Provider
       value={{
         user,
-        loading,
+        isLoading,
         isAuthenticated,
         loginUser,
         logoutUser,

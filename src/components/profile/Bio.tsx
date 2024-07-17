@@ -72,30 +72,34 @@ export const Bio = () => {
               <HighlightNumbers />
             </Box>
 
-            <Typography
-              variant="button"
-              display="block"
-              gutterBottom
-              sx={{ fontWeight: "bold" }}
-            >
-              Tags
-            </Typography>
+            {userData?.tags?.length ? (
+              <>
+                <Typography
+                  variant="button"
+                  display="block"
+                  gutterBottom
+                  sx={{ fontWeight: "bold" }}
+                >
+                  Tags
+                </Typography>
 
-            <Divider sx={{ mb: "10px" }} />
+                <Divider sx={{ mb: "10px" }} />
 
-            <div className={styles.tags}>
-              {userData?.tags?.map((item: string, index: number) => (
-                <Chip
-                  className={styles.tag}
-                  key={index}
-                  label={item}
-                  variant="outlined"
-                  size="small"
-                  color="primary"
-                  sx={{ mb: 1.5 }}
-                />
-              ))}
-            </div>
+                <div className={styles.tags}>
+                  {userData?.tags?.map((item: string, index: number) => (
+                    <Chip
+                      className={styles.tag}
+                      key={index}
+                      label={item}
+                      variant="outlined"
+                      size="small"
+                      color="primary"
+                      sx={{ mb: 1.5 }}
+                    />
+                  ))}
+                </div>
+              </>
+            ) : null}
 
             {userData?.livingInCity && (
               <>
