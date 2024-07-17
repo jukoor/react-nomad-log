@@ -183,7 +183,6 @@ export const Map = () => {
           const dataItem: DataItem<IComponentDataItem> | undefined =
             ev.target.dataItem;
           const data: any = dataItem?.dataContext;
-          console.log(data);
           if (dataItem) {
             const zoomAnimation = worldSeries.zoomToDataItem(
               dataItem as DataItem<IMapPolygonSeriesDataItem>

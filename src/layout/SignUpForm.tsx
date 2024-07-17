@@ -41,8 +41,6 @@ export const SignUpForm = () => {
   };
 
   const onSubmit: SubmitHandler<RegisterType> = async (data) => {
-    console.log(data);
-
     // Set loading spinner for 3 seconds
     setLoading(true);
     await new Promise((resolve) => setTimeout(resolve, 3000));

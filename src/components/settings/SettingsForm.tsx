@@ -65,8 +65,6 @@ export const SettingsForm = () => {
 
   // On submit update the users profile data in firestore db
   const onSubmit: SubmitHandler<UserType> = async (data) => {
-    console.log(data);
-
     // Set loading spinner for 3 seconds
     setLoading(true);
     await new Promise((resolve) => setTimeout(resolve, 3000));
