@@ -1,7 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-import { Home } from "../pages/Home";
-import { Profile } from "../pages/Profile";
-import { Settings } from "../pages/Settings";
+import { Home } from "../pages/HomePage";
+import { Profile } from "../pages/ProfilePage";
+import { Settings } from "../pages/SettingsPage";
 import { FC } from "react";
 import PrivateRoute from "./PrivateRoute";
 
