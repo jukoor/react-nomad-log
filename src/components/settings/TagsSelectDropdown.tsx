@@ -88,6 +88,7 @@ export const TagsSelectDropdown: FC<TagsSelectDropdownProps> = ({
                     component="li"
                     sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
                     {...props}
+                    key={option}
                   >
                     {option}
                   </Box>
@@ -96,14 +97,13 @@ export const TagsSelectDropdown: FC<TagsSelectDropdownProps> = ({
                   value.map((option, index) => {
                     // Extract the key prop if present
                     const tagProps = getTagProps({ index });
-                    const { key, ...otherProps } = tagProps;
 
                     return (
                       <Chip
                         variant="outlined"
                         label={option}
-                        {...otherProps}
-                        key={key} // Explicitly pass the key prop
+                        {...tagProps}
+                        key={option}
                       />
                     );
                   })

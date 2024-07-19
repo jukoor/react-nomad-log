@@ -155,6 +155,14 @@ export const Map = () => {
         fill: am5.color("#ffc0cb"), // pink
       });
 
+      worldSeries.mapPolygons.template.events.on("pointerover", function () {
+        document.body.style.cursor = "pointer";
+      });
+
+      worldSeries.mapPolygons.template.events.on("pointerout", function () {
+        document.body.style.cursor = "default";
+      });
+
       worldSeries.events.on("datavalidated", function () {
         worldSeries.mapPolygons.each(function (polygon) {
           if (

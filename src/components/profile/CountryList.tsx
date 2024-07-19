@@ -100,7 +100,7 @@ export const CountryList = ({ list }: CountryListProps) => {
                       <Tooltip
                         sx={{ marginRight: "5px" }}
                         title={"Show country details"}
-                        placement="left"
+                        placement="top"
                         arrow
                       >
                         <IconButton
@@ -120,7 +120,7 @@ export const CountryList = ({ list }: CountryListProps) => {
                       <Tooltip
                         sx={{ marginRight: "5px" }}
                         title={"Remove country from list"}
-                        placement="left"
+                        placement="top"
                         arrow
                       >
                         <IconButton

@@ -10,6 +10,7 @@ import Tooltip from "@mui/material/Tooltip";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import InsertEmoticonIcon from "@mui/icons-material/InsertEmoticon";
+import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 
 import { useNavigate } from "react-router-dom";
 import { getAuth } from "firebase/auth";
@@ -42,6 +43,11 @@ export const AvatarMenu = () => {
     setAnchorEl(null);
   };
 
+  const handleGoMap = () => {
+    setAnchorEl(null);
+    navigate("/");
+  };
+
   const handleGoProfile = () => {
     setAnchorEl(null);
     if (user) {
@@ -54,12 +60,12 @@ export const AvatarMenu = () => {
     navigate("/settings");
   };
 
-  // Logout of Google Auth
   const handleGoLogout = () => {
     setAnchorEl(null);
     logoutUser();
   };
 
+  const isMapActive = location.pathname === "/";
   const isProfileActive = location.pathname.includes(`/profile/${user?.uid}`);
   const isSettingsActive = location.pathname === "/settings";
 
@@ -95,6 +101,16 @@ export const AvatarMenu = () => {
             transformOrigin={{ horizontal: "right", vertical: "top" }}
             anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
           >
+            <MenuItem
+              onClick={handleGoMap}
+              style={isMapActive ? { textDecoration: "underline" } : {}}
+            >
+              <ListItemIcon>
+                <MapOutlinedIcon fontSize="small" />
+              </ListItemIcon>
+              Map
+            </MenuItem>
+            <Divider />
             <MenuItem
               onClick={handleGoProfile}
               style={isProfileActive ? { textDecoration: "underline" } : {}}

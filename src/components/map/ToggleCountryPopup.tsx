@@ -119,7 +119,7 @@ export const ToggleCountryPopup = () => {
                     name="countriesLived"
                   />
                 }
-                label="Lived In"
+                label="Lived"
               />
             </FormGroup>
             <FormHelperText>Check 1 or more</FormHelperText>

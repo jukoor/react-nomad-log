@@ -82,14 +82,24 @@ export const CountrySelectDropdown = ({
                   className={styles.countrySearch}
                   options={transformedValue}
                   autoHighlight
-                  disableCloseOnSelect
+                  disableCloseOnSelect={multiple}
                   multiple
                   fullWidth
                   disabled={!!disabled}
                   // @ts-ignore
                   onChange={(event, newValue) => {
                     // If newValue is undefined (no selection), set it to an empty array
-                    onChange(Array.isArray(newValue) ? newValue : []);
+                    if (!multiple) {
+                      let singleNewValue;
+                      if (newValue.length === 1) {
+                        singleNewValue = newValue;
+                      } else if (newValue.length === 2) {
+                        singleNewValue = Array(newValue[1]);
+                      }
+                      onChange(singleNewValue);
+                    } else {
+                      onChange(Array.isArray(newValue) ? newValue : []);
+                    }
                   }}
                   value={Array.isArray(value) ? value : []} // Ensure value is always an array
                   renderOption={(props, option) => (

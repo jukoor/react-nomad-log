@@ -6,12 +6,14 @@ import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { AuthContext } from "../../context/AuthProvider";
 import { useContext } from "react";
 
+import styles from "../../styles/CountryActionButtons.module.scss";
+
 export const CountryActionButtons = () => {
   const dispatch = useAppDispatch();
   const { isAuthenticated } = useContext(AuthContext);
 
   return (
-    <div style={{ display: "flex", gap: "10px" }}>
+    <div className={isAuthenticated ? styles.auth : ""}>
       <Button
         onClick={() => dispatch(toggleCountryDetailsOverlay())}
         startIcon={<InfoOutlinedIcon />}
