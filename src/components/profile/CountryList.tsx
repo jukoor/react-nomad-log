@@ -98,13 +98,13 @@ export const CountryList = ({ list }: CountryListProps) => {
                   secondaryAction={
                     <ButtonGroup size="small" aria-label="Small button group">
                       <Tooltip
-                        sx={{ marginRight: "5px" }}
                         title={"Show country details"}
                         placement="top"
                         arrow
                       >
                         <IconButton
                           sx={{ marginRight: "5px" }}
+                          className={styles.iconBtn}
                           onClick={() => {
                             dispatch(
                               setSelectedCountry(
@@ -124,8 +124,8 @@ export const CountryList = ({ list }: CountryListProps) => {
                         arrow
                       >
                         <IconButton
+                          className={styles.iconBtn}
                           sx={{
-                            marginRight: "5px",
                             ":hover": {
                               color: "#cb0000",
                             },
@@ -143,7 +143,9 @@ export const CountryList = ({ list }: CountryListProps) => {
                   }
                 >
                   <span className={styles.flag}>{getEmojiFlag(item)}</span>
-                  {singleCountry?.name.common}
+                  <span className={styles.title}>
+                    {singleCountry?.name.common}
+                  </span>
                 </ListItem>
               )}
             </React.Fragment>

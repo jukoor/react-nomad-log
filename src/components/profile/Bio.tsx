@@ -49,6 +49,7 @@ export const Bio = () => {
             <Box
               sx={{
                 display: "flex",
+                flexWrap: "wrap",
                 gap: "20px",
                 marginBottom: "25px",
               }}
@@ -101,6 +102,27 @@ export const Bio = () => {
               </>
             ) : null}
 
+            {userData?.bio && (
+              <>
+                <Typography
+                  variant="button"
+                  display="block"
+                  gutterBottom
+                  sx={{ fontWeight: "bold" }}
+                >
+                  BIO
+                </Typography>
+                <Divider sx={{ mb: "10px" }} />
+                <Typography
+                  variant="body2"
+                  sx={{ mb: 4 }}
+                  className={styles.bio}
+                >
+                  {userData.bio}
+                </Typography>
+              </>
+            )}
+
             {userData?.livingInCity && (
               <>
                 <Typography
@@ -116,23 +138,6 @@ export const Bio = () => {
 
                 <Typography variant="body2" sx={{ mb: 3 }}>
                   {userData.livingInCity}
-                </Typography>
-              </>
-            )}
-
-            {userData?.bio && (
-              <>
-                <Typography
-                  variant="button"
-                  display="block"
-                  gutterBottom
-                  sx={{ fontWeight: "bold" }}
-                >
-                  BIO
-                </Typography>
-                <Divider sx={{ mb: "10px" }} />
-                <Typography variant="body2" className={styles.bio}>
-                  {userData.bio}
                 </Typography>
               </>
             )}

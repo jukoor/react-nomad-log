@@ -102,6 +102,7 @@ export const TagsSelectDropdown: FC<TagsSelectDropdownProps> = ({
                       <Chip
                         variant="outlined"
                         label={option}
+                        sx={{ fontSize: { xs: "12px" } }}
                         {...tagProps}
                         key={option}
                       />
@@ -131,7 +132,12 @@ export const TagsSelectDropdown: FC<TagsSelectDropdownProps> = ({
 
           {/* Selection Counter Badge  */}
           <Badge
-            sx={{ position: "absolute", top: "-14px", right: "18px" }}
+            sx={{
+              position: "absolute",
+              top: { xs: "-10px", sm: "-14px" },
+              right: "18px",
+              transform: { xs: "scale(0.8)" },
+            }}
             color="secondary"
             badgeContent={selectedCount}
             showZero

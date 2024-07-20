@@ -1,3 +1,5 @@
+@import "../styles/global/variables.scss";
+
 body {
   .orderedList {
     list-style: none;
@@ -8,17 +10,26 @@ body {
     box-shadow: 0.25rem 0.25rem 0.6rem rgba(0, 0, 0, 0.05),
       0 0.5rem 1.125rem rgba(75, 0, 0, 0.05);
     border-radius: 25px;
-    background: #fff;
+    background: $color-white;
     margin-bottom: 10px;
     padding-left: 65px;
+    padding-right: 125px;
     font-size: 16px;
     line-height: 1;
     font-weight: 400;
+    align-items: flex-start;
+
+    @media (max-width: $bp-md) {
+      padding-right: 100px;
+    }
+
+    @media (max-width: $bp-sm) {
+      padding-left: 45px;
+      padding-right: 70px;
+    }
 
     &::before {
-      // content: counter(my-awesome-counter);
       content: attr(data-index);
-      // counter-increment: my-awesome-counter;
       color: #1f2937;
       font-weight: bold;
       position: absolute;
@@ -46,6 +57,26 @@ body {
       display: inline-block;
       font-size: 24px;
       margin-right: 12px;
+    }
+
+    .title {
+      display: inline-block;
+      line-height: 18px;
+
+      ~ :global(.css-518kzi-MuiListItemSecondaryAction-root) {
+        @media (max-width: $bp-md) {
+          right: 5px;
+        }
+      }
+    }
+
+    .iconBtn {
+      margin-right: 5px;
+
+      @media (max-width: $bp-sm) {
+        margin-right: 0;
+        padding: 3px;
+      }
     }
   }
 

@@ -1,12 +1,27 @@
+@import "../styles/global/variables.scss";
+
 .highlightNumbers.list {
   display: flex;
   padding: 0;
   margin-left: auto;
   gap: 15px;
 
+  @media (max-width: $bp-md) {
+    margin-left: 0;
+  }
+
+  @media (max-width: $bp-xs) {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
   .item {
     padding: 0;
     padding-right: 15px;
+
+    @media (max-width: $bp-xs) {
+      gap: 10px;
+    }
 
     &:not(:last-of-type) {
       &::after {
@@ -17,6 +32,10 @@
         height: calc(100% - 20px);
         background: #818181;
         width: 1px;
+
+        @media (max-width: $bp-xs) {
+          display: none;
+        }
       }
     }
   }
@@ -26,6 +45,10 @@
     white-space: nowrap;
     margin: 0;
     font-size: 12px;
+
+    @media (max-width: $bp-xs) {
+      text-align: left;
+    }
 
     :global(.MuiListItemText-primary) {
       font-size: 20px;
@@ -37,7 +60,7 @@
   .icon {
     border: 2px solid rgba(0, 0, 0, 0.54);
     min-width: auto;
-    margin-right: 20px;
+    margin-right: 10px;
     padding: 4px;
     border-radius: 50%;
 

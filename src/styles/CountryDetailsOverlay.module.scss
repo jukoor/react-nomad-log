@@ -1,22 +1,40 @@
+@import "../styles/global/variables.scss";
+
 .moduleCountryDetailsOverlay {
   .listItem {
     border-bottom: 1px solid #ebebeb;
+
+    @media (max-width: $bp-md) {
+      padding: 6px 12px;
+    }
+
     :global(.MuiListItemText-root) {
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 20px;
 
+      @media (max-width: $bp-md) {
+        margin: 3px 0;
+      }
+
       span {
-        flex: 1;
+        flex: 0 0 30%;
 
         &:last-child {
+          flex: 1;
           display: flex;
           align-items: center;
           justify-content: flex-end;
           text-align: right;
         }
       }
+    }
+  }
+
+  .listIcon {
+    @media (max-width: $bp-md) {
+      min-width: 35px;
     }
   }
 
@@ -27,26 +45,38 @@
     max-width: 35px;
   }
 
+  .flatBtn {
+    max-height: 40px;
+  }
+
   .header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 10px 10px 10px 15px;
+
+    @media (max-width: $bp-md) {
+      padding: 5px 5px 5px 10px;
+    }
   }
 
   .headerEmoji {
     display: inline-block;
     margin-right: 20px;
+
+    @media (max-width: $bp-md) {
+      margin-right: 13px;
+    }
   }
 
   .link {
-    color: grey;
+    color: $color-grey;
     display: inline-flex;
     gap: 6px;
   }
   .accordion {
-    color: grey;
-    font-family: Raleway, "Helvetica Neue", Arial, sans-serif;
+    color: $color-grey;
+    font-family: "Raleway", "Helvetica Neue", Arial, sans-serif;
     font-weight: 400;
     font-size: 0.875rem;
     line-height: 1.43;

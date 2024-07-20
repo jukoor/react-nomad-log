@@ -7,6 +7,7 @@ import {
   TextField,
 } from "@mui/material";
 import { UserType } from "../../types/UserType";
+import styles from "../../styles/CustomInputField.module.scss";
 
 type UserTypeField = keyof UserType;
 
@@ -44,6 +45,7 @@ export const CustomInputField: React.FC<CustomInputFieldProps> = ({
         render={({ field }) => (
           <TextField
             id={fieldName}
+            className={styles.inputField}
             {...field}
             fullWidth
             disabled={disabled}

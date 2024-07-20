@@ -1,4 +1,4 @@
-@import "../../styles/global/variables.scss";
+@import "variables.scss";
 
 body {
   .MuiDialogActions-root {
@@ -28,5 +28,10 @@ body {
   ._switchPopup_1y9ve_1 {
     margin-top: 20px;
     margin-right: 10px;
+  }
+
+  .MuiAutocomplete-hasPopupIcon.MuiAutocomplete-hasClearIcon.css-1um6vq2-MuiAutocomplete-root
+    .MuiOutlinedInput-root {
+    padding-right: 35px;
   }
 }

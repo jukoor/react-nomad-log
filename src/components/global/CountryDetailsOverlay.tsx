@@ -15,6 +15,7 @@ import {
   ListItemText,
   Tooltip,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import { ReactElement, useEffect, useState } from "react";
 import PublicIcon from "@mui/icons-material/Public";
@@ -239,17 +240,14 @@ export const CountryDetailsOverlay = () => {
           content: (
             <>
               <Tooltip title="Enlarge Flag" placement="top">
-                <IconButton
-                  onClick={() => handleOpenDialog("flags")}
-                  sx={{ marginRight: "5px" }}
-                >
+                <IconButton onClick={() => handleOpenDialog("flags")}>
                   <ZoomInIcon />
                 </IconButton>
               </Tooltip>
               <Tooltip title="Enlarge Flag" placement="top">
                 <IconButton
                   onClick={() => handleOpenDialog("flags")}
-                  sx={{ marginRight: "5px" }}
+                  className={styles.flatBtn}
                 >
                   <img
                     src={selectedCountry.flags.svg}
@@ -266,17 +264,14 @@ export const CountryDetailsOverlay = () => {
           content: (
             <>
               <Tooltip title="Enlarge Coat of Arms">
-                <IconButton
-                  onClick={() => handleOpenDialog("coatOfArms")}
-                  sx={{ marginRight: "5px" }}
-                >
+                <IconButton onClick={() => handleOpenDialog("coatOfArms")}>
                   <ZoomInIcon />
                 </IconButton>
               </Tooltip>
               <Tooltip title="Enlarge Coat of Arms">
                 <IconButton
                   onClick={() => handleOpenDialog("coatOfArms")}
-                  sx={{ marginRight: "5px" }}
+                  className={styles.flatBtn}
                 >
                   <img
                     src={selectedCountry.coatOfArms.svg}
@@ -304,6 +299,7 @@ export const CountryDetailsOverlay = () => {
   const handleCloseDialog = () => {
     setOpenDialog(false);
   };
+  const isMobile = useMediaQuery("(max-width:500px)");
 
   return (
     <>
@@ -312,12 +308,11 @@ export const CountryDetailsOverlay = () => {
         open={overlayOpen}
         onClose={handleOnClick}
         sx={{
-          width: "100%",
-          maxWidth: drawerWidth,
+          width: isMobile ? "100%" : drawerWidth,
+          maxWidth: isMobile ? "100%" : drawerWidth,
           flexShrink: 0,
           "& .MuiDrawer-paper": {
-            width: drawerWidth,
-            boxSizing: "border-box",
+            width: isMobile ? "100%" : drawerWidth,
           },
         }}
         anchor="right"
@@ -325,7 +320,7 @@ export const CountryDetailsOverlay = () => {
         <div className={styles.header}>
           <Typography variant="h5" sx={{ display: "flex" }}>
             <span className={styles.headerEmoji}>{selectedCountry?.flag}</span>
-            <span className={styles.title}>{selectedCountry?.name.common}</span>
+            <span>{selectedCountry?.name.common}</span>
           </Typography>
           <Tooltip
             sx={{ marginRight: "5px" }}
@@ -343,7 +338,7 @@ export const CountryDetailsOverlay = () => {
         <List sx={{ paddingTop: 0 }}>
           {country.map((c, index) => (
             <ListItem key={index} className={styles.listItem}>
-              <ListItemIcon>{c.icon}</ListItemIcon>
+              <ListItemIcon className={styles.listIcon}>{c.icon}</ListItemIcon>
               <ListItemText
                 primary={c.label}
                 secondary={c.content || ""}

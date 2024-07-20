@@ -1,0 +1,9 @@
+@import "../styles/global//variables.scss";
+
+.inputField {
+  input {
+    @media (max-width: $bp-md) {
+      padding: 9px 12px;
+    }
+  }
+}

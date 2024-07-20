@@ -98,7 +98,7 @@ export const SettingsForm = () => {
           </Typography>
           <FormProvider {...profileFormMethods}>
             <form onSubmit={handleSubmit(onSubmit)}>
-              <Grid container spacing={4}>
+              <Grid container spacing={{ xs: 3, sm: 4 }}>
                 <Grid item xs={12} sm={6}>
                   <CustomInputField
                     fieldName="nameFirst"
@@ -174,10 +174,10 @@ export const SettingsForm = () => {
                     sx={{
                       background: "transparent",
                       color: "#212121",
-                      fontSize: "14px",
+                      fontSize: { xs: "12px", sm: "14px" },
                       border: "2px solid #212121",
                       fontWeight: "bold",
-                      marginTop: "25px",
+                      marginTop: { xs: 1, sm: 4 },
                     }}
                   >
                     Select all the countries that you have (1) visited, (2) that
@@ -222,7 +222,7 @@ export const SettingsForm = () => {
                   sx={{ minWidth: "200px", fontWeight: "bold" }}
                   startIcon={
                     loading ? (
-                      <CircularProgress size={18} />
+                      <CircularProgress size={18} sx={{ color: "white" }} />
                     ) : (
                       <SaveOutlinedIcon />
                     )

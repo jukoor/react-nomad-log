@@ -105,7 +105,10 @@ export const CountrySelectDropdown = ({
                   renderOption={(props, option) => (
                     <Box
                       component="li"
-                      sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
+                      sx={{
+                        width: "100%",
+                        "& > img": { mr: 2, flexShrink: 0 },
+                      }}
                       {...props}
                       key={option}
                     >
@@ -168,7 +171,12 @@ export const CountrySelectDropdown = ({
             {/* Selection Counter Badge  */}
             {multiple ? (
               <Badge
-                sx={{ position: "absolute", top: "-14px", right: "18px" }}
+                sx={{
+                  position: "absolute",
+                  top: { xs: "-10px", sm: "-14px" },
+                  right: "18px",
+                  transform: { xs: "scale(0.8)" },
+                }}
                 color="secondary"
                 badgeContent={selectedCount}
                 showZero

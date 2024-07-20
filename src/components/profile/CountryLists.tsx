@@ -91,6 +91,8 @@ export const CountryLists = () => {
               ) : (
                 <Tabs
                   value={activeTabIdx}
+                  scrollButtons={true}
+                  allowScrollButtonsMobile
                   onChange={handleChange}
                   aria-label="Lists of countries visited, bucket list countries and countries lived in."
                 >
