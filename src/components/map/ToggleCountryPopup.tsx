@@ -1,15 +1,13 @@
 import {
   Button,
-  FormControl,
+  Divider,
   FormControlLabel,
-  FormGroup,
-  FormHelperText,
+  Menu,
+  MenuItem,
   Switch,
 } from "@mui/material";
 import { useCallback, useState } from "react";
-import { Unstable_Popup as BasePopup } from "@mui/base/Unstable_Popup";
 import CheckCircleOutlineOutlinedIcon from "@mui/icons-material/CheckCircleOutlineOutlined";
-import styles from "../../styles/ToggleCountryPopup.module.scss";
 import { useAppSelector } from "../../hooks/reduxHooks";
 import { CountryCca2Type } from "../../types/CountryCca2Type";
 import {
@@ -72,6 +70,10 @@ export const ToggleCountryPopup = () => {
     toggleCountryInList(action, name as CountryList);
   };
 
+  const handleClose = () => {
+    setAnchor(null);
+  };
+
   return (
     <>
       <Button
@@ -82,50 +84,56 @@ export const ToggleCountryPopup = () => {
       >
         Set On List
       </Button>
-      <BasePopup
+
+      <Menu
+        anchorEl={anchor}
         id={id}
         open={open}
-        anchor={anchor}
-        className={styles.switchPopup}
+        disableScrollLock={true}
+        onClose={handleClose}
+        // onClick={handleClose}
+        transformOrigin={{ horizontal: "right", vertical: "top" }}
+        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <div>
-          <FormControl component="fieldset" variant="standard">
-            <FormGroup>
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={countryList.countriesVisited}
-                    onChange={handleChangeSwitch}
-                    name="countriesVisited"
-                  />
-                }
-                label="Visited"
+        <MenuItem>
+          <FormControlLabel
+            control={
+              <Switch
+                checked={countryList.countriesVisited}
+                onChange={handleChangeSwitch}
+                name="countriesVisited"
               />
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={countryList.countriesBucketList}
-                    onChange={handleChangeSwitch}
-                    name="countriesBucketList"
-                  />
-                }
-                label="Bucket List"
+            }
+            label="Visited"
+          />
+        </MenuItem>
+        <Divider />
+        <MenuItem>
+          <FormControlLabel
+            control={
+              <Switch
+                checked={countryList.countriesBucketList}
+                onChange={handleChangeSwitch}
+                name="countriesBucketList"
               />
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={countryList.countriesLived}
-                    onChange={handleChangeSwitch}
-                    name="countriesLived"
-                  />
-                }
-                label="Lived"
+            }
+            label="Bucket List"
+          />
+        </MenuItem>
+        <Divider />
+        <MenuItem>
+          <FormControlLabel
+            control={
+              <Switch
+                checked={countryList.countriesLived}
+                onChange={handleChangeSwitch}
+                name="countriesLived"
               />
-            </FormGroup>
-            <FormHelperText>Check 1 or more</FormHelperText>
-          </FormControl>
-        </div>
-      </BasePopup>
+            }
+            label="Lived"
+          />
+        </MenuItem>
+      </Menu>
     </>
   );
 };

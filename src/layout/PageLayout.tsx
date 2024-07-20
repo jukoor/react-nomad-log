@@ -15,8 +15,7 @@ export const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
   // Fetch country data from API
   useFetchCountryDataFromApi();
 
-  // // Fetch user data from Firestore DB
-  // Todo: use here?
+  // Fetch user data from Firestore DB
   useFetchUserData();
 
   return (

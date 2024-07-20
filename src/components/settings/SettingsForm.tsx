@@ -181,7 +181,9 @@ export const SettingsForm = () => {
                     }}
                   >
                     Select all the countries that you have (1) visited, (2) that
-                    are on your Bucket List and (3) those you lived in.
+                    are on your Bucket List and (3) those you lived in.<br></br>
+                    Search by typing in the 2-letter code of your country such
+                    as UK or IT.
                   </Alert>
                 </Grid>
 
