@@ -48,15 +48,6 @@
   top: -3px;
 }
 
-.scsMsgEmoji {
-  display: inline-block;
-  margin-right: 5px;
-  font-size: 20px;
-  line-height: 1;
-  position: relative;
-  top: 2px;
-}
-
 .zoomControl {
   position: absolute;
   bottom: 40px;
@@ -69,12 +60,13 @@
     width: 40px;
     height: 40px;
     border-radius: 0;
-    border: 1px solid $color-grey;
-    background: $color-white;
+    border: 2px solid $color-primary-pink;
+    color: $color-primary-pink;
+    background: $color-primary-dark;
     transition: 0.3s background-color ease-out;
 
     &:hover {
-      background: $color-primary-pink;
+      background: #212121cc;
     }
 
     &.first {

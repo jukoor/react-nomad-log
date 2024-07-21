@@ -154,6 +154,7 @@ const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
         setIsAuthenticated(false);
         setUser(null);
         setLoading(false);
+        dispatch(toggleMenuVisibility());
       }
     });
     return () => {

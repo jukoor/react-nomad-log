@@ -163,6 +163,7 @@ export const Map = () => {
         document.body.style.cursor = "default";
       });
 
+      // highlight country lists each with unique color
       worldSeries.events.on("datavalidated", function () {
         worldSeries.mapPolygons.each(function (polygon) {
           if (
@@ -185,6 +186,7 @@ export const Map = () => {
         });
       });
 
+      //   On country click zoom in and show detailed map of country, also show country action bar
       worldSeries.mapPolygons.template.events.on(
         "click",
         (ev: am5.ISpritePointerEvent) => {
