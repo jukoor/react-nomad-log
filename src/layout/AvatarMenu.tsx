@@ -20,6 +20,8 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthProvider";
 import { Skeleton } from "@mui/material";
 
+import styles from "../styles/AvatarMenu.module.scss";
+
 export const AvatarMenu = () => {
   const { logoutUser } = useContext(AuthContext);
 
@@ -92,6 +94,7 @@ export const AvatarMenu = () => {
             </Tooltip>
           </Box>
           <Menu
+            className={styles.menu}
             anchorEl={anchorEl}
             id="account-menu"
             open={open}
@@ -103,7 +106,7 @@ export const AvatarMenu = () => {
           >
             <MenuItem
               onClick={handleGoMap}
-              style={isMapActive ? { textDecoration: "underline" } : {}}
+              className={isMapActive ? styles.active : ""}
             >
               <ListItemIcon>
                 <MapOutlinedIcon fontSize="small" />
@@ -113,7 +116,7 @@ export const AvatarMenu = () => {
             <Divider />
             <MenuItem
               onClick={handleGoProfile}
-              style={isProfileActive ? { textDecoration: "underline" } : {}}
+              className={isProfileActive ? styles.active : ""}
             >
               <ListItemIcon>
                 <InsertEmoticonIcon fontSize="small" />
@@ -123,6 +126,7 @@ export const AvatarMenu = () => {
             <Divider />
             <MenuItem
               onClick={handleGoSettings}
+              className={isSettingsActive ? styles.active : ""}
               style={isSettingsActive ? { textDecoration: "underline" } : {}}
             >
               <ListItemIcon>

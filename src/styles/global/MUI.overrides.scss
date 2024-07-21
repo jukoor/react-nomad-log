@@ -34,4 +34,10 @@ body {
     .MuiOutlinedInput-root {
     padding-right: 35px;
   }
+  .css-txtifk-MuiButtonBase-root-MuiMenuItem-root + .MuiDivider-root {
+    margin: 0;
+  }
+  .MuiList-root {
+    padding: 0;
+  }
 }

@@ -44,6 +44,7 @@
   position: relative;
   display: inline-block;
   font-weight: 500;
+  color: $color-primary-dark;
   top: -3px;
 }
 
@@ -68,13 +69,12 @@
     width: 40px;
     height: 40px;
     border-radius: 0;
-    border: 1px solid grey;
+    border: 1px solid $color-grey;
     background: $color-white;
     transition: 0.3s background-color ease-out;
 
     &:hover {
       background: $color-primary-pink;
-      color: $color-white;
     }
 
     &.first {

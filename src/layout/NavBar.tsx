@@ -27,7 +27,15 @@ export const NavBar = () => {
 
   return (
     <Box className={styles.appBarComp}>
-      <AppBar className={styles.appBar} position="fixed" color="transparent">
+      <AppBar
+        className={
+          location.pathname === "/"
+            ? `${styles.appBar} ${styles.home}`
+            : styles.appBar
+        }
+        position="fixed"
+        color="transparent"
+      >
         <Toolbar>
           <IconButton
             size="large"

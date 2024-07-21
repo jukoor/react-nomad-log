@@ -28,8 +28,10 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: "20px 0",
-          backgroundColor: "#ffc0cb",
-          color: "#1f2937",
+          backgroundColor: "#1f2937",
+          boxShadow: "0 0 7px #00000069",
+          fontWeight: "bold",
+          color: "#ffc0cb",
           padding: "6px 20px",
 
           "&:hover": {

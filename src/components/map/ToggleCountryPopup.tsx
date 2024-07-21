@@ -62,6 +62,8 @@ export const ToggleCountryPopup = () => {
       ...prevCountryList,
       [name]: checked,
     }));
+    console.log(name);
+    console.log(checked);
 
     // Determine action based on the switch's value
     const action = checked ? "add" : "remove";
@@ -82,16 +84,16 @@ export const ToggleCountryPopup = () => {
         onClick={handleOpenPopup}
         startIcon={<CheckCircleOutlineOutlinedIcon />}
       >
-        Set On List
+        Set On Lists
       </Button>
 
       <Menu
         anchorEl={anchor}
         id={id}
         open={open}
+        sx={{ marginTop: "20px" }}
         disableScrollLock={true}
         onClose={handleClose}
-        // onClick={handleClose}
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >

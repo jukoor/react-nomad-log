@@ -120,4 +120,4 @@ export const {
   resetSelectedUser,
 } = userSlice.actions;
 
-export default userSlice.reducer;
+export default userSlice;

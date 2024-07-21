@@ -1,0 +1,19 @@
+@import "../styles/global/variables.scss";
+
+.menu {
+  margin-top: 15px;
+
+  .active {
+    background-color: $color-primary-dark;
+    color: $color-primary-pink;
+
+    :global(.MuiListItemIcon-root) {
+      color: $color-primary-pink;
+    }
+
+    &:hover {
+      background-color: $color-primary-dark;
+      color: $color-primary-pink;
+    }
+  }
+}

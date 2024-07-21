@@ -20,6 +20,7 @@
 
       span {
         flex: 0 0 30%;
+        white-space: nowrap;
 
         &:last-child {
           flex: 1;
@@ -27,6 +28,7 @@
           align-items: center;
           justify-content: flex-end;
           text-align: right;
+          white-space: normal;
         }
       }
     }
