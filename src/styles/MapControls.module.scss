@@ -1,0 +1,42 @@
+@import "./global/variables.scss";
+
+.zoomControl {
+  position: absolute;
+  bottom: 40px;
+  left: 20px;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+
+  .actionBtn {
+    width: 40px;
+    height: 40px;
+    border-radius: 0;
+    border: 2px solid $color-primary-pink;
+    color: $color-primary-pink;
+    background: $color-primary-dark;
+    transition: 0.3s background-color ease-out;
+
+    &:hover {
+      background: #212121cc;
+    }
+
+    &.first {
+      border-bottom: 0;
+      border-top-left-radius: 20px;
+    }
+
+    &.middle {
+      border-bottom: 0;
+    }
+
+    &.last {
+      border-bottom-right-radius: 20px;
+    }
+
+    &.disabled {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+  }
+}

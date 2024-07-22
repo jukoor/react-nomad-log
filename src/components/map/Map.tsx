@@ -6,7 +6,7 @@ import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
 import { Color, DataItem } from "@amcharts/amcharts5";
 import { IComponentDataItem } from "@amcharts/amcharts5/.internal/core/render/Component";
 import { IMapPolygonSeriesDataItem, MapChart } from "@amcharts/amcharts5/map";
-import { useEffect, useLayoutEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import {
   setSelectedCountry,
   clearSelectedCountry,
@@ -18,19 +18,17 @@ import {
   setCountryActionsBar,
   setMapZoomIn,
   setMapZoomOut,
-  toggleMapProjection,
 } from "../../store/appSlice";
-import { Box, IconButton, Tooltip } from "@mui/material";
-import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
-import RemoveOutlinedIcon from "@mui/icons-material/RemoveOutlined";
-import PublicIcon from "@mui/icons-material/Public";
-import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 import {
   updateCountriesBucketList,
   updateCountriesLived,
   updateCountriesVisited,
 } from "../../store/userSlice";
 import { CountryCca2Type } from "../../types/CountryCca2Type";
+import { MapControls } from "./MapControls";
+import { MapListToggleControls } from "./MapListToggleControls";
+import { FormControlLabel, Switch } from "@mui/material";
+import { useCapitalsGeoPointsData } from "./CapitalsGeoPoints";
 
 type CountryCode = string;
 
@@ -56,9 +54,9 @@ export const Map = () => {
   const actionBarOpen = useAppSelector(
     (state) => state.App.countryActionsBarOpen
   );
-  const selectedCountry = useAppSelector(
-    (state) => state.Country.selectedCountry
-  );
+
+  const capitals = useCapitalsGeoPointsData();
+
   const mapZoomIn = useAppSelector((state) => state.App.mapZoomIn);
   const mapZoomOut = useAppSelector((state) => state.App.mapZoomOut);
   const mapProjection = useAppSelector((state) => state.App.mapProjectionGlobe);
@@ -66,6 +64,14 @@ export const Map = () => {
   const chartRef = useRef<MapChart>();
   const worldSeriesRef = useRef<am5map.MapPolygonSeries>();
   const countrySeriesRef = useRef<am5map.MapPolygonSeries>();
+
+  const [showVisited, setShowVisited] = useState(true);
+  const [showBucketList, setShowBucketList] = useState(false);
+  const [showLived, setShowLived] = useState(false);
+
+  const toggleVisited = () => setShowVisited(!showVisited);
+  const toggleBucketList = () => setShowBucketList(!showBucketList);
+  const toggleLived = () => setShowLived(!showLived);
 
   useEffect(() => {
     return () => {
@@ -114,10 +120,11 @@ export const Map = () => {
           panX: "rotateX",
           projection: am5map.geoMercator(),
           // projection: am5map.geoOrthographic(),
+          // homeGeoPoint: { latitude: 2, longitude: 2 },
         })
       );
 
-      // Create polygon series
+      // Create world map polygon series
       const worldSeries = chart.series.push(
         am5map.MapPolygonSeries.new(root, {
           geoJSON: am5geodata_worldHigh,
@@ -173,13 +180,13 @@ export const Map = () => {
             "id" in polygon.dataItem.dataContext
           ) {
             const countryId = polygon.dataItem.dataContext.id as CountryCode;
-            if (countryColors[countryId]) {
+            if (showVisited && countryColors[countryId]) {
               polygon.set("fill", countryColors[countryId]);
             }
-            if (bucketListColors[countryId]) {
+            if (showBucketList && bucketListColors[countryId]) {
               polygon.set("fill", bucketListColors[countryId]);
             }
-            if (livedColors[countryId]) {
+            if (showLived && livedColors[countryId]) {
               polygon.set("fill", livedColors[countryId]);
             }
           }
@@ -244,6 +251,38 @@ export const Map = () => {
         }
       );
 
+      // Create capitals point series
+      var pointSeries = chart.series.push(am5map.MapPointSeries.new(root, {}));
+
+      pointSeries.bullets.push(function () {
+        if (root) {
+          var circle = am5.Circle.new(root, {
+            radius: 4,
+            tooltipY: 0,
+            fill: am5.color(0xffba00),
+            stroke: root.interfaceColors.get("background"),
+            strokeWidth: 2,
+            tooltipText: "{title}",
+          });
+
+          return am5.Bullet.new(root, {
+            sprite: circle,
+          });
+        }
+      });
+
+      for (var i = 0; i < capitals.length; i++) {
+        var city = capitals[i];
+        addCity(city.longitude, city.latitude, city.title);
+      }
+
+      function addCity(longitude: number, latitude: number, title: string) {
+        pointSeries.data.push({
+          geometry: { type: "Point", coordinates: [longitude, latitude] },
+          title: title,
+        });
+      }
+
       let countrySeries = chart.series.push(
         am5map.MapPolygonSeries.new(root, {
           visible: false,
@@ -296,6 +335,8 @@ export const Map = () => {
       }
       worldSeries.data.setAll(data);
 
+      chart.appear(1000, 100);
+
       // Set refs to make elements accessible
       chartRef.current = chart;
       worldSeriesRef.current = worldSeries;
@@ -307,7 +348,7 @@ export const Map = () => {
         root.dispose();
       }
     };
-  }, [userData, countryData]);
+  }, [userData, countryData, toggleVisited, toggleBucketList, toggleLived]);
 
   // Custom effect to open the country details top bar
   useEffect(() => {
@@ -366,48 +407,43 @@ export const Map = () => {
   return (
     <>
       <div className={styles.map} id="map"></div>
-      <Box className={styles.zoomControl}>
-        {mapProjection === true ? (
-          <Tooltip title="Change globe to map" placement="right" arrow>
-            <IconButton
-              className={`${styles.actionBtn} ${styles.first}`}
-              onClick={() => dispatch(toggleMapProjection())}
-            >
-              <MapOutlinedIcon sx={{ width: "0.9em", height: "0.9em" }} />
-            </IconButton>
-          </Tooltip>
-        ) : (
-          <Tooltip title="Change map to globe" placement="right" arrow>
-            <IconButton
-              className={`${
-                selectedCountry
-                  ? `${styles.actionBtn} ${styles.first} ${styles.disabled}`
-                  : `${styles.actionBtn} ${styles.first}`
-              }`}
-              onClick={() => dispatch(toggleMapProjection())}
-            >
-              <PublicIcon />
-            </IconButton>
-          </Tooltip>
-        )}
+      <MapControls />
 
-        <Tooltip title="Zoom in" placement="right" arrow>
-          <IconButton
-            className={`${styles.actionBtn} ${styles.middle}`}
-            onClick={() => dispatch(setMapZoomIn(true))}
-          >
-            <AddOutlinedIcon />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title="Zoom out" placement="right" arrow>
-          <IconButton
-            className={`${styles.actionBtn} ${styles.last}`}
-            onClick={() => dispatch(setMapZoomOut(true))}
-          >
-            <RemoveOutlinedIcon />
-          </IconButton>
-        </Tooltip>
-      </Box>
+      <div style={{ position: "absolute" }}>
+        <FormControlLabel
+          control={
+            <Switch
+              checked={showVisited}
+              onChange={toggleVisited}
+              name="countriesVisited"
+            />
+          }
+          label="Visited"
+        />
+
+        <FormControlLabel
+          control={
+            <Switch
+              checked={showBucketList}
+              onChange={toggleBucketList}
+              name="countriesBucketList"
+            />
+          }
+          label="Bucket List"
+        />
+        <FormControlLabel
+          control={
+            <Switch
+              checked={showLived}
+              onChange={toggleLived}
+              name="countriesLived"
+            />
+          }
+          label="Lived"
+        />
+      </div>
+
+      {/* <MapListToggleControls /> */}
     </>
   );
 };

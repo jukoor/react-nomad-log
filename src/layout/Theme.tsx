@@ -38,6 +38,9 @@ export const theme = createTheme({
             backgroundColor: "#1f2937",
             color: "#ffffff",
           },
+          "&.Mui-disabled": {
+            color: "grey",
+          },
         },
       },
     },
