@@ -19,8 +19,8 @@ const appSlice = createSlice({
     toggleCountryDetailsOverlay: (state) => {
       state.countryDetailsOverlayOpen = !state.countryDetailsOverlayOpen;
     },
-    setCountryActionsBar: (state, action) => {
-      state.countryActionsBarOpen = action.payload;
+    toggleCountryActionsBar: (state) => {
+      state.countryActionsBarOpen = !state.countryActionsBarOpen;
     },
     setMapZoomIn: (state, action) => {
       state.mapZoomIn = action.payload;
@@ -44,7 +44,7 @@ const appSlice = createSlice({
 export const {
   toggleMenuVisibility,
   toggleCountryDetailsOverlay,
-  setCountryActionsBar,
+  toggleCountryActionsBar,
   setMapZoomIn,
   setMapZoomOut,
   toggleMapProjection,

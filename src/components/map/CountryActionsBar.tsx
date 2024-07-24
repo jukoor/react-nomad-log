@@ -1,10 +1,11 @@
 import { Button, Slide, Typography } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
-import { setCountryActionsBar } from "../../store/appSlice";
 import { useEffect, useState } from "react";
 import styles from "../../styles/CountryActionBar.module.scss";
 import { CountryActionButtons } from "./CountryActionButtons";
 import ArrowCircleLeftOutlinedIcon from "@mui/icons-material/ArrowCircleLeftOutlined";
+import { setSelectedCountry } from "../../store/countrySlice";
+import { toggleCountryActionsBar } from "../../store/appSlice";
 
 export const CountryActionsBar = () => {
   const dispatch = useAppDispatch();
@@ -34,7 +35,10 @@ export const CountryActionsBar = () => {
             <div className={styles.countryActionsBar}>
               <div className={styles.cell}>
                 <Button
-                  onClick={() => dispatch(setCountryActionsBar(true))}
+                  onClick={() => {
+                    dispatch(toggleCountryActionsBar());
+                    dispatch(setSelectedCountry(null));
+                  }}
                   startIcon={<ArrowCircleLeftOutlinedIcon />}
                 >
                   Back to Map

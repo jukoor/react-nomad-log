@@ -14,11 +14,7 @@ import {
 import { getCountryData, getEmojiFlag } from "../../utils/countryDataUtils";
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import styles from "../../styles/Map.module.scss";
-import {
-  setCountryActionsBar,
-  setMapZoomIn,
-  setMapZoomOut,
-} from "../../store/appSlice";
+import { setMapZoomIn, setMapZoomOut } from "../../store/appSlice";
 import {
   updateCountriesBucketList,
   updateCountriesLived,
@@ -26,7 +22,6 @@ import {
 } from "../../store/userSlice";
 import { CountryCca2Type } from "../../types/CountryCca2Type";
 import { MapControls } from "./MapControls";
-import { MapListToggleControls } from "./MapListToggleControls";
 import { FormControlLabel, Switch } from "@mui/material";
 import { useCapitalsGeoPointsData } from "./CapitalsGeoPoints";
 
@@ -49,29 +44,46 @@ export const Map = () => {
   const userCountryLivedTemp = useAppSelector(
     (state) => state.User.countryLivedTemp
   );
-
   const countryData = useAppSelector((state) => state.Country.countries);
-  const actionBarOpen = useAppSelector(
+  const selectedCountry = useAppSelector(
+    (state) => state.Country.selectedCountry
+  );
+  const countryActionBarOpen = useAppSelector(
     (state) => state.App.countryActionsBarOpen
   );
-
-  const capitals = useCapitalsGeoPointsData();
 
   const mapZoomIn = useAppSelector((state) => state.App.mapZoomIn);
   const mapZoomOut = useAppSelector((state) => state.App.mapZoomOut);
   const mapProjection = useAppSelector((state) => state.App.mapProjectionGlobe);
 
+  const capitals = useCapitalsGeoPointsData();
+
   const chartRef = useRef<MapChart>();
   const worldSeriesRef = useRef<am5map.MapPolygonSeries>();
   const countrySeriesRef = useRef<am5map.MapPolygonSeries>();
+  const pointSeriesRef = useRef<am5map.MapPointSeries>();
 
   const [showVisited, setShowVisited] = useState(true);
   const [showBucketList, setShowBucketList] = useState(false);
   const [showLived, setShowLived] = useState(false);
 
-  const toggleVisited = () => setShowVisited(!showVisited);
-  const toggleBucketList = () => setShowBucketList(!showBucketList);
-  const toggleLived = () => setShowLived(!showLived);
+  const toggleVisited = () => {
+    setShowVisited(!showVisited);
+    setShowBucketList(false);
+    setShowLived(false);
+  };
+
+  const toggleBucketList = () => {
+    setShowBucketList(!showBucketList);
+    setShowVisited(false);
+    setShowLived(false);
+  };
+
+  const toggleLived = () => {
+    setShowLived(!showLived);
+    setShowVisited(false);
+    setShowBucketList(false);
+  };
 
   useEffect(() => {
     return () => {
@@ -81,7 +93,7 @@ export const Map = () => {
 
   useLayoutEffect(() => {
     let root: am5.Root | null = null;
-    if (!root && countryData.length > 0) {
+    if (!root && countryData.length > 0 && userData) {
       root = am5.Root.new("map");
 
       // Define a mapping of country ISO codes to colors
@@ -89,8 +101,8 @@ export const Map = () => {
       const bucketListColors: CountryColorMapping = {};
       const livedColors: CountryColorMapping = {};
 
-      const visitedCountriesColor = am5.color("#009876");
-      const bucketListColor = am5.color("#FFC107");
+      const visitedCountriesColor = am5.color("#ffc0cb");
+      const bucketListColor = am5.color("#3F51B5");
       const livedCountriesColor = am5.color("#00BCD4");
 
       // Only apply visited countries' colors if the user is logged in
@@ -119,7 +131,6 @@ export const Map = () => {
         am5map.MapChart.new(root, {
           panX: "rotateX",
           projection: am5map.geoMercator(),
-          // projection: am5map.geoOrthographic(),
           // homeGeoPoint: { latitude: 2, longitude: 2 },
         })
       );
@@ -140,6 +151,11 @@ export const Map = () => {
         templateField: "polygonSettings",
         stroke: am5.color("#eeeeee"),
         strokeWidth: 2,
+        // shadowColor: am5.color(0x000000),
+        // shadowBlur: 4,
+        // shadowOffsetX: 4,
+        // shadowOffsetY: 4,
+        // shadowOpacity: 0.1,
       });
 
       let tooltip = am5.Tooltip.new(root, {
@@ -159,7 +175,7 @@ export const Map = () => {
 
       worldSeries.mapPolygons.template.states.create("hover", {
         cursorOverStyle: "pointer",
-        fill: am5.color("#ffc0cb"), // pink
+        fill: am5.color("#eec1d0"), // pink
       });
 
       worldSeries.mapPolygons.template.events.on("pointerover", function () {
@@ -204,6 +220,8 @@ export const Map = () => {
             const zoomAnimation = worldSeries.zoomToDataItem(
               dataItem as DataItem<IMapPolygonSeriesDataItem>
             );
+            // hide capitals
+            pointSeries.hide();
 
             Promise.all([
               zoomAnimation?.waitForStop(),
@@ -239,8 +257,8 @@ export const Map = () => {
                       console.log("polygon fill error");
                     }
 
-                    countrySeries.show();
-                    worldSeries.hide(100);
+                    countrySeries.show(4000);
+                    worldSeries.hide(4000);
                   }
                 }
               )
@@ -252,16 +270,19 @@ export const Map = () => {
       );
 
       // Create capitals point series
-      var pointSeries = chart.series.push(am5map.MapPointSeries.new(root, {}));
+      const pointSeries = chart.series.push(
+        am5map.MapPointSeries.new(root, {})
+      );
 
       pointSeries.bullets.push(function () {
         if (root) {
           var circle = am5.Circle.new(root, {
-            radius: 4,
+            radius: 3,
             tooltipY: 0,
-            fill: am5.color(0xffba00),
+            opacity: 0.8,
+            fill: am5.color("#009688"),
             stroke: root.interfaceColors.get("background"),
-            strokeWidth: 2,
+            strokeWidth: 0,
             tooltipText: "{title}",
           });
 
@@ -271,16 +292,16 @@ export const Map = () => {
         }
       });
 
-      for (var i = 0; i < capitals.length; i++) {
-        var city = capitals[i];
-        addCity(city.longitude, city.latitude, city.title);
-      }
-
-      function addCity(longitude: number, latitude: number, title: string) {
+      const addCity = (longitude: number, latitude: number, title: string) => {
         pointSeries.data.push({
           geometry: { type: "Point", coordinates: [longitude, latitude] },
           title: title,
         });
+      };
+
+      for (var i = 0; i < capitals.length; i++) {
+        var city = capitals[i];
+        addCity(city.longitude, city.latitude, city.title);
       }
 
       let countrySeries = chart.series.push(
@@ -335,12 +356,13 @@ export const Map = () => {
       }
       worldSeries.data.setAll(data);
 
-      chart.appear(1000, 100);
+      chart.appear(1000, 300);
 
       // Set refs to make elements accessible
       chartRef.current = chart;
       worldSeriesRef.current = worldSeries;
       countrySeriesRef.current = countrySeries;
+      pointSeriesRef.current = pointSeries;
     }
 
     return () => {
@@ -348,17 +370,18 @@ export const Map = () => {
         root.dispose();
       }
     };
-  }, [userData, countryData, toggleVisited, toggleBucketList, toggleLived]);
+  }, [userData, countryData, showVisited, showBucketList, showLived]);
 
   // Custom effect to open the country details top bar
   useEffect(() => {
-    if (actionBarOpen) {
+    console.log(countryActionBarOpen);
+    if (countryActionBarOpen) {
       chartRef.current?.goHome();
       worldSeriesRef.current?.show();
       countrySeriesRef.current?.hide();
-      dispatch(clearSelectedCountry());
-      dispatch(setCountryActionsBar(false));
+      pointSeriesRef.current?.show();
 
+      // todo updaten damit nicht doppelt erscheint
       // update temp state after returning home so changes get visible without need for an reload
       if (userCountryVisitedTemp) {
         setTimeout(() => {
@@ -378,7 +401,7 @@ export const Map = () => {
         }, 1000);
       }
     }
-  }, [actionBarOpen]);
+  }, [countryActionBarOpen]);
 
   // Custom Zoom in
   useEffect(() => {
@@ -409,41 +432,41 @@ export const Map = () => {
       <div className={styles.map} id="map"></div>
       <MapControls />
 
-      <div style={{ position: "absolute" }}>
-        <FormControlLabel
-          control={
-            <Switch
-              checked={showVisited}
-              onChange={toggleVisited}
-              name="countriesVisited"
-            />
-          }
-          label="Visited"
-        />
+      {!selectedCountry && (
+        <div className={styles.listToggles}>
+          <FormControlLabel
+            control={
+              <Switch
+                checked={showVisited}
+                onChange={toggleVisited}
+                name="countriesVisited"
+              />
+            }
+            label="Visited"
+          />
 
-        <FormControlLabel
-          control={
-            <Switch
-              checked={showBucketList}
-              onChange={toggleBucketList}
-              name="countriesBucketList"
-            />
-          }
-          label="Bucket List"
-        />
-        <FormControlLabel
-          control={
-            <Switch
-              checked={showLived}
-              onChange={toggleLived}
-              name="countriesLived"
-            />
-          }
-          label="Lived"
-        />
-      </div>
-
-      {/* <MapListToggleControls /> */}
+          <FormControlLabel
+            control={
+              <Switch
+                checked={showBucketList}
+                onChange={toggleBucketList}
+                name="countriesBucketList"
+              />
+            }
+            label="Bucket List"
+          />
+          <FormControlLabel
+            control={
+              <Switch
+                checked={showLived}
+                onChange={toggleLived}
+                name="countriesLived"
+              />
+            }
+            label="Lived"
+          />
+        </div>
+      )}
     </>
   );
 };
