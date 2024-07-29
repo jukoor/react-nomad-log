@@ -50,7 +50,7 @@
 
   .navbarLoading {
     position: absolute;
-    top: 0;
+    top: $header-height;
     z-index: 1;
     width: 100%;
   }

@@ -7,31 +7,39 @@ import {
   Tabs,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
-import { useAppSelector } from "../../hooks/reduxHooks";
+import { useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import React from "react";
 import { CustomTabPanel } from "./CustomTabPanel";
 import { CountryList } from "./CountryList";
+import { clearSelectedCountry } from "../../store/countrySlice";
 
 export const CountryLists = () => {
   const userDataLoading = useAppSelector((state) => state.User.loading);
   const userData = useAppSelector((state) => state.User.selectedUser);
 
   const [activeTabIdx, setActiveTabIdx] = useState(0);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    return () => {
+      dispatch(clearSelectedCountry());
+    };
+  });
 
   // @ts-ignore
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setActiveTabIdx(newValue);
   };
 
-  function a11yProps(index: number) {
+  const a11yProps = (index: number) => {
     return {
       id: `simple-tab-${index}`,
       "aria-controls": `simple-tabpanel-${index}`,
     };
-  }
+  };
 
-  function tabLabel(label: string, length: number) {
+  const tabLabel = (label: string, length: number) => {
     let countryStringSingular = "Country";
     let countryStringPlural = "Countries";
 
@@ -43,7 +51,7 @@ export const CountryLists = () => {
         </span>
       </>
     );
-  }
+  };
 
   return (
     <>

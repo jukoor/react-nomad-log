@@ -10,7 +10,7 @@ import { toggleMenuVisibility } from "../store/appSlice";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 
 import { AvatarMenu } from "./AvatarMenu";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { AuthContext } from "../context/AuthProvider";
 import { NavLink } from "react-router-dom";
 
@@ -19,11 +19,19 @@ export const NavBar = () => {
 
   const countryData = useAppSelector((state) => state.Country);
 
-  const { isAuthenticated } = useContext(AuthContext);
+  const { isAuthenticated, isLoading } = useContext(AuthContext);
 
   const openSidebarMenu = () => {
     dispatch(toggleMenuVisibility());
   };
+
+  useEffect(() => {
+    console.log(countryData.loading);
+  }, [countryData.loading]);
+
+  useEffect(() => {
+    console.log(isLoading);
+  }, [isLoading]);
 
   return (
     <Box className={styles.appBarComp}>
@@ -61,11 +69,11 @@ export const NavBar = () => {
         </Toolbar>
       </AppBar>
 
-      {countryData.loading && (
+      {countryData.loading || isLoading ? (
         <Box className={styles.navbarLoading}>
           <LinearProgress color="secondary" sx={{ backgroundColor: "black" }} />
         </Box>
-      )}
+      ) : null}
     </Box>
   );
 };
