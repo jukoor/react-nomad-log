@@ -6,7 +6,7 @@ import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
 import { Color, DataItem } from "@amcharts/amcharts5";
 import { IComponentDataItem } from "@amcharts/amcharts5/.internal/core/render/Component";
 import { IMapPolygonSeriesDataItem, MapChart } from "@amcharts/amcharts5/map";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   setSelectedCountry,
   clearSelectedCountry,
@@ -45,9 +45,6 @@ export const Map = () => {
     (state) => state.User.countryLivedTemp
   );
   const countryData = useAppSelector((state) => state.Country.countries);
-  const selectedCountry = useAppSelector(
-    (state) => state.Country.selectedCountry
-  );
   const countryActionBarOpen = useAppSelector(
     (state) => state.App.countryActionsBarOpen
   );
@@ -63,6 +60,7 @@ export const Map = () => {
   const countrySeriesRef = useRef<am5map.MapPolygonSeries>();
   const pointSeriesRef = useRef<am5map.MapPointSeries>();
 
+  const [isCountryToggleVisible, setIsCountryToggleVisible] = useState(false);
   const [showVisited, setShowVisited] = useState(true);
   const [showBucketList, setShowBucketList] = useState(false);
   const [showLived, setShowLived] = useState(false);
@@ -91,10 +89,12 @@ export const Map = () => {
     };
   }, []);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     let root: am5.Root | null = null;
     if (!root && countryData.length > 0 && userData) {
       root = am5.Root.new("map");
+
+      console.log("re-render");
 
       // Define a mapping of country ISO codes to colors
       const countryColors: CountryColorMapping = {};
@@ -105,7 +105,7 @@ export const Map = () => {
       const bucketListColor = am5.color("#3F51B5");
       const livedCountriesColor = am5.color("#00BCD4");
 
-      // Only apply visited countries' colors if the user is logged in
+      // Only apply country colors if the user is logged in
       if (userData && userData.countriesVisited) {
         // Assign the specified color to all visited countries
         userData.countriesVisited.forEach((country: CountryCode) => {
@@ -129,9 +129,15 @@ export const Map = () => {
 
       const chart = root.container.children.push(
         am5map.MapChart.new(root, {
+          paddingRight: 50,
+          paddingTop: 50,
+          paddingBottom: 50,
+          paddingLeft: 50,
           panX: "rotateX",
-          projection: am5map.geoMercator(),
-          // homeGeoPoint: { latitude: 2, longitude: 2 },
+          panY: "none",
+          projection: mapProjection
+            ? am5map.geoOrthographic()
+            : am5map.geoMercator(),
         })
       );
 
@@ -223,6 +229,8 @@ export const Map = () => {
             // hide capitals
             pointSeries.hide();
 
+            // hide country toggles
+            setIsCountryToggleVisible(false);
             Promise.all([
               zoomAnimation?.waitForStop(),
               am5.net.load(
@@ -256,9 +264,8 @@ export const Map = () => {
                     } else {
                       console.log("polygon fill error");
                     }
-
-                    countrySeries.show(4000);
-                    worldSeries.hide(4000);
+                    worldSeries.hide(1000);
+                    countrySeries.show(2500);
                   }
                 }
               )
@@ -312,7 +319,7 @@ export const Map = () => {
 
       countrySeries.mapPolygons.template.setAll({
         tooltipText: "{name}",
-        stroke: am5.color("#FFFFFF"), // White border color
+        stroke: am5.color("#FFFFFF"),
         strokeWidth: 2,
         interactive: true,
         fill: am5.color(0xffa3f6),
@@ -357,6 +364,7 @@ export const Map = () => {
       worldSeries.data.setAll(data);
 
       chart.appear(1000, 300);
+      setIsCountryToggleVisible(true);
 
       // Set refs to make elements accessible
       chartRef.current = chart;
@@ -370,7 +378,14 @@ export const Map = () => {
         root.dispose();
       }
     };
-  }, [userData, countryData, showVisited, showBucketList, showLived]);
+  }, [
+    userData,
+    countryData,
+    mapProjection,
+    showVisited,
+    showBucketList,
+    showLived,
+  ]);
 
   // Custom effect to open the country details top bar
   useEffect(() => {
@@ -380,30 +395,34 @@ export const Map = () => {
       worldSeriesRef.current?.show();
       countrySeriesRef.current?.hide();
       pointSeriesRef.current?.show();
+      console.log(userCountryBucketListTemp);
+      dispatch(updateCountriesBucketList(userCountryBucketListTemp));
+      dispatch(updateCountriesVisited(userCountryVisitedTemp));
+      dispatch(updateCountriesLived(userCountryLivedTemp));
 
       // todo updaten damit nicht doppelt erscheint
       // update temp state after returning home so changes get visible without need for an reload
-      if (userCountryVisitedTemp) {
-        setTimeout(() => {
-          dispatch(updateCountriesVisited(userCountryVisitedTemp));
-        }, 1000);
-      }
+      // if (userCountryVisitedTemp) {
+      //   setTimeout(() => {
+      //     dispatch(updateCountriesVisited(userCountryVisitedTemp));
+      //   }, 0);
+      // }
 
-      if (userCountryBucketListTemp) {
-        setTimeout(() => {
-          dispatch(updateCountriesBucketList(userCountryBucketListTemp));
-        }, 1000);
-      }
+      // if (userCountryBucketListTemp) {
+      //   setTimeout(() => {
+      //     dispatch(updateCountriesBucketList(userCountryBucketListTemp));
+      //   }, 0);
+      // }
 
-      if (userCountryLivedTemp) {
-        setTimeout(() => {
-          dispatch(updateCountriesLived(userCountryLivedTemp));
-        }, 1000);
-      }
+      // if (userCountryLivedTemp) {
+      //   setTimeout(() => {
+      //     dispatch(updateCountriesLived(userCountryLivedTemp));
+      //   }, 0);
+      // }
     }
   }, [countryActionBarOpen]);
 
-  // Custom Zoom in
+  // Zoom in
   useEffect(() => {
     if (mapZoomIn) {
       chartRef.current?.zoomIn();
@@ -411,7 +430,7 @@ export const Map = () => {
     }
   }, [mapZoomIn]);
 
-  // Custom Zoom out
+  // Zoom out
   useEffect(() => {
     if (mapZoomOut) {
       chartRef.current?.zoomOut();
@@ -419,20 +438,23 @@ export const Map = () => {
     }
   }, [mapZoomOut]);
 
-  useEffect(() => {
-    if (mapProjection === false) {
-      chartRef.current?.set("projection", am5map.geoMercator());
-    } else if (mapProjection === true) {
-      chartRef.current?.set("projection", am5map.geoOrthographic());
-    }
-  }, [mapProjection]);
+  // useEffect(() => {
+  //   if (mapProjection === false) {
+  //     chartRef.current?.set("projection", am5map.geoMercator());
+  //   } else if (mapProjection === true) {
+  //     chartRef.current?.set("projection", am5map.geoOrthographic());
+
+  //     chartRef.current?.set("homeGeoPoint", { latitude: 50, longitude: 2 });
+  //     console.log("ok");
+  //   }
+  // }, [mapProjection]);
 
   return (
     <>
       <div className={styles.map} id="map"></div>
       <MapControls />
 
-      {!selectedCountry && (
+      {isCountryToggleVisible && (
         <div className={styles.listToggles}>
           <FormControlLabel
             control={
