@@ -11,8 +11,12 @@ const appSlice = createSlice({
     mapZoomOut: false,
     mapProjectionGlobe: null,
     snackbarOptions: { open: false, message: "", severity: "success" },
+    countryDetailView: null,
   } as AppSliceInnerType,
   reducers: {
+    setCountryDetailView: (state, action) => {
+      state.countryDetailView = action.payload;
+    },
     toggleMenuVisibility: (state) => {
       state.menuOpen = !state.menuOpen;
     },
@@ -49,6 +53,7 @@ export const {
   setMapZoomOut,
   toggleMapProjection,
   setSnackbarOptions,
+  setCountryDetailView,
 } = appSlice.actions;
 
 export default appSlice.reducer;

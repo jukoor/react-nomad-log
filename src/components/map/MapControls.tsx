@@ -13,8 +13,9 @@ import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 
 export const MapControls = () => {
   const mapProjection = useAppSelector((state) => state.App.mapProjectionGlobe);
-  const selectedCountry = useAppSelector(
-    (state) => state.Country.selectedCountry
+
+  const countryDetailView = useAppSelector(
+    (state) => state.App.countryDetailView
   );
   const dispatch = useAppDispatch();
 
@@ -33,7 +34,7 @@ export const MapControls = () => {
         <Tooltip title="Change map to globe" placement="right" arrow>
           <IconButton
             className={`${
-              selectedCountry
+              countryDetailView === false
                 ? `${styles.actionBtn} ${styles.first} ${styles.disabled}`
                 : `${styles.actionBtn} ${styles.first}`
             }`}

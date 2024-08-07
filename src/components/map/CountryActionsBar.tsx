@@ -4,14 +4,16 @@ import { useEffect, useState } from "react";
 import styles from "../../styles/CountryActionBar.module.scss";
 import { CountryActionButtons } from "./CountryActionButtons";
 import ArrowCircleLeftOutlinedIcon from "@mui/icons-material/ArrowCircleLeftOutlined";
-import { setSelectedCountry } from "../../store/countrySlice";
-import { toggleCountryActionsBar } from "../../store/appSlice";
+import { setCountryDetailView } from "../../store/appSlice";
 
 export const CountryActionsBar = () => {
   const dispatch = useAppDispatch();
 
   const selectedCountry = useAppSelector(
     (state) => state.Country.selectedCountry
+  );
+  const countryDetailView = useAppSelector(
+    (state) => state.App.countryDetailView
   );
 
   const [startSlideAnim, setStartSlideAnim] = useState(false);
@@ -24,7 +26,7 @@ export const CountryActionsBar = () => {
 
   return (
     <>
-      {selectedCountry && (
+      {countryDetailView === false && (
         <>
           <Slide
             direction="down"
@@ -36,8 +38,7 @@ export const CountryActionsBar = () => {
               <div className={styles.cell}>
                 <Button
                   onClick={() => {
-                    dispatch(toggleCountryActionsBar());
-                    dispatch(setSelectedCountry(null));
+                    dispatch(setCountryDetailView(true));
                   }}
                   startIcon={<ArrowCircleLeftOutlinedIcon />}
                 >

@@ -11,6 +11,7 @@ export type AppSliceInnerType = {
   mapZoomIn: boolean;
   mapZoomOut: boolean;
   mapProjectionGlobe: boolean | null;
+  countryDetailView: boolean | null;
   snackbarOptions: {
     open: boolean;
     message: string;

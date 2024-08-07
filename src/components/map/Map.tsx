@@ -14,7 +14,11 @@ import {
 import { getCountryData, getEmojiFlag } from "../../utils/countryDataUtils";
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import styles from "../../styles/Map.module.scss";
-import { setMapZoomIn, setMapZoomOut } from "../../store/appSlice";
+import {
+  setMapZoomIn,
+  setMapZoomOut,
+  setCountryDetailView,
+} from "../../store/appSlice";
 import {
   updateCountriesBucketList,
   updateCountriesLived,
@@ -22,7 +26,7 @@ import {
 } from "../../store/userSlice";
 import { CountryCca2Type } from "../../types/CountryCca2Type";
 import { MapControls } from "./MapControls";
-import { FormControlLabel, Switch } from "@mui/material";
+import { Badge, FormControlLabel, Switch } from "@mui/material";
 import { useCapitalsGeoPointsData } from "./CapitalsGeoPoints";
 
 type CountryCode = string;
@@ -45,8 +49,8 @@ export const Map = () => {
     (state) => state.User.countryLivedTemp
   );
   const countryData = useAppSelector((state) => state.Country.countries);
-  const countryActionBarOpen = useAppSelector(
-    (state) => state.App.countryActionsBarOpen
+  const countryDetailView = useAppSelector(
+    (state) => state.App.countryDetailView
   );
 
   const mapZoomIn = useAppSelector((state) => state.App.mapZoomIn);
@@ -129,17 +133,26 @@ export const Map = () => {
 
       const chart = root.container.children.push(
         am5map.MapChart.new(root, {
-          paddingRight: 50,
-          paddingTop: 50,
-          paddingBottom: 50,
-          paddingLeft: 50,
           panX: "rotateX",
           panY: "none",
-          projection: mapProjection
+          projection: !mapProjection
             ? am5map.geoOrthographic()
             : am5map.geoMercator(),
+          scale: !mapProjection ? 0.8 : 1,
+          paddingLeft: !mapProjection ? window.innerWidth * 0.2 : 0,
+          paddingTop: !mapProjection ? window.innerWidth * 0.1 : 0,
         })
       );
+
+      var graticuleSeries = chart.series.insertIndex(
+        0,
+        am5map.GraticuleSeries.new(root, {})
+      );
+
+      graticuleSeries.mapLines.template.setAll({
+        stroke: am5.color(0x000000),
+        strokeOpacity: 0.1,
+      });
 
       // Create world map polygon series
       const worldSeries = chart.series.push(
@@ -260,12 +273,13 @@ export const Map = () => {
                             getCountryData(data.id, countryData)
                           )
                         );
+                        dispatch(setCountryDetailView(false));
                       }
                     } else {
                       console.log("polygon fill error");
                     }
                     worldSeries.hide(1000);
-                    countrySeries.show(2500);
+                    countrySeries.show(2000);
                   }
                 }
               )
@@ -389,38 +403,21 @@ export const Map = () => {
 
   // Custom effect to open the country details top bar
   useEffect(() => {
-    console.log(countryActionBarOpen);
-    if (countryActionBarOpen) {
+    console.log(countryDetailView);
+
+    // back to world map button on country action bar
+    if (countryDetailView) {
       chartRef.current?.goHome();
       worldSeriesRef.current?.show();
       countrySeriesRef.current?.hide();
       pointSeriesRef.current?.show();
-      console.log(userCountryBucketListTemp);
-      dispatch(updateCountriesBucketList(userCountryBucketListTemp));
-      dispatch(updateCountriesVisited(userCountryVisitedTemp));
-      dispatch(updateCountriesLived(userCountryLivedTemp));
-
-      // todo updaten damit nicht doppelt erscheint
-      // update temp state after returning home so changes get visible without need for an reload
-      // if (userCountryVisitedTemp) {
-      //   setTimeout(() => {
-      //     dispatch(updateCountriesVisited(userCountryVisitedTemp));
-      //   }, 0);
-      // }
-
-      // if (userCountryBucketListTemp) {
-      //   setTimeout(() => {
-      //     dispatch(updateCountriesBucketList(userCountryBucketListTemp));
-      //   }, 0);
-      // }
-
-      // if (userCountryLivedTemp) {
-      //   setTimeout(() => {
-      //     dispatch(updateCountriesLived(userCountryLivedTemp));
-      //   }, 0);
-      // }
+      setTimeout(() => {
+        dispatch(updateCountriesBucketList(userCountryBucketListTemp));
+        dispatch(updateCountriesVisited(userCountryVisitedTemp));
+        dispatch(updateCountriesLived(userCountryLivedTemp));
+      }, 1000);
     }
-  }, [countryActionBarOpen]);
+  }, [countryDetailView]);
 
   // Zoom in
   useEffect(() => {
@@ -438,17 +435,6 @@ export const Map = () => {
     }
   }, [mapZoomOut]);
 
-  // useEffect(() => {
-  //   if (mapProjection === false) {
-  //     chartRef.current?.set("projection", am5map.geoMercator());
-  //   } else if (mapProjection === true) {
-  //     chartRef.current?.set("projection", am5map.geoOrthographic());
-
-  //     chartRef.current?.set("homeGeoPoint", { latitude: 50, longitude: 2 });
-  //     console.log("ok");
-  //   }
-  // }, [mapProjection]);
-
   return (
     <>
       <div className={styles.map} id="map"></div>
@@ -458,35 +444,53 @@ export const Map = () => {
         <div className={styles.listToggles}>
           <FormControlLabel
             control={
-              <Switch
-                checked={showVisited}
-                onChange={toggleVisited}
-                name="countriesVisited"
-              />
+              <Badge
+                badgeContent={userData?.countriesVisited?.length}
+                color="secondary"
+              >
+                <Switch
+                  checked={showVisited}
+                  onChange={toggleVisited}
+                  name="countriesVisited"
+                />
+              </Badge>
             }
             label="Visited"
           />
 
-          <FormControlLabel
-            control={
-              <Switch
-                checked={showBucketList}
-                onChange={toggleBucketList}
-                name="countriesBucketList"
-              />
-            }
-            label="Bucket List"
-          />
-          <FormControlLabel
-            control={
-              <Switch
-                checked={showLived}
-                onChange={toggleLived}
-                name="countriesLived"
-              />
-            }
-            label="Lived"
-          />
+          <Badge
+            badgeContent={userData?.countriesBucketList?.length}
+            color="secondary"
+            sx={{ top: "44%" }}
+          >
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={showBucketList}
+                  onChange={toggleBucketList}
+                  name="countriesBucketList"
+                />
+              }
+              label="Bucket List"
+            />
+          </Badge>
+
+          <Badge
+            badgeContent={userData?.countriesLived?.length}
+            color="secondary"
+            sx={{ top: "44%" }}
+          >
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={showLived}
+                  onChange={toggleLived}
+                  name="countriesLived"
+                />
+              }
+              label="Lived"
+            />
+          </Badge>
         </div>
       )}
     </>

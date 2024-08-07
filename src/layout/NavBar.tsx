@@ -10,7 +10,7 @@ import { toggleMenuVisibility } from "../store/appSlice";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 
 import { AvatarMenu } from "./AvatarMenu";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { AuthContext } from "../context/AuthProvider";
 import { NavLink } from "react-router-dom";
 
@@ -24,14 +24,6 @@ export const NavBar = () => {
   const openSidebarMenu = () => {
     dispatch(toggleMenuVisibility());
   };
-
-  useEffect(() => {
-    console.log(countryData.loading);
-  }, [countryData.loading]);
-
-  useEffect(() => {
-    console.log(isLoading);
-  }, [isLoading]);
 
   return (
     <Box className={styles.appBarComp}>
