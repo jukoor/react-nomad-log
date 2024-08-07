@@ -105,9 +105,10 @@ export const Map = () => {
       const bucketListColors: CountryColorMapping = {};
       const livedColors: CountryColorMapping = {};
 
-      const visitedCountriesColor = am5.color("#ffc0cb");
-      const bucketListColor = am5.color("#3F51B5");
-      const livedCountriesColor = am5.color("#00BCD4");
+      const visitedCountriesColor = am5.color("#4bc69b"); // light green
+      const bucketListColor = am5.color("#8795df"); // light blue
+      const livedCountriesColor = am5.color("#fda377"); // light orange
+      const countryDefaultBgColor = am5.color("#d3d6de"); // light grey/blue
 
       // Only apply country colors if the user is logged in
       if (userData && userData.countriesVisited) {
@@ -138,9 +139,9 @@ export const Map = () => {
           projection: !mapProjection
             ? am5map.geoOrthographic()
             : am5map.geoMercator(),
-          scale: !mapProjection ? 0.8 : 1,
-          paddingLeft: !mapProjection ? window.innerWidth * 0.2 : 0,
-          paddingTop: !mapProjection ? window.innerWidth * 0.1 : 0,
+          scale: !mapProjection ? 0.85 : 1,
+          paddingLeft: !mapProjection ? window.innerWidth * 0.1 : 0,
+          paddingTop: !mapProjection ? window.innerWidth * 0.05 : 0,
         })
       );
 
@@ -166,7 +167,7 @@ export const Map = () => {
         tooltipHTML:
           "<span class='mapTooltipEmoji'>{emoji}</span> <span class='mapTooltipText'>{name}</span>",
         interactive: true,
-        fill: am5.color("#cacaca"),
+        fill: am5.color("#696999"),
         templateField: "polygonSettings",
         stroke: am5.color("#eeeeee"),
         strokeWidth: 2,
@@ -215,6 +216,9 @@ export const Map = () => {
             "id" in polygon.dataItem.dataContext
           ) {
             const countryId = polygon.dataItem.dataContext.id as CountryCode;
+
+            polygon.set("fill", countryDefaultBgColor);
+
             if (showVisited && countryColors[countryId]) {
               polygon.set("fill", countryColors[countryId]);
             }
@@ -336,7 +340,7 @@ export const Map = () => {
         stroke: am5.color("#FFFFFF"),
         strokeWidth: 2,
         interactive: true,
-        fill: am5.color(0xffa3f6),
+        fill: am5.color("#FFFFFF"),
       });
 
       let countryTooltip = am5.Tooltip.new(root, {
@@ -444,53 +448,54 @@ export const Map = () => {
         <div className={styles.listToggles}>
           <FormControlLabel
             control={
-              <Badge
-                badgeContent={userData?.countriesVisited?.length}
-                color="secondary"
-              >
+              <>
                 <Switch
                   checked={showVisited}
                   onChange={toggleVisited}
                   name="countriesVisited"
                 />
-              </Badge>
+              </>
             }
             label="Visited"
           />
+          <Badge
+            badgeContent={userData?.countriesVisited?.length}
+            color="secondary"
+            sx={{ right: "-10px", top: "-23px" }}
+          ></Badge>
 
+          <FormControlLabel
+            control={
+              <Switch
+                checked={showBucketList}
+                onChange={toggleBucketList}
+                name="countriesBucketList"
+              />
+            }
+            label="Bucket List"
+          />
           <Badge
             badgeContent={userData?.countriesBucketList?.length}
             color="secondary"
-            sx={{ top: "44%" }}
-          >
-            <FormControlLabel
-              control={
-                <Switch
-                  checked={showBucketList}
-                  onChange={toggleBucketList}
-                  name="countriesBucketList"
-                />
-              }
-              label="Bucket List"
-            />
-          </Badge>
+            sx={{ right: "-10px", top: "-23px" }}
+          ></Badge>
+
+          <FormControlLabel
+            control={
+              <Switch
+                checked={showLived}
+                onChange={toggleLived}
+                name="countriesLived"
+              />
+            }
+            label="Lived"
+          />
 
           <Badge
             badgeContent={userData?.countriesLived?.length}
             color="secondary"
-            sx={{ top: "44%" }}
-          >
-            <FormControlLabel
-              control={
-                <Switch
-                  checked={showLived}
-                  onChange={toggleLived}
-                  name="countriesLived"
-                />
-              }
-              label="Lived"
-            />
-          </Badge>
+            sx={{ right: "-10px", top: "-23px" }}
+          ></Badge>
         </div>
       )}
     </>
