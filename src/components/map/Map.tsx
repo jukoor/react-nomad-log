@@ -63,6 +63,7 @@ export const Map = () => {
   const worldSeriesRef = useRef<am5map.MapPolygonSeries>();
   const countrySeriesRef = useRef<am5map.MapPolygonSeries>();
   const pointSeriesRef = useRef<am5map.MapPointSeries>();
+  const graticuleSeriesRef = useRef<am5map.GraticuleSeries>();
 
   const [isCountryToggleVisible, setIsCountryToggleVisible] = useState(false);
   const [showVisited, setShowVisited] = useState(true);
@@ -97,8 +98,6 @@ export const Map = () => {
     let root: am5.Root | null = null;
     if (!root && countryData.length > 0 && userData) {
       root = am5.Root.new("map");
-
-      console.log("re-render");
 
       // Define a mapping of country ISO codes to colors
       const countryColors: CountryColorMapping = {};
@@ -136,7 +135,7 @@ export const Map = () => {
         am5map.MapChart.new(root, {
           panX: "rotateX",
           panY: "none",
-          projection: !mapProjection
+          projection: mapProjection
             ? am5map.geoOrthographic()
             : am5map.geoMercator(),
           scale: !mapProjection ? 0.85 : 1,
@@ -154,6 +153,10 @@ export const Map = () => {
         stroke: am5.color(0x000000),
         strokeOpacity: 0.1,
       });
+
+      if (!mapProjection) {
+        graticuleSeries.hide();
+      }
 
       // Create world map polygon series
       const worldSeries = chart.series.push(
@@ -389,6 +392,7 @@ export const Map = () => {
       worldSeriesRef.current = worldSeries;
       countrySeriesRef.current = countrySeries;
       pointSeriesRef.current = pointSeries;
+      graticuleSeriesRef.current = graticuleSeries;
     }
 
     return () => {
@@ -407,8 +411,6 @@ export const Map = () => {
 
   // Custom effect to open the country details top bar
   useEffect(() => {
-    console.log(countryDetailView);
-
     // back to world map button on country action bar
     if (countryDetailView) {
       chartRef.current?.goHome();
@@ -422,6 +424,10 @@ export const Map = () => {
       }, 1000);
     }
   }, [countryDetailView]);
+
+  useEffect(() => {
+    document.getElementById("root")?.classList.toggle("globe");
+  }, [mapProjection]);
 
   // Zoom in
   useEffect(() => {
