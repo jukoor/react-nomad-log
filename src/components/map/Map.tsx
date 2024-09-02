@@ -423,7 +423,16 @@ export const Map = () => {
   }, [countryDetailView]);
 
   useEffect(() => {
-    document.getElementById("root")?.classList.toggle("globe");
+    console.log(mapProjection);
+    if (mapProjection) {
+      document.getElementById("root")?.classList.add("globe");
+    } else if (mapProjection === false) {
+      document.getElementById("root")?.classList.remove("globe");
+    }
+
+    () => {
+      document.getElementById("root")?.classList.remove("globe");
+    };
   }, [mapProjection]);
 
   // Zoom in

@@ -5,9 +5,6 @@
   min-height: 100vh;
 }
 
-:global(#root:not(.globe)) {
-  background-image: none;
-}
 .mapContainer {
   width: 100%;
   height: $map-height;
