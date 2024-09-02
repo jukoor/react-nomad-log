@@ -129,6 +129,6 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-src/services/firebaseConfig.tsx
+src/config/firebaseConfig.tsx
 .DS_Store
 .vscode

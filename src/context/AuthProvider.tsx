@@ -9,7 +9,7 @@ import {
 import { FC, ReactNode, createContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { initializeApp } from "firebase/app";
-import { firebaseConfig } from "../services/firebaseConfig";
+import { firebaseConfig } from "../config/firebaseConfig";
 import { getFirestore } from "firebase/firestore";
 import { useAppDispatch } from "../hooks/reduxHooks";
 import { resetSelectedUser } from "../store/userSlice";
