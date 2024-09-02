@@ -11,6 +11,7 @@ import {
   InputAdornment,
   InputLabel,
 } from "@mui/material";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
 import { VisibilityOff, Visibility } from "@mui/icons-material";
 import { useContext, useState } from "react";
@@ -200,7 +201,13 @@ export const SignUpForm = () => {
         <Button
           type="submit"
           disabled={loading}
-          startIcon={loading ? <CircularProgress size={18} /> : <></>}
+          startIcon={
+            loading ? (
+              <CircularProgress size={18} sx={{ color: "white" }} />
+            ) : (
+              <FavoriteBorderIcon />
+            )
+          }
         >
           {loading ? "Loading..." : "Sign Up"}
         </Button>

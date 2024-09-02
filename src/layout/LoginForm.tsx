@@ -15,6 +15,7 @@ import {
 import { VisibilityOff, Visibility } from "@mui/icons-material";
 import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthProvider";
+import LoginIcon from "@mui/icons-material/Login";
 
 export const LoginForm = () => {
   const {
@@ -140,7 +141,13 @@ export const LoginForm = () => {
         <Button
           type="submit"
           disabled={loading}
-          startIcon={loading ? <CircularProgress size={18} /> : <></>}
+          startIcon={
+            loading ? (
+              <CircularProgress size={18} sx={{ color: "white" }} />
+            ) : (
+              <LoginIcon />
+            )
+          }
         >
           {loading ? "Loading..." : "Login"}
         </Button>

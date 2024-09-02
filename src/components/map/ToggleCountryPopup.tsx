@@ -62,8 +62,6 @@ export const ToggleCountryPopup = () => {
       ...prevCountryList,
       [name]: checked,
     }));
-    console.log(name);
-    console.log(checked);
 
     // Determine action based on the switch's value
     const action = checked ? "add" : "remove";
