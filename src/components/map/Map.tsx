@@ -138,9 +138,6 @@ export const Map = () => {
           projection: mapProjection
             ? am5map.geoOrthographic()
             : am5map.geoMercator(),
-          scale: !mapProjection ? 0.85 : 1,
-          paddingLeft: !mapProjection ? window.innerWidth * 0.1 : 0,
-          paddingTop: !mapProjection ? window.innerWidth * 0.05 : 0,
         })
       );
 
@@ -162,7 +159,7 @@ export const Map = () => {
       const worldSeries = chart.series.push(
         am5map.MapPolygonSeries.new(root, {
           geoJSON: am5geodata_worldHigh,
-          exclude: ["AQ"], // Antartiqua
+          exclude: mapProjection !== true ? ["AQ"] : [], // Exclude Antartiqua in map view
         })
       );
 
@@ -454,13 +451,11 @@ export const Map = () => {
         <div className={styles.listToggles}>
           <FormControlLabel
             control={
-              <>
-                <Switch
-                  checked={showVisited}
-                  onChange={toggleVisited}
-                  name="countriesVisited"
-                />
-              </>
+              <Switch
+                checked={showVisited}
+                onChange={toggleVisited}
+                name="countriesVisited"
+              />
             }
             label="Visited"
           />
