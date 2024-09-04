@@ -1,32 +1,33 @@
 # Nomad Log - Your Personal Travel Tracker
 
-Nomad Log is a React application built using the Material-UI framework. It provides users with a convenient platform to track their visited countries, countries they have lived in, and countries they aspire to visit, all in one place. With seamless integration with Google authentication, users can create profiles effortlessly and securely.
+Nomad Log is a responsive React application built using the Material-UI framework. It offers users a modern platform to track their visited countries, countries they have lived in, and countries they plan to visit, all in one place. With Google authentication, users can create and share profiles easy and secure.
+
+## Highlights:
+
+- 🔥 **Key Tools**: [Vite](https://github.com/vitejs/vite) + [React](https://github.com/facebook/react) + [TypeScript](https://github.com/microsoft/TypeScript)
+- 🎨 **UI**: Material UI + SCSS + Responsive
+- 🔒 **Authentication**: Google Firebase Authentication
+- ☁️ **Datastorage**: Google Firestore (NoSQL DB)
+- 🛰️ **State Management**: Redux
 
 ## Features
 
-### 1. User Authentication
+### Map
 
-- Utilizes Google authentication for easy and secure user registration and login.
-- Personalized user profiles for tracking travel experiences.
+- Toggle countries on multiple lists: Visited, Lived In, Bucket List
+- Display detailed information about each country, provided by [REST Countries](https://restcountries.com/)
+- Zoom in on countries to show their states
+- Switch between map and globe view
 
-### 2. Travel Tracking
+### Profile
 
-- Allows users to mark countries they have visited, countries they have lived in, and countries they aspire to visit.
-- Intuitive interface for adding and removing countries from different lists.
+- User profile with bio and travel stats
+- Continents visited
+- 3 country lists in data grids with action buttons
 
-### 3. Firebase Integration
+### Settings
 
-- Data storage powered by Google Firebase Firestore for reliable and scalable performance.
-- Real-time updates ensure that users' travel information is always up-to-date.
-
-### 4. Responsive Design
-
-- Built with React and Material-UI for a responsive and visually appealing user experience across devices.
-
-### 5. User-Friendly Interface
-
-- Intuitive design and smooth navigation make it easy for users to manage their travel lists and profiles.
-- Clear visual indicators for visited, lived-in, and bucket list countries.
+- Update user profile
 
 ## Getting Started
 
@@ -34,10 +35,10 @@ To run the application locally:
 
 1.  Clone this repository to your local machine.
 2.  Install dependencies using `npm install`.
-3.  Set up a Firebase project and configure your Firebase credentials.
+3.  Set up a Firebase project and configure your Firebase credentials. [HOW TO](https://firebase.google.com/docs/web/setup)
 4.  Enable Google authentication in your Firebase project.
-5.  Update Firebase configuration in `src/firebase/config.js`.
-6.  Run the application using `npm start`.
+5.  Update Firebase configuration in `src/config/firebaseConfig.tsx`.
+6.  Run the application using `npm run dev`.
 
 ## Contributing
 
@@ -45,10 +46,4 @@ Contributions are welcome! If you have any ideas for improvements or new feature
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Acknowledgments
-
-- Material-UI for providing a powerful framework for building beautiful React applications.
-- Google Firebase for offering seamless authentication and database solutions.
-- React community for creating a vibrant ecosystem of reusable components and libraries.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/jukoor/react-nomad-log/blob/main/LICENCE.txt) file for details.
