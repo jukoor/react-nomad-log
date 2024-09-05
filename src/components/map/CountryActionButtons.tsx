@@ -15,10 +15,11 @@ export const CountryActionButtons = () => {
   return (
     <div className={isAuthenticated ? styles.auth : ""}>
       <Button
+        className={styles.actionBtn}
         onClick={() => dispatch(toggleCountryDetailsOverlay())}
         startIcon={<InfoOutlinedIcon />}
       >
-        Details
+        <span className={styles.label}>Details</span>
       </Button>
       {isAuthenticated ? <ToggleCountryPopup /> : null}
     </div>

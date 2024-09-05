@@ -5,6 +5,7 @@ import styles from "../../styles/CountryActionBar.module.scss";
 import { CountryActionButtons } from "./CountryActionButtons";
 import ArrowCircleLeftOutlinedIcon from "@mui/icons-material/ArrowCircleLeftOutlined";
 import { setCountryDetailView } from "../../store/appSlice";
+import btnStyles from "../../styles/CountryActionButtons.module.scss";
 
 export const CountryActionsBar = () => {
   const dispatch = useAppDispatch();
@@ -37,17 +38,21 @@ export const CountryActionsBar = () => {
             <div className={styles.countryActionsBar}>
               <div className={styles.cell}>
                 <Button
+                  className={btnStyles.actionBtn}
                   onClick={() => {
                     dispatch(setCountryDetailView(true));
                   }}
                   startIcon={<ArrowCircleLeftOutlinedIcon />}
                 >
-                  Back to Map
+                  <span className={btnStyles.label}>Back to Map</span>
                 </Button>
               </div>
               <div className={`${styles.cell} ${styles.center}`}>
                 <Typography variant="h6" component="span">
-                  {selectedCountry?.flag} {selectedCountry?.name.common}
+                  {selectedCountry?.flag}{" "}
+                  <span className={styles.countryName}>
+                    {selectedCountry?.name.common}
+                  </span>
                 </Typography>
               </div>
               <div className={`${styles.cell} ${styles.right}`}>

@@ -10,6 +10,10 @@
   height: $map-height;
   top: $header-height;
 
+  @media (max-width: $bp-sd) {
+    top: 56px;
+  }
+
   .map {
     width: 86%;
     height: 86%;

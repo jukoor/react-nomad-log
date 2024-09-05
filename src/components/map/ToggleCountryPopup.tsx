@@ -14,6 +14,7 @@ import {
   CountryList,
   useToggleCountryInList,
 } from "../../hooks/useToggleCountryInList";
+import styles from "../../styles/CountryActionButtons.module.scss";
 
 export const ToggleCountryPopup = () => {
   const userData = useAppSelector((state) => state.User);
@@ -77,12 +78,13 @@ export const ToggleCountryPopup = () => {
   return (
     <>
       <Button
+        className={styles.actionBtn}
         aria-describedby={id}
         type="button"
         onClick={handleOpenPopup}
         startIcon={<CheckCircleOutlineOutlinedIcon />}
       >
-        Set On Lists
+        <span className={styles.label}>Set On Lists</span>
       </Button>
 
       <Menu

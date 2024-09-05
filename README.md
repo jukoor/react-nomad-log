@@ -2,7 +2,7 @@
 
 Nomad Log is a responsive React application built using the Material-UI framework. It offers users a modern platform to track their visited countries, countries they have lived in, and countries they plan to visit, all in one place. With Google authentication, users can create and share profiles easy and secure.
 
-## Highlights:
+## Highlights
 
 - 🔥 **Key Tools**: [Vite](https://github.com/vitejs/vite) + [React](https://github.com/facebook/react) + [TypeScript](https://github.com/microsoft/TypeScript)
 - 🎨 **UI**: Material UI + SCSS + Responsive

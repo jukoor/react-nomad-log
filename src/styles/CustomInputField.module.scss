@@ -6,4 +6,9 @@
       padding: 9px 12px;
     }
   }
+  label:not(:global(.MuiInputLabel-shrink)) {
+    @media (max-width: $bp-md) {
+      transform: translate(14px, 10px) scale(1);
+    }
+  }
 }
