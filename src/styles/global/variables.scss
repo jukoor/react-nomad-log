@@ -11,7 +11,7 @@ $color-navbar-bg-home: #333;
 
 /* Sizes */
 $header-height: 64px;
-$map-height: calc(100vh - $header-height);
+$map-height: calc(100svh - $header-height);
 
 /* Responsive Breakpoints */
 $bp-xs: 550px;

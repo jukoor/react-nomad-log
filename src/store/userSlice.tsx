@@ -20,15 +20,6 @@ export const userSlice = createSlice({
     loading: false,
   } as UserState,
   reducers: {
-    setCountryVisitedTemp: (state, action) => {
-      state.countryVisitedTemp = action.payload;
-    },
-    setCountryBucketListTemp: (state, action) => {
-      state.countryBucketListTemp = action.payload;
-    },
-    setCountryLivedTemp: (state, action) => {
-      state.countryLivedTemp = action.payload;
-    },
     setLoading: (state, action) => {
       state.loading = action.payload;
     },
@@ -40,30 +31,6 @@ export const userSlice = createSlice({
         ...state.selectedUser,
         ...action.payload,
       };
-    },
-    updateCountriesVisited: (state, action) => {
-      if (state.selectedUser) {
-        state.selectedUser.countriesVisited = [
-          ...(state.selectedUser.countriesVisited || []),
-          action.payload,
-        ];
-      }
-    },
-    updateCountriesBucketList: (state, action) => {
-      if (state.selectedUser) {
-        state.selectedUser.countriesBucketList = [
-          ...(state.selectedUser.countriesBucketList || []),
-          action.payload,
-        ];
-      }
-    },
-    updateCountriesLived: (state, action) => {
-      if (state.selectedUser) {
-        state.selectedUser.countriesLived = [
-          ...(state.selectedUser.countriesLived || []),
-          action.payload,
-        ];
-      }
     },
     addCountryVisited: (state, action) => {
       const countryToAdd = action.payload as CountryCca2Type;
@@ -101,6 +68,24 @@ export const userSlice = createSlice({
           );
       }
     },
+    addCountryLived: (state, action) => {
+      const countryToAdd = action.payload as CountryCca2Type;
+      if (state.selectedUser) {
+        state.selectedUser.countriesLived = [
+          ...(state.selectedUser.countriesLived || []),
+          countryToAdd,
+        ];
+      }
+    },
+    removeCountryLived: (state, action) => {
+      const countryToRemove = action.payload as CountryCca2Type;
+      if (state.selectedUser) {
+        state.selectedUser.countriesLived =
+          state.selectedUser.countriesLived?.filter(
+            (country) => country !== countryToRemove
+          );
+      }
+    },
   },
 });
 
@@ -108,15 +93,11 @@ export const {
   setLoading,
   setSelectedUser,
   addCountryVisited,
-  removeCountryVisited,
   addCountryBucketList,
+  addCountryLived,
+  removeCountryVisited,
   removeCountryBucketList,
-  updateCountriesVisited,
-  updateCountriesBucketList,
-  updateCountriesLived,
-  setCountryVisitedTemp,
-  setCountryBucketListTemp,
-  setCountryLivedTemp,
+  removeCountryLived,
   resetSelectedUser,
 } = userSlice.actions;
 

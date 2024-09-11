@@ -19,11 +19,7 @@ import {
   setMapZoomOut,
   setCountryDetailView,
 } from "../../store/appSlice";
-import {
-  updateCountriesBucketList,
-  updateCountriesLived,
-  updateCountriesVisited,
-} from "../../store/userSlice";
+
 import { CountryCca2Type } from "../../types/CountryCca2Type";
 import { MapControls } from "./MapControls";
 import { Badge, FormControlLabel, Switch } from "@mui/material";
@@ -39,15 +35,7 @@ export const Map = () => {
   const dispatch = useAppDispatch();
 
   const userData = useAppSelector((state) => state.User.selectedUser);
-  const userCountryVisitedTemp = useAppSelector(
-    (state) => state.User.countryVisitedTemp
-  );
-  const userCountryBucketListTemp = useAppSelector(
-    (state) => state.User.countryBucketListTemp
-  );
-  const userCountryLivedTemp = useAppSelector(
-    (state) => state.User.countryLivedTemp
-  );
+
   const countryData = useAppSelector((state) => state.Country.countries);
   const countryDetailView = useAppSelector(
     (state) => state.App.countryDetailView
@@ -111,6 +99,7 @@ export const Map = () => {
 
       // Only apply country colors if the user is logged in
       if (userData && userData.countriesVisited) {
+        console.log(userData.countriesVisited);
         // Assign the specified color to all visited countries
         userData.countriesVisited.forEach((country: CountryCode) => {
           countryColors[country] = visitedCountriesColor;
@@ -138,6 +127,10 @@ export const Map = () => {
           projection: mapProjection
             ? am5map.geoOrthographic()
             : am5map.geoMercator(),
+          width: am5.percent(86),
+          height: am5.percent(86),
+          paddingLeft: Math.round(window.innerWidth * 0.07),
+          paddingTop: Math.round(window.innerWidth * 0.07),
         })
       );
 
@@ -171,11 +164,6 @@ export const Map = () => {
         templateField: "polygonSettings",
         stroke: am5.color("#eeeeee"),
         strokeWidth: 2,
-        // shadowColor: am5.color(0x000000),
-        // shadowBlur: 4,
-        // shadowOffsetX: 4,
-        // shadowOffsetY: 4,
-        // shadowOpacity: 0.1,
       });
 
       let tooltip = am5.Tooltip.new(root, {
@@ -414,16 +402,10 @@ export const Map = () => {
       worldSeriesRef.current?.show();
       countrySeriesRef.current?.hide();
       pointSeriesRef.current?.show();
-      setTimeout(() => {
-        dispatch(updateCountriesBucketList(userCountryBucketListTemp));
-        dispatch(updateCountriesVisited(userCountryVisitedTemp));
-        dispatch(updateCountriesLived(userCountryLivedTemp));
-      }, 1000);
     }
   }, [countryDetailView]);
 
   useEffect(() => {
-    console.log(mapProjection);
     if (mapProjection) {
       document.getElementById("root")?.classList.add("globe");
     } else if (mapProjection === false) {
@@ -469,7 +451,11 @@ export const Map = () => {
             label="Visited"
           />
           <Badge
-            badgeContent={userData?.countriesVisited?.length}
+            badgeContent={
+              userData?.countriesVisited
+                ? "" + userData?.countriesVisited?.length
+                : "0"
+            }
             color="secondary"
             sx={{ right: "-10px", top: "-23px" }}
           ></Badge>
@@ -485,7 +471,11 @@ export const Map = () => {
             label="Bucket List"
           />
           <Badge
-            badgeContent={userData?.countriesBucketList?.length}
+            badgeContent={
+              userData?.countriesBucketList
+                ? "" + userData?.countriesBucketList?.length
+                : "0"
+            }
             color="secondary"
             sx={{ right: "-10px", top: "-23px" }}
           ></Badge>
@@ -502,7 +492,11 @@ export const Map = () => {
           />
 
           <Badge
-            badgeContent={userData?.countriesLived?.length}
+            badgeContent={
+              userData?.countriesLived
+                ? "" + userData?.countriesLived?.length
+                : "0"
+            }
             color="secondary"
             sx={{ right: "-10px", top: "-23px" }}
           ></Badge>

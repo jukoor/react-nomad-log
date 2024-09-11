@@ -17,7 +17,6 @@ import {
 import styles from "../../styles/CountryActionButtons.module.scss";
 
 export const ToggleCountryPopup = () => {
-  const userData = useAppSelector((state) => state.User);
   const selectedUserdata = useAppSelector((state) => state.User.selectedUser);
   const selectedCountry = useAppSelector(
     (state) => state.Country.selectedCountry
@@ -25,24 +24,15 @@ export const ToggleCountryPopup = () => {
 
   const [anchor, setAnchor] = useState<null | HTMLElement>(null);
   const [countryList, setCountryList] = useState({
-    countriesVisited:
-      (selectedUserdata?.countriesVisited?.includes(
-        selectedCountry?.cca2 as CountryCca2Type
-      ) ||
-        selectedCountry?.cca2 === userData.countryVisitedTemp) ??
-      false,
-    countriesBucketList:
-      (selectedUserdata?.countriesBucketList?.includes(
-        selectedCountry?.cca2 as CountryCca2Type
-      ) ||
-        selectedCountry?.cca2 === userData.countryBucketListTemp) ??
-      false,
-    countriesLived:
-      (selectedUserdata?.countriesLived?.includes(
-        selectedCountry?.cca2 as CountryCca2Type
-      ) ||
-        selectedCountry?.cca2 === userData.countryLivedTemp) ??
-      false,
+    countriesVisited: selectedUserdata?.countriesVisited?.includes(
+      selectedCountry?.cca2 as CountryCca2Type
+    ),
+    countriesBucketList: selectedUserdata?.countriesBucketList?.includes(
+      selectedCountry?.cca2 as CountryCca2Type
+    ),
+    countriesLived: selectedUserdata?.countriesLived?.includes(
+      selectedCountry?.cca2 as CountryCca2Type
+    ),
   });
   const { toggleCountryInList } = useToggleCountryInList();
 
