@@ -40,23 +40,24 @@ export const HighlightNumbers = () => {
 
   if (userData && userData.countriesVisited) {
     percentVisited =
-      (userData?.countriesVisited?.length / countryData.length) * 100;
+      (userData.countriesVisited.length / countryData.length) * 100;
   }
 
   return (
     <>
       <List className={`${styles.highlightNumbers} ${styles.list}`}>
-        <ListItem className={styles.item}>
-          <ListItemIcon className={styles.icon}>
-            <PublicIcon className={styles.iconSvg} />
-          </ListItemIcon>
-
-          <ListItemText
-            primary={`${percentVisited}%`}
-            secondary="OF THE WORLD"
-            className={styles.text}
-          />
-        </ListItem>
+        {percentVisited !== undefined && (
+          <ListItem className={styles.item}>
+            <ListItemIcon className={styles.icon}>
+              <PublicIcon className={styles.iconSvg} />
+            </ListItemIcon>
+            <ListItemText
+              primary={`${Math.round(percentVisited)}%`}
+              secondary="OF THE WORLD"
+              className={styles.text}
+            />
+          </ListItem>
+        )}
 
         <ListItem className={styles.item}>
           <ListItemIcon className={styles.icon}>

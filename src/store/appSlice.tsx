@@ -32,6 +32,9 @@ const appSlice = createSlice({
     setMapZoomOut: (state, action) => {
       state.mapZoomOut = action.payload;
     },
+    setMapProjection: (state, action) => {
+      state.mapProjectionGlobe = action.payload;
+    },
     toggleMapProjection: (state) => {
       if (state.mapProjectionGlobe === null) {
         state.mapProjectionGlobe = true;
@@ -46,6 +49,7 @@ const appSlice = createSlice({
 });
 
 export const {
+  setMapProjection,
   toggleMenuVisibility,
   toggleCountryDetailsOverlay,
   toggleCountryActionsBar,

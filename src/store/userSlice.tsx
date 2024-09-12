@@ -1,25 +1,26 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { UserType } from "../types/UserType";
 import { CountryCca2Type } from "../types/CountryCca2Type";
-
-export type UserState = {
-  selectedUser: UserType | null;
-  countryVisitedTemp: CountryCca2Type | null;
-  countryLivedTemp: CountryCca2Type | null;
-  countryBucketListTemp: CountryCca2Type | null;
-  loading: boolean;
-};
+import { UserSliceType } from "../types/slices/UserSliceType";
 
 export const userSlice = createSlice({
   name: "user",
   initialState: {
     selectedUser: null,
-    countryVisitedTemp: null,
-    countryBucketListTemp: null,
-    countryLivedTemp: null,
+    visitedCountryTemp: null,
+    bucketListCountryTemp: null,
+    livedCountryTemp: null,
     loading: false,
-  } as UserState,
+  } as UserSliceType,
   reducers: {
+    setVisitedCountryTemp: (state, action) => {
+      state.visitedCountryTemp = action.payload;
+    },
+    setBucketListCountryTemp: (state, action) => {
+      state.bucketListCountryTemp = action.payload;
+    },
+    setLivedCountryTemp: (state, action) => {
+      state.livedCountryTemp = action.payload;
+    },
     setLoading: (state, action) => {
       state.loading = action.payload;
     },
@@ -90,6 +91,9 @@ export const userSlice = createSlice({
 });
 
 export const {
+  setVisitedCountryTemp,
+  setBucketListCountryTemp,
+  setLivedCountryTemp,
   setLoading,
   setSelectedUser,
   addCountryVisited,

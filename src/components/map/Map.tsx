@@ -18,12 +18,16 @@ import {
   setMapZoomIn,
   setMapZoomOut,
   setCountryDetailView,
+  toggleMapProjection,
+  setMapProjection,
 } from "../../store/appSlice";
 
 import { CountryCca2Type } from "../../types/CountryCca2Type";
 import { MapControls } from "./MapControls";
 import { Badge, FormControlLabel, Switch } from "@mui/material";
 import { useCapitalsGeoPointsData } from "./CapitalsGeoPoints";
+import { useToggleCountryInList } from "../../hooks/useToggleCountryInList";
+import { CountryList } from "../../types/CountryList";
 
 type CountryCode = string;
 
@@ -33,8 +37,18 @@ interface CountryColorMapping {
 
 export const Map = () => {
   const dispatch = useAppDispatch();
+  const { toggleCountryInList } = useToggleCountryInList();
 
   const userData = useAppSelector((state) => state.User.selectedUser);
+  const visitedTempAction = useAppSelector(
+    (state) => state.User.visitedCountryTemp
+  );
+  const bucketListTempAction = useAppSelector(
+    (state) => state.User.bucketListCountryTemp
+  );
+  const livedTempAction = useAppSelector(
+    (state) => state.User.livedCountryTemp
+  );
 
   const countryData = useAppSelector((state) => state.Country.countries);
   const countryDetailView = useAppSelector(
@@ -77,16 +91,10 @@ export const Map = () => {
   };
 
   useEffect(() => {
-    return () => {
-      dispatch(clearSelectedCountry());
-    };
-  }, []);
-
-  useEffect(() => {
     let root: am5.Root | null = null;
     if (!root && countryData.length > 0 && userData) {
       root = am5.Root.new("map");
-
+      console.log("Ok");
       // Define a mapping of country ISO codes to colors
       const countryColors: CountryColorMapping = {};
       const bucketListColors: CountryColorMapping = {};
@@ -94,12 +102,11 @@ export const Map = () => {
 
       const visitedCountriesColor = am5.color("#4bc69b"); // light green
       const bucketListColor = am5.color("#8795df"); // light blue
-      const livedCountriesColor = am5.color("#fda377"); // light orange
+      const livedCountriesColor = am5.color("#FFAB91"); // light orange
       const countryDefaultBgColor = am5.color("#d3d6de"); // light grey/blue
 
       // Only apply country colors if the user is logged in
       if (userData && userData.countriesVisited) {
-        console.log(userData.countriesVisited);
         // Assign the specified color to all visited countries
         userData.countriesVisited.forEach((country: CountryCode) => {
           countryColors[country] = visitedCountriesColor;
@@ -123,7 +130,7 @@ export const Map = () => {
       const chart = root.container.children.push(
         am5map.MapChart.new(root, {
           panX: "rotateX",
-          panY: "none",
+          // panY: mapProjection ? "none" : "rotateY",
           projection: mapProjection
             ? am5map.geoOrthographic()
             : am5map.geoMercator(),
@@ -370,6 +377,8 @@ export const Map = () => {
       worldSeries.data.setAll(data);
 
       chart.appear(1000, 300);
+
+      console.log(mapProjection);
       setIsCountryToggleVisible(true);
 
       // Set refs to make elements accessible
@@ -383,6 +392,11 @@ export const Map = () => {
     return () => {
       if (root) {
         root.dispose();
+        console.log("okig?");
+        // dispatch(setCountryDetailView(true));
+        dispatch(clearSelectedCountry());
+        dispatch(setMapProjection(false));
+        setIsCountryToggleVisible(true);
       }
     };
   }, [
@@ -402,6 +416,32 @@ export const Map = () => {
       worldSeriesRef.current?.show();
       countrySeriesRef.current?.hide();
       pointSeriesRef.current?.show();
+
+      setTimeout(() => {
+        setIsCountryToggleVisible(true);
+
+        // Temp adding/removing countries, so the map can zoom out before reloading
+        if (visitedTempAction) {
+          toggleCountryInList(
+            visitedTempAction.action,
+            visitedTempAction.countryList as CountryList
+          );
+        }
+
+        if (bucketListTempAction) {
+          toggleCountryInList(
+            bucketListTempAction.action,
+            bucketListTempAction.countryList as CountryList
+          );
+        }
+
+        if (livedTempAction) {
+          toggleCountryInList(
+            livedTempAction.action,
+            livedTempAction.countryList as CountryList
+          );
+        }
+      }, 1000);
     }
   }, [countryDetailView]);
 

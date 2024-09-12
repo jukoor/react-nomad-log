@@ -14,6 +14,7 @@ Nomad Log is a responsive React application built using the Material-UI framewor
 
 ### Map
 
+- World map with capitals and states
 - Toggle countries on multiple lists: Visited, Lived In, Bucket List
 - Display detailed information about each country, provided by [REST Countries](https://restcountries.com/)
 - Zoom in on countries to show their states

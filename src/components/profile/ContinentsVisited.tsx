@@ -38,8 +38,9 @@ export const ContinentsVisited = () => {
     setVisitedContinents(continentsArray);
   }, [userData, countryData]);
 
-  const continentsVisitedPercent =
-    (visitedContinents.length / continentCount) * 100;
+  const continentsVisitedPercent = Math.round(
+    (visitedContinents.length / continentCount) * 100
+  );
 
   // All available continents
   const continents: ContinentType[] = [

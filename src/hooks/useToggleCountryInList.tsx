@@ -13,12 +13,9 @@ import {
   removeCountryVisited,
 } from "../store/userSlice";
 import { db } from "../context/AuthProvider";
+import { CountryList } from "../types/CountryList";
 
 type ActionType = "add" | "remove";
-export type CountryList =
-  | "countriesVisited"
-  | "countriesLived"
-  | "countriesBucketList";
 
 // Toggles (add/remove) Country to visited, lived or bucket list
 export const useToggleCountryInList = () => {
@@ -33,8 +30,8 @@ export const useToggleCountryInList = () => {
     async (action: ActionType, firebaseField: CountryList) => {
       if (user && selectedCountry) {
         const operation = action === "add" ? arrayUnion : arrayRemove;
-        console.log(action);
-        console.log(firebaseField);
+
+        console.log(action, firebaseField);
 
         const messageSuccess =
           action === "add" ? "successfully added." : "successfully removed.";

@@ -8,13 +8,15 @@ import {
 } from "@mui/material";
 import { useCallback, useState } from "react";
 import CheckCircleOutlineOutlinedIcon from "@mui/icons-material/CheckCircleOutlineOutlined";
-import { useAppSelector } from "../../hooks/reduxHooks";
+import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import { CountryCca2Type } from "../../types/CountryCca2Type";
-import {
-  CountryList,
-  useToggleCountryInList,
-} from "../../hooks/useToggleCountryInList";
 import styles from "../../styles/CountryActionButtons.module.scss";
+import { CountryList } from "../../types/CountryList";
+import {
+  setBucketListCountryTemp,
+  setLivedCountryTemp,
+  setVisitedCountryTemp,
+} from "../../store/userSlice";
 
 export const ToggleCountryPopup = () => {
   const selectedUserdata = useAppSelector((state) => state.User.selectedUser);
@@ -34,7 +36,7 @@ export const ToggleCountryPopup = () => {
       selectedCountry?.cca2 as CountryCca2Type
     ),
   });
-  const { toggleCountryInList } = useToggleCountryInList();
+  const dispatch = useAppDispatch();
 
   const open = Boolean(anchor);
   const id = open ? "simple-popper" : undefined;
@@ -47,7 +49,8 @@ export const ToggleCountryPopup = () => {
   );
 
   const handleChangeSwitch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, checked } = event.target;
+    const { checked } = event.target;
+    const name = event.target.name as CountryList;
 
     setCountryList((prevCountryList) => ({
       ...prevCountryList,
@@ -57,8 +60,28 @@ export const ToggleCountryPopup = () => {
     // Determine action based on the switch's value
     const action = checked ? "add" : "remove";
 
-    // Call toggleCountryInList with the appropriate parameters
-    toggleCountryInList(action, name as CountryList);
+    if (name === "countriesVisited") {
+      dispatch(
+        setVisitedCountryTemp({
+          action: action,
+          countryList: name,
+        })
+      );
+    } else if (name === "countriesBucketList") {
+      dispatch(
+        setBucketListCountryTemp({
+          action: action,
+          countryList: name,
+        })
+      );
+    } else if (name === "countriesLived") {
+      dispatch(
+        setLivedCountryTemp({
+          action: action,
+          countryList: name,
+        })
+      );
+    }
   };
 
   const handleClose = () => {

@@ -63,7 +63,7 @@ export const CountryList = ({ list }: CountryListProps) => {
       if (filteredCountries) {
         await updateCountryList(list, filteredCountries as CountryCca2Type[]);
 
-        // Set new list of countries to store, exluciding the selected country
+        // Set new list of countries to store, exlucding the selected country
         dispatch(
           setSelectedUser({
             ...userData,
