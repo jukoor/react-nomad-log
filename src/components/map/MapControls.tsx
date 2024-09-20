@@ -1,8 +1,8 @@
 import { Box, Tooltip, IconButton } from "@mui/material";
 import {
-  toggleMapProjection,
   setMapZoomIn,
   setMapZoomOut,
+  toggleMapProjection,
 } from "../../store/appSlice";
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import styles from "../../styles/MapControls.module.scss";

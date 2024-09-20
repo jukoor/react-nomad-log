@@ -10,6 +10,7 @@ const appSlice = createSlice({
     mapZoomIn: false,
     mapZoomOut: false,
     mapProjectionGlobe: null,
+    mapProjectionMap: true,
     snackbarOptions: { open: false, message: "", severity: "success" },
     countryDetailView: null,
   } as AppSliceInnerType,
@@ -32,15 +33,8 @@ const appSlice = createSlice({
     setMapZoomOut: (state, action) => {
       state.mapZoomOut = action.payload;
     },
-    setMapProjection: (state, action) => {
-      state.mapProjectionGlobe = action.payload;
-    },
     toggleMapProjection: (state) => {
-      if (state.mapProjectionGlobe === null) {
-        state.mapProjectionGlobe = true;
-      } else {
-        state.mapProjectionGlobe = !state.mapProjectionGlobe;
-      }
+      state.mapProjectionMap = !state.mapProjectionMap;
     },
     setSnackbarOptions: (state, action) => {
       state.snackbarOptions = { ...state.snackbarOptions, ...action.payload };
@@ -49,7 +43,6 @@ const appSlice = createSlice({
 });
 
 export const {
-  setMapProjection,
   toggleMenuVisibility,
   toggleCountryDetailsOverlay,
   toggleCountryActionsBar,

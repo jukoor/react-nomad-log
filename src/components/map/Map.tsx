@@ -18,8 +18,6 @@ import {
   setMapZoomIn,
   setMapZoomOut,
   setCountryDetailView,
-  toggleMapProjection,
-  setMapProjection,
 } from "../../store/appSlice";
 
 import { CountryCca2Type } from "../../types/CountryCca2Type";
@@ -57,7 +55,7 @@ export const Map = () => {
 
   const mapZoomIn = useAppSelector((state) => state.App.mapZoomIn);
   const mapZoomOut = useAppSelector((state) => state.App.mapZoomOut);
-  const mapProjection = useAppSelector((state) => state.App.mapProjectionGlobe);
+  const mapProjection = useAppSelector((state) => state.App.mapProjectionMap);
 
   const capitals = useCapitalsGeoPointsData();
 
@@ -94,7 +92,7 @@ export const Map = () => {
     let root: am5.Root | null = null;
     if (!root && countryData.length > 0 && userData) {
       root = am5.Root.new("map");
-      console.log("Ok");
+      console.log("re-render");
       // Define a mapping of country ISO codes to colors
       const countryColors: CountryColorMapping = {};
       const bucketListColors: CountryColorMapping = {};
@@ -132,12 +130,14 @@ export const Map = () => {
           panX: "rotateX",
           // panY: mapProjection ? "none" : "rotateY",
           projection: mapProjection
-            ? am5map.geoOrthographic()
-            : am5map.geoMercator(),
-          width: am5.percent(86),
-          height: am5.percent(86),
-          paddingLeft: Math.round(window.innerWidth * 0.07),
-          paddingTop: Math.round(window.innerWidth * 0.07),
+            ? am5map.geoMercator()
+            : am5map.geoOrthographic(),
+          width: am5.percent(100),
+          height: am5.percent(100),
+          // paddingLeft: Math.round(window.innerWidth * 0.07),
+          // paddingRight: Math.round(window.innerWidth * 0.07),
+          // paddingTop: Math.round(window.innerWidth * 0.07),
+          // paddingBottom: Math.round(window.innerWidth * 0.07),
         })
       );
 
@@ -151,7 +151,7 @@ export const Map = () => {
         strokeOpacity: 0.1,
       });
 
-      if (!mapProjection) {
+      if (mapProjection) {
         graticuleSeries.hide();
       }
 
@@ -159,7 +159,7 @@ export const Map = () => {
       const worldSeries = chart.series.push(
         am5map.MapPolygonSeries.new(root, {
           geoJSON: am5geodata_worldHigh,
-          exclude: mapProjection !== true ? ["AQ"] : [], // Exclude Antartiqua in map view
+          exclude: mapProjection ? ["AQ"] : [], // Exclude Antartiqua in map view
         })
       );
 
@@ -378,7 +378,6 @@ export const Map = () => {
 
       chart.appear(1000, 300);
 
-      console.log(mapProjection);
       setIsCountryToggleVisible(true);
 
       // Set refs to make elements accessible
@@ -392,10 +391,9 @@ export const Map = () => {
     return () => {
       if (root) {
         root.dispose();
-        console.log("okig?");
-        // dispatch(setCountryDetailView(true));
+        console.log("unmount?");
+        dispatch(setCountryDetailView(null));
         dispatch(clearSelectedCountry());
-        dispatch(setMapProjection(false));
         setIsCountryToggleVisible(true);
       }
     };
@@ -446,15 +444,16 @@ export const Map = () => {
   }, [countryDetailView]);
 
   useEffect(() => {
-    if (mapProjection) {
-      document.getElementById("root")?.classList.add("globe");
-    } else if (mapProjection === false) {
-      document.getElementById("root")?.classList.remove("globe");
-    }
+    const root = document.getElementById("root");
+    if (root) {
+      mapProjection
+        ? root.classList.remove("globe")
+        : root.classList.add("globe");
 
-    () => {
-      document.getElementById("root")?.classList.remove("globe");
-    };
+      () => {
+        root.classList.remove("globe");
+      };
+    }
   }, [mapProjection]);
 
   // Zoom in
