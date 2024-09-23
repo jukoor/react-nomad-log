@@ -124,20 +124,21 @@ export const Map = () => {
       }
 
       root.setThemes([am5themes_Animated.new(root)]);
+      let padding = Math.round(window.innerWidth * 0.07);
 
       const chart = root.container.children.push(
         am5map.MapChart.new(root, {
           panX: "rotateX",
-          // panY: mapProjection ? "none" : "rotateY",
+          panY: mapProjection ? "none" : "rotateY",
           projection: mapProjection
             ? am5map.geoMercator()
             : am5map.geoOrthographic(),
           width: am5.percent(100),
           height: am5.percent(100),
-          // paddingLeft: Math.round(window.innerWidth * 0.07),
-          // paddingRight: Math.round(window.innerWidth * 0.07),
-          // paddingTop: Math.round(window.innerWidth * 0.07),
-          // paddingBottom: Math.round(window.innerWidth * 0.07),
+          paddingLeft: !mapProjection ? padding : 0,
+          paddingRight: !mapProjection ? padding : 0,
+          paddingTop: !mapProjection ? padding : 0,
+          paddingBottom: !mapProjection ? padding : 0,
         })
       );
 
@@ -231,6 +232,8 @@ export const Map = () => {
       worldSeries.mapPolygons.template.events.on(
         "click",
         (ev: am5.ISpritePointerEvent) => {
+          if (!mapProjection) return;
+
           const dataItem: DataItem<IComponentDataItem> | undefined =
             ev.target.dataItem;
           const data: any = dataItem?.dataContext;

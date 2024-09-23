@@ -1,0 +1,7 @@
+.sidebarForm label {
+  color: white;
+
+  &:global(.MuiInputLabel-shrink) {
+    color: pink;
+  }
+}

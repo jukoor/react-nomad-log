@@ -16,6 +16,7 @@ import { VisibilityOff, Visibility } from "@mui/icons-material";
 import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthProvider";
 import LoginIcon from "@mui/icons-material/Login";
+import styles from "../styles/SignUpForm.module.scss";
 
 export const LoginForm = () => {
   const {
@@ -54,6 +55,7 @@ export const LoginForm = () => {
   return (
     <Box sx={{ padding: "0 14px" }}>
       <form
+        className={styles.sidebarForm}
         onSubmit={handleSubmit(onSubmit)}
         style={{ display: "flex", flexDirection: "column", gap: "12px" }}
       >
